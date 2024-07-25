@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
-import { Client } from 'pg'
+import pkg from 'pg';
+const { Client } = pkg;
 
 const app = new Hono()
 
@@ -7,7 +8,13 @@ const client = new Client({
   connectionString: 'postgresql://eldrago:9lYT1WMipcyX@ep-black-meadow-a18ty9xs.ap-southeast-1.aws.neon.tech/gates?sslmode=require'
 })
 
-client.connect()
+client.connect((err) => {
+  if (err) {
+    console.error('neon connection error', err.stack);
+  } else {
+    console.log('Connected to the database successfully.');
+  }
+});
 
 const aircraftClasses = {
   'Cessna 172': 'A',
@@ -61,24 +68,13 @@ app.get('/api/airport-gates', async (c) => {
   }
 })
 
-export default app
-
 app.get('/', (c) => {
   return c.json({ message: "Congrats! You've deployed Hono to Vercel" })
 })
 
-const handler = handle(app);
+// Vercel handler
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
-export const GET = handler;
-export const POST = handler;
-export const PATCH = handler;
-export const PUT = handler;
-export const OPTIONS = handler;
-// Connect to the database
-client.connect((err) => {
-  if (err) {
-    console.error('neon connection error', err.stack);
-  } else {
-    console.log('Connected to the database successfully.');
-  }
-});
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  app.handle(req, res);
+}
