@@ -2,11 +2,13 @@ import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
 import pkg from 'pg';
 const { Client } = pkg;
+import { SpeedInsights } from "@vercel/speed-insights/nuxt"
 
 const app = new Hono();
 
+require('dotenv').config();
 const client = new Client({
-  connectionString: 'postgresql://eldrago:9lYT1WMipcyX@ep-black-meadow-a18ty9xs.ap-southeast-1.aws.neon.tech/gates?sslmode=require'
+  connectionString: process.env.neon
 });
 
 client.connect((err) => {
