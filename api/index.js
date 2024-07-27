@@ -1,12 +1,17 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
+
 import pkg from 'pg';
 const { Client } = pkg;
+
+import { serveStatic } from 'hono/serve-static';
 import { SpeedInsights } from "@vercel/speed-insights/nuxt"
 
 const app = new Hono();
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
+
 const client = new Client({
   connectionString: process.env.neon
 });
@@ -86,7 +91,7 @@ const getAircraftClass = (aircraftName) => {
   return aircraft ? aircraft.class : null;
 };
 
-app.get('/api/airport-gates', async (c) => {
+app.get('/api/airport-gates/:icao', async (c) => {
   const icao = c.req.query('icao');
   const aircraft = c.req.query('aircraft');
 
@@ -113,8 +118,12 @@ app.get('/api/airport-gates', async (c) => {
   }
 });
 
-app.get('/', (c) => {
-  return c.json({ message: "Congrats! You've deployed Hono to Vercel" });
+
+app.use('/static/*', serveStatic( { root:'./' } ));
+import { readFile } from 'fs/promises';
+app.get('/api', async (c) => {
+  const html = await readFile('api/home.html', 'utf-8');
+  return c.html(html);
 });
 
 const handler = handle(app);

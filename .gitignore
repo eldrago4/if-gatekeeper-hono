@@ -13,6 +13,7 @@
 node_modules/
 vercel.json
 packages.json
+tabnine.json
 
 # env
 .env
