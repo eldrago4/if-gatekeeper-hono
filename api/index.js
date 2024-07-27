@@ -119,13 +119,12 @@ app.get('/api/airport-gates/:icao', async (c) => {
 });
 
 
-app.use('/static/*', serveStatic( { root:'./' } ));
+// app.use('/static/*', serveStatic( { root:'./' } ));
 import { readFile } from 'fs/promises';
 app.get('/api', async (c) => {
-  const html = await readFile('home.html', 'utf-8');
+  const html = await readFile('api/home.html', 'utf-8');
   return c.html(html);
-}
-);
+});
 
 const handler = handle(app);
 
