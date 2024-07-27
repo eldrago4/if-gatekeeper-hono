@@ -13,12 +13,25 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = new Client({
-  connectionString: process.env.neon
+  connectionString: process.env.neon,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-client.connect((err) => {
+client.connect(async (err) => {
   if (err) {
     console.error('neon connection ', err.stack);
+
+    setTimeout(() => {
+      client.connect(async (err) => {
+        if (err) {
+          console.error('neon connection ', err.stack);
+        } else {
+          console.log('Connected to the database successfully.');
+        }
+      });
+    }, 5000); // Retry after 5 seconds
   } else {
     console.log('Connected to the database successfully.');
   }
@@ -122,7 +135,7 @@ app.get('/api/airport-gates/:icao', async (c) => {
 // app.use('/static/*', serveStatic( { root:'./' } ));
 import { readFile } from 'fs/promises';
 app.get('/api', async (c) => {
-  const html = await readFile('api/home.html', 'utf-8');
+  const html = await readFile('./api/home.html', 'utf-8');
   return c.html(html);
 });
 
