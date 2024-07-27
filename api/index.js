@@ -5,7 +5,7 @@ import pkg from 'pg';
 const { Client } = pkg;
 
 import { serveStatic } from 'hono/serve-static';
-import { SpeedInsights } from "@vercel/speed-insights/nuxt"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const app = new Hono();
 
@@ -18,7 +18,7 @@ const client = new Client({
 
 client.connect((err) => {
   if (err) {
-    console.error('neon connection error', err.stack);
+    console.error('neon connection ', err.stack);
   } else {
     console.log('Connected to the database successfully.');
   }
@@ -122,9 +122,10 @@ app.get('/api/airport-gates/:icao', async (c) => {
 app.use('/static/*', serveStatic( { root:'./' } ));
 import { readFile } from 'fs/promises';
 app.get('/api', async (c) => {
-  const html = await readFile('api/home.html', 'utf-8');
+  const html = await readFile('/api/home.html', 'utf-8');
   return c.html(html);
-});
+}
+);
 
 const handler = handle(app);
 
