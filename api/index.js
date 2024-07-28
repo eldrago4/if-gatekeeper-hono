@@ -9,6 +9,9 @@ const { Client } = pkg;
 
 import { serveStatic } from 'hono/serve-static';
 import { readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const app = new Hono();
@@ -135,17 +138,22 @@ app.get('/api/airport-gates/:icao', async (c) => {
   }
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const filePath = join(__dirname, 'api', 'home.html');
+console.log(filePath); // Prints the absolute path to home.html
+
 app.use('/static/*', serveStatic({ root: '/' }));
 
 app.get('/api', async (c) => {
   try {
-    const html = await readFile('@/api/dash/home.html', 'utf-8'); // Adjust the path as needed
+    const html = await readFile(join(__dirname, 'home.html'), 'utf-8');
     return c.html(html);
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
 });
-
 const handler = handle(app);
 
 export const GET = handler;
