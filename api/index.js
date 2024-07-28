@@ -139,7 +139,7 @@ app.use('/static/*', serveStatic({ root: '/' }));
 
 app.get('/api', async (c) => {
   try {
-    const html = await readFile('/api/dash/home.html', 'utf-8'); // Adjust the path as needed
+    const html = await readFile('@/api/dash/home.html', 'utf-8'); // Adjust the path as needed
     return c.html(html);
   } catch (err) {
     return c.json({ error: err.message }, 500);
