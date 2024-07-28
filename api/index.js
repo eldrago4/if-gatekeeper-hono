@@ -4,6 +4,9 @@ import { handle } from 'hono/vercel';
 import pkg from 'pg';
 const { Client } = pkg;
 
+import { readFile } from 'fs/promises';
+import path from 'path';
+
 import { serveStatic } from 'hono/serve-static';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -131,11 +134,10 @@ app.get('/api/airport-gates/:icao', async (c) => {
   }
 });
 
+app.use('/static/*', serveStatic({ root: './' }));
 
-// app.use('/static/*', serveStatic( { root:'./' } ));
-import { readFile } from 'fs/promises';
 app.get('/api', async (c) => {
-  const html = await readFile('./home.html', 'utf-8');
+  const html = await readFile(path.join(__dirname, 'home.html'), 'utf-8');
   return c.html(html);
 });
 
