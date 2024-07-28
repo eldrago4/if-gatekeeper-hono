@@ -4,10 +4,11 @@ import { handle } from 'hono/vercel';
 import pkg from 'pg';
 const { Client } = pkg;
 
-import { readFile } from 'fs/promises';
-import path from 'path';
+// import { readFile } from 'fs/promises';
+// import path from 'path';
 
 import { serveStatic } from 'hono/serve-static';
+import { readFile } from 'fs/promises';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const app = new Hono();
@@ -108,7 +109,7 @@ const getAircraftClass = (aircraftName) => {
 };
 
 app.get('/api/airport-gates/:icao', async (c) => {
-  const icao = c.req.query('icao');
+  const icao = c.req.param('icao');
   const aircraft = c.req.query('aircraft');
 
   if (!icao) {
@@ -137,8 +138,12 @@ app.get('/api/airport-gates/:icao', async (c) => {
 app.use('/static/*', serveStatic({ root: './' }));
 
 app.get('/api', async (c) => {
-  const html = await readFile(path.join(__dirname, 'home.html'), 'utf-8');
-  return c.html(html);
+  try {
+    const html = await readFile('./api/home.html', 'utf-8'); // Adjust the path as needed
+    return c.html(html);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
 });
 
 const handler = handle(app);
