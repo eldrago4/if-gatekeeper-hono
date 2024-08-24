@@ -141,7 +141,7 @@ app.get('/api/airport-gates/:icao', async (c) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.use('/static/*', serveStatic({ root: '/' }));
+app.use('/static/*', serveStatic({ root: '.' }));
 
 app.get('/api', async (c) => {
   try {
