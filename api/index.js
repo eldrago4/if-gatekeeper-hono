@@ -12,7 +12,7 @@ import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { injectSpeedInsights } from "@vercel/speed-insights"
 
 const app = new Hono();
 
@@ -141,11 +141,7 @@ app.get('/api/airport-gates/:icao', async (c) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const filePath = join(__dirname, 'api', 'home.html');
-console.log(filePath); // Prints the absolute path to home.html
-
 app.use('/static/*', serveStatic({ root: '/' }));
-
 app.get('/api', async (c) => {
   try {
     const html = await readFile(join(__dirname, 'home.html'), 'utf-8');
@@ -153,11 +149,14 @@ app.get('/api', async (c) => {
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
-});
+},
+injectSpeedInsights()
+);
+
 const handler = handle(app);
 
 export const GET = handler;
-export const POST = handler;
-export const PATCH = handler;
-export const PUT = handler;
+// export const POST = handler;
+// export const PATCH = handler;
+// export const PUT = handler;
 export const OPTIONS = handler;
