@@ -142,6 +142,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.use('/static/*', serveStatic({ root: '/' }));
+
 app.get('/api', async (c) => {
   try {
     const html = await readFile(join(__dirname, 'home.html'), 'utf-8');
@@ -152,6 +153,15 @@ app.get('/api', async (c) => {
 },
 injectSpeedInsights()
 );
+
+app.get('/leaflet', async (c) => {
+  try {
+    const html = await readFile(join(__dirname, 'leaflet.html'), 'utf-8');
+    return c.html(html);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
 
 const handler = handle(app);
 
