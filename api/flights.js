@@ -56,7 +56,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-var airplaneIcon = L.icon({
+var aiportIcon = L.icon({
     iconUrl: '/1ved-cloud/app/assets/airport-icon.png',
     iconSize: [32, 32],
     iconAnchor: [16, 16],
@@ -100,9 +100,9 @@ function addRoute(route) {
 
     if (!startAirport || !endAirport) return;
 
-    var markerStart = L.marker(startAirport.coordinates, { icon: airplaneIcon, iata: startAirport.iata }).addTo(map)
+    var markerStart = L.marker(startAirport.coordinates, { icon: aiportIcon, iata: startAirport.iata }).addTo(map)
         .bindPopup(`${startAirport.name}<br>(${startAirport.iata})`);
-    var markerEnd = L.marker(endAirport.coordinates, { icon: airplaneIcon, iata: endAirport.iata }).addTo(map)
+    var markerEnd = L.marker(endAirport.coordinates, { icon: aiportIcon, iata: endAirport.iata }).addTo(map)
         .bindPopup(`${endAirport.name}<br>(${endAirport.iata})`);
 
     var curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
