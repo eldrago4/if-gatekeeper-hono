@@ -50,14 +50,14 @@ var routes = [
   { startIATA: 'BOM', endIATA: 'LHR' }
 ];
 
-var map = L.map('map').setView([20.5937, 78.9629], 2);
+var map = L.map('map').setView([51.505, -0.09], 2);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-var aiportIcon = L.icon({
-    iconUrl: '/1ved-cloud/app/assets/airport-icon.png',
+var airportIcon = L.icon({
+    iconUrl: 'https://github.com/eldrago4/if-gatekeeper-hono/blob/346b253289fd5cce06d9cff82c4d315982dd2c36/1ved-cloud/app/assets/airport-icon.png?raw=true',
     iconSize: [32, 32],
     iconAnchor: [16, 16],
     popupAnchor: [0, -16]
@@ -100,9 +100,9 @@ function addRoute(route) {
 
     if (!startAirport || !endAirport) return;
 
-    var markerStart = L.marker(startAirport.coordinates, { icon: aiportIcon, iata: startAirport.iata }).addTo(map)
+    var markerStart = L.marker(startAirport.coordinates, { icon: airportIcon, iata: startAirport.iata }).addTo(map)
         .bindPopup(`${startAirport.name}<br>(${startAirport.iata})`);
-    var markerEnd = L.marker(endAirport.coordinates, { icon: aiportIcon, iata: endAirport.iata }).addTo(map)
+    var markerEnd = L.marker(endAirport.coordinates, { icon: airportIcon, iata: endAirport.iata }).addTo(map)
         .bindPopup(`${endAirport.name}<br>(${endAirport.iata})`);
 
     var curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
@@ -141,7 +141,7 @@ function handleClick(event) {
 function resetHighlight() {
     highlightedRoutes.forEach(e => e.polyline.setStyle({ color: 'blue', weight: 1 }));
     highlightedRoutes = [];
-    elements.forEach(e => e.polyline.setStyle({ opacity: 0.5 }));
+    elements.forEach(e => e.polyline.setStyle({ opacity: 1 }));
 }
 
 elements.forEach(e => {
