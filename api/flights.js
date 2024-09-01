@@ -1,159 +1,186 @@
-var airports = [
-  { name: 'Delhi', iata: 'DEL', coordinates: [28.7041, 77.1025] },
-  { name: 'Mumbai', iata: 'BOM', coordinates: [19.0760, 72.8777] },
-  { name: 'Chennai', iata: 'MAA', coordinates: [13.0827, 80.2707] },
-  { name: 'Kolkata', iata: 'CCU', coordinates: [22.5726, 88.3639] },
-  { name: 'Bangalore', iata: 'BLR', coordinates: [12.9716, 77.5946] },
-  { name: 'Hyderabad', iata: 'HYD', coordinates: [17.3850, 78.4867] },
-  { name: 'Jaipur', iata: 'JAI', coordinates: [26.9124, 75.7873] },
-  { name: 'New York', iata: 'JFK', coordinates: [40.6413, -73.7781] },
-  { name: 'London', iata: 'LHR', coordinates: [51.4700, -0.4543] },
-  { name: 'Paris', iata: 'CDG', coordinates: [49.0097, 2.5479] },
-  { name: 'Dubai', iata: 'DXB', coordinates: [25.2532, 55.3657] },
-  { name: 'Singapore', iata: 'SIN', coordinates: [1.3644, 103.9915] },
-  { name: 'Tokyo', iata: 'HND', coordinates: [35.5494, 139.7798] },
-  { name: 'Sydney', iata: 'SYD', coordinates: [-33.8688, 151.2093] },
-  { name: 'Los Angeles', iata: 'LAX', coordinates: [33.9416, -118.4085] },
-  { name: 'Toronto', iata: 'YYZ', coordinates: [43.6777, -79.6248] },
-  { name: 'Beijing', iata: 'PEK', coordinates: [40.0801, 116.5846] },
-  { name: 'Hong Kong', iata: 'HKG', coordinates: [22.3080, 113.9185] },
-  { name: 'Frankfurt', iata: 'FRA', coordinates: [50.0379, 8.5622] },
-  { name: 'Amsterdam', iata: 'AMS', coordinates: [52.3105, 4.7683] }
-];
+// Basic Variables
+const APIKEY = 'jvr8xfkoobd7vogtjq9xehellk23g9g0';
+const URLBASE = 'https://api.infiniteflight.com/public/v2';
+const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
+const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
 
-var routes = [
-  { startIATA: 'DEL', endIATA: 'BOM' },
-  { startIATA: 'DEL', endIATA: 'CCU' },
-  { startIATA: 'BOM', endIATA: 'MAA' },
-  { startIATA: 'MAA', endIATA: 'CCU' },
-  { startIATA: 'CCU', endIATA: 'BLR' },
-  { startIATA: 'BLR', endIATA: 'HYD' },
-  { startIATA: 'HYD', endIATA: 'DEL' },
-  { startIATA: 'DEL', endIATA: 'JAI' },
-  { startIATA: 'JAI', endIATA: 'BOM' },
-  { startIATA: 'JFK', endIATA: 'LHR' },
-  { startIATA: 'LHR', endIATA: 'CDG' },
-  { startIATA: 'CDG', endIATA: 'DXB' },
-  { startIATA: 'DXB', endIATA: 'SIN' },
-  { startIATA: 'SIN', endIATA: 'HND' },
-  { startIATA: 'HND', endIATA: 'SYD' },
-  { startIATA: 'SYD', endIATA: 'LAX' },
-  { startIATA: 'LAX', endIATA: 'JFK' },
-  { startIATA: 'YYZ', endIATA: 'LHR' },
-  { startIATA: 'PEK', endIATA: 'HKG' },
-  { startIATA: 'FRA', endIATA: 'AMS' },
-  { startIATA: 'AMS', endIATA: 'JFK' },
-  { startIATA: 'DEL', endIATA: 'DXB' },
-  { startIATA: 'DEL', endIATA: 'SIN' },
-  { startIATA: 'DEL', endIATA: 'LHR' },
-  { startIATA: 'BOM', endIATA: 'DXB' },
-  { startIATA: 'BOM', endIATA: 'LHR' }
-];
-
-var map = L.map('map').setView([20.5937, 78.9629], 2);
-
+// Initialize Leaflet map
+const map = L.map('map').setView([20.5937, 78.9629], 4);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+    maxZoom: 18,
 }).addTo(map);
 
-var airplaneIcon = L.icon({
-    iconUrl: '/1ved-cloud/app/assets/airport-icon.png',
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -16]
-});
+// Store markers and target positions for each flight
+const flightMarkers = {};
 
-var highlightedRoutes = [];
-
-function getAirportByIATA(iata) {
-    return airports.find(a => a.iata === iata);
+// Function to interpolate between two positions
+function interpolatePosition(startPos, endPos, factor) {
+    return [
+        startPos[0] + (endPos[0] - startPos[0]) * factor,
+        startPos[1] + (endPos[1] - startPos[1]) * factor
+    ];
 }
 
-function calculateDistance(lat1, lng1, lat2, lng2) {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+// Function to move the marker smoothly
+function smoothMoveMarker(marker, startPos, endPos, duration) {
+    const startTime = performance.now();
+
+    function animate() {
+        const currentTime = performance.now();
+        const elapsed = currentTime - startTime;
+        const factor = Math.min(elapsed / duration, 1); // Ensure factor is between 0 and 1
+
+        // Interpolate position
+        const newPos = interpolatePosition(startPos, endPos, factor);
+        marker.setLatLng(newPos);
+
+        if (factor < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    animate();
 }
 
-function calculateBezierCurve(start, end, numPoints = 100) {
-    const midLat = (start[0] + end[0]) / 2;
-    const midLng = (start[1] + end[1]) / 2;
-    const dx = end[1] - start[1];
-    const dy = end[0] - start[0];
-    const controlLat = midLat + Math.abs(dx * 0.2);
-    const controlLng = midLng - Math.abs(dy * 0.1);
 
-    return Array.from({ length: numPoints + 1 }, (_, i) => {
-        const t = i / numPoints;
-        return [
-            (1 - t) ** 2 * start[0] + 2 * (1 - t) * t * controlLat + t ** 2 * end[0],
-            (1 - t) ** 2 * start[1] + 2 * (1 - t) * t * controlLng + t ** 2 * end[1]
-        ];
-    });
-}
+// Updated route fetch logic
+async function fetchAndDisplayFlights() {
+    try {
+        // 1. Get Expert Server Session
+        const sessionsResponse = await fetch(`${URLBASE}/sessions?apikey=${APIKEY}`);
+        const sessionsData = await sessionsResponse.json();
+        const expertSession = sessionsData.result.find(session => session.minimumAppVersion === '23.2' && session.worldType === 3);
+        const sessionId = expertSession?.id;
 
-function addRoute(route) {
-    var startAirport = getAirportByIATA(route.startIATA);
-    var endAirport = getAirportByIATA(route.endIATA);
+        if (!sessionId) {
+            console.error('Expert Server session not found');
+            return;
+        }
 
-    if (!startAirport || !endAirport) return;
+        // 2. Get Flights for the Expert Server session
+        const flightsResponse = await fetch(`${URLBASE}/flights/${sessionId}?apikey=${APIKEY}`);
+        const flightsData = await flightsResponse.json();
 
-    var markerStart = L.marker(startAirport.coordinates, { icon: airplaneIcon, iata: startAirport.iata }).addTo(map)
-        .bindPopup(`${startAirport.name}<br>(${startAirport.iata})`);
-    var markerEnd = L.marker(endAirport.coordinates, { icon: airplaneIcon, iata: endAirport.iata }).addTo(map)
-        .bindPopup(`${endAirport.name}<br>(${endAirport.iata})`);
+        // Filter flights based on callsign
+        const filteredFlights = flightsData.result.filter(flight => {
+            const callsign = flight.callsign;
+            return (
+                (callsign.startsWith('Air India') || callsign.startsWith('All Nippon')) &&
+                (callsign.endsWith('IN') || callsign.endsWith('IN Heavy'))
+            );
+        });
 
-    var curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-    var polyline = L.polyline(curvePoints, { color: 'blue', weight: 1 }).addTo(map);
+        // Update or create markers for filtered flights
+        for (const flight of filteredFlights) {
+            const flightId = flight.flightId;
+            const rotationAngle = flight.heading % 360;
 
-    return { markerStart, markerEnd, polyline, route };
-}
+            try {
+                // Corrected route API URL with sessionId and flightId
+                const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route?apikey=${APIKEY}`);
 
-var elements = routes.map(addRoute);
+                if (!routeResponse.ok) {
+                    console.warn(`Route not found for flight ${flightId}`);
+                    continue; // Skip this flight if there's an error
+                }
 
-function handleHover(event, isHover) {
-    if (highlightedRoutes.length === 0) {
-        var hoveredIATA = event.target.options.iata;
-        elements.forEach(e => e.route.startIATA === hoveredIATA || e.route.endIATA === hoveredIATA ?
-            e.polyline.setStyle({ color: isHover ? 'red' : 'blue', weight: isHover ? 2.7 : 1 }) :
-            e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 })
-        );
+                const routeData = await routeResponse.json();
+                const route = routeData.result;
+
+                if (route.length > 1) {
+                    const newPosition = [flight.latitude, flight.longitude];
+                    const previousPosition = flightMarkers[flightId]?.endPos || newPosition;
+
+                    if (flightMarkers[flightId]) {
+                        // Update existing marker position smoothly
+                        const marker = flightMarkers[flightId].marker;
+                        smoothMoveMarker(marker, previousPosition, newPosition, ANIMATION_DURATION);
+                        flightMarkers[flightId].endPos = newPosition;
+                        marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${rotationAngle}deg); width: 32px; height: 32px;"/>`;
+                    } else {
+                        // Create new marker
+                        const marker = L.marker(newPosition, {
+                            icon: L.divIcon({
+                                className: 'rotated-aircraft-icon',
+                                html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${rotationAngle}deg); width: 32px; height: 32px;" />`,
+                                iconSize: [32, 32],
+                                iconAnchor: [16, 16]
+                            })
+                        });
+
+                        // Bind tooltip (label) to the marker
+                        marker.bindTooltip(flight.callsign, {
+                            permanent: true,
+                            direction: 'top',
+                            className: 'callsign-label',
+                            opacity: 0.9,
+                            offset: [0, -11]
+                        });
+
+                        // Add CSS for callsign label (tooltip) styling
+                        const style = document.createElement('style');
+                        style.textContent = `
+                            .callsign-label {
+                                background-color: rgba(0, 0, 0, 0.45);
+                                color: #fed8a1;
+                                border: none;
+                                border-radius: 5px;
+                                padding: 1px;
+                                font-size: 10px;
+                                text-align: center;
+                                pointer-events: none;
+                                white-space: nowrap;
+                                font-weight: bold;
+                            }
+
+                            .callsign-label::before { /* Target the tooltip's arrow */
+                                display: none;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                        // Add popup with flight information
+                        marker.bindPopup(`
+                            <div class="flight-popup">
+                                <b>Callsign:</b> ${flight.callsign}<br>
+                                <b>Origin:</b> ${flight.originAirport || 'Unknown'}<br>
+                                ${flight.altitude < 10000 ? Math.ceil(flight.altitude) + ' ft' : 'FL' + Math.ceil(flight.altitude / 100)} |
+                                <b>Speed:</b> ${Math.ceil(flight.speed)} kts
+                            </div>
+                            <style>
+                                .flight-popup{
+                                    background-color: rgba(223, 223, 223, 0.741);
+                                }
+                            </style>
+                        `);
+
+                        // Store marker and its target position
+                        flightMarkers[flightId] = { marker: marker, endPos: newPosition };
+
+                        // Attach event listener to add the marker to the map
+                        map.addLayer(marker);
+                    }
+                }
+            } catch (routeError) {
+                console.error(`Error processing route for flight ${flightId}:`, routeError);
+            }
+        }
+
+        // Remove markers for flights that are no longer present
+        for (const flightId in flightMarkers) {
+            if (!filteredFlights.some(flight => flight.flightId === flightId)) {
+                map.removeLayer(flightMarkers[flightId].marker);
+                delete flightMarkers[flightId];
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching or displaying flights:', error);
     }
 }
 
-function handleClick(event) {
-    var clickedIATA = event.target.options.iata;
-    highlightedRoutes.forEach(e => e.polyline.setStyle({ color: 'blue', weight: 1 }));
-    highlightedRoutes = [];
+// Initial fetch and display
+fetchAndDisplayFlights();
 
-    elements.forEach(e => {
-        if (e.route.startIATA === clickedIATA || e.route.endIATA === clickedIATA) {
-            e.polyline.setStyle({ color: 'red', weight: 2.7 });
-            highlightedRoutes.push(e);
-        } else {
-            e.polyline.setStyle({ opacity: 0.2 });
-        }
-    });
-}
+// Periodically update flight data every minute
+setInterval(fetchAndDisplayFlights, UPDATE_INTERVAL);
 
-function resetHighlight() {
-    highlightedRoutes.forEach(e => e.polyline.setStyle({ color: 'blue', weight: 1 }));
-    highlightedRoutes = [];
-    elements.forEach(e => e.polyline.setStyle({ opacity: 0.5 }));
-}
-
-elements.forEach(e => {
-    e.markerStart.on('mouseover', event => handleHover(event, true));
-    e.markerStart.on('mouseout', event => handleHover(event, false));
-    e.markerEnd.on('mouseover', event => handleHover(event, true));
-    e.markerEnd.on('mouseout', event => handleHover(event, false));
-    e.markerStart.on('click', handleClick);
-    e.markerEnd.on('click', handleClick);
-});
-
-map.on('click', resetHighlight);
-map.on('popupclose', resetHighlight);
-
-map.fitBounds(new L.featureGroup(elements.flatMap(e => [e.markerStart, e.markerEnd, e.polyline])).getBounds());
