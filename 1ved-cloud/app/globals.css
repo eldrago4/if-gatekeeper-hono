@@ -42,15 +42,15 @@ body {
   border: 1px solid #000;  /* Optional: to visualize the container */
 }
 
-
+/* 
 .custom-popup .leaflet-popup-content-wrapper {
   background-color: red;
   color: white;
   font-weight: bold;
   border-radius: 10px 10px 0 10px; /* Remove default rounded corners */
-}
+} 
 
-.custom-popup .leaflet-popup-tip {
+/* .custom-popup .leaflet-popup-tip {
   background-color: red;
   border: none; /* Remove default border */
 }
