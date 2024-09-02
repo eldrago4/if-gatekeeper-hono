@@ -156,7 +156,7 @@ injectSpeedInsights()
 
 app.get('/leaflet', async (c) => {
   try {
-    const html = await readFile(join(__dirname, 'leaflet.html'), 'utf-8');
+    const html = await readFile(join(__dirname, '/api/leaflet.html'), 'utf-8');
     return c.html(html);
   } catch (err) {
     return c.json({ error: err.message }, 500);
