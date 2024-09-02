@@ -50,6 +50,8 @@ function isICAO(identifier) {
 // Function to fetch and display flights
 async function fetchAndDisplayFlights() {
     try {
+
+
         // 1. Get Expert Server Session
         const sessionsResponse = await fetch(`${URLBASE}/sessions?apikey=${APIKEY}`);
         const sessionsData = await sessionsResponse.json();
@@ -64,14 +66,18 @@ async function fetchAndDisplayFlights() {
         // 2. Get Flights for the Expert Server session
         const flightsResponse = await fetch(`${URLBASE}/flights/${sessionId}?apikey=${APIKEY}`);
         const flightsData = await flightsResponse.json();
-
-        // Filter flights based on callsign
+        async function fetchOperators() {
+            const response = await fetch('operators.json');
+            const data = await response.json();
+            return data.names;
+        }
+        // Fetch operator names from operators.json
+        const operatorNames = await fetchOperators();
+        // Filter flights based on operator names and callsign endings
         const filteredFlights = flightsData.result.filter(flight => {
             const callsign = flight.callsign;
-            return (
-                (callsign.startsWith('Air India') || callsign.startsWith('All Nippon')) &&
-                (callsign.endsWith('IN') || callsign.endsWith('IN Heavy'))
-            );
+            return operatorNames.some(operator => callsign.startsWith(operator)) &&
+                   (callsign.endsWith('IN') || callsign.endsWith('IN Heavy'));
         });
 
         // Update or create markers for filtered flights
@@ -125,7 +131,7 @@ async function fetchAndDisplayFlights() {
                             icon: L.divIcon({
                                 className: 'rotated-aircraft-icon',
                                 html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${rotationAngle}deg); width: 32px; height: 32px;" />`,
-                                iconSize: [32, 32],
+                                iconSize: [5, 5],
                                 iconAnchor: [16, 16]
                             })
                         });
@@ -448,17 +454,58 @@ function addRoute(route) {
 
     if (!startAirport || !endAirport) return;
 
+    // Define the custom popup style
+
+
     var markerStart = L.marker(startAirport.coordinates, { icon: airportIcon, icao: startAirport.icao }).addTo(map)
-        .bindPopup(`${startAirport.name}<br>(${startAirport.icao})`);
+        .bindPopup(`<div class="flight-popup">${startAirport.name}<br>(${startAirport.icao})</div>
+            <style>
+                .flight-popup {
+                    background-color: rgba(223, 223, 223, 0.741);
+                    font-weight: bold;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    padding-top: 5px;
+                    padding-bottom: 3px;
+                    border-radius: 5px;
+                    box-shadow: none;
+                    border: none;
+                }
+                .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
+                    background: transparent;
+                }
+                .leaflet-popup-content {
+                    margin: 0;
+                }
+            </style>`);
     var markerEnd = L.marker(endAirport.coordinates, { icon: airportIcon, icao: endAirport.icao }).addTo(map)
-        .bindPopup(`${endAirport.name}<br>(${endAirport.icao})`);
+    .bindPopup(`<div class="flight-popup">${endAirport.name}<br>(${endAirport.icao})</div>
+        <style>
+            .flight-popup {
+                background-color: rgba(223, 223, 223, 0.741);
+                font-weight: bold;
+                padding: 5px;
+                padding-left: 15px;
+                padding-right: 15px;
+                padding-top: 5px;
+                padding-bottom: 3px;
+                border-radius: 5px;
+                box-shadow: none;
+                border: none;
+            }
+            .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
+                background: transparent;
+            }
+            .leaflet-popup-content {
+                margin: 0;
+            }
+        </style>`);
 
     var curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
     var polyline = L.polyline(curvePoints, { color: 'blue', weight: 1 }).addTo(map);
 
     return { markerStart, markerEnd, polyline, route };
 }
-
 var elements = routes.map(addRoute);
 
 function handleHover(event, isHover) {
