@@ -1,4 +1,4 @@
-const APIKEY = 'jvr8xfkoobd7vogtjq9xehellk23g9g0';
+const APIKEY = process.env.LIVE_API_KEY;
 const URLBASE = 'https://api.infiniteflight.com/public/v2';
 const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
 const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
