@@ -258,7 +258,7 @@ var routes = [
         try {
             const sessionsResponse = await fetch(`${URLBASE}/sessions?apikey=${APIKEY}`);
             const sessionsData = await sessionsResponse.json();
-            const expertSession = sessionsData.result.find(session => session.minimumAppVersion === '23.2' && session.worldType === 3);
+            const expertSession = sessionsData.result.find(session => session.minimumAppVersion === '24.3' && session.worldType === 3);
             const sessionId = expertSession?.id;
     
             if (!sessionId) {
