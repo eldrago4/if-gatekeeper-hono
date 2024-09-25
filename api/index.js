@@ -1,5 +1,7 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
+import { airports } from './data.js';
+import { routes } from './data.js';
 
 import pkg from 'pg';
 const { Client } = pkg;
@@ -16,7 +18,7 @@ import { injectSpeedInsights } from "@vercel/speed-insights"
 
 const app = new Hono();
 
-import dotenv from 'dotenv';
+import dotenv, { config } from 'dotenv';
 dotenv.config();
 
 const client = new Client({
@@ -111,6 +113,22 @@ const getAircraftClass = (aircraftName) => {
   return aircraft ? aircraft.class : null;
 };
 
+app.get('/api/inva/airports', async (c) => {
+  try {
+    return c.json(airports);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+  
+app.get('/api/inva/routes', async (c) => {
+  try {
+    return c.json(routes);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get('/api/airport-gates/:icao', async (c) => {
   const icao = c.req.param('icao');
   const aircraft = c.req.query('aircraft');
@@ -145,7 +163,7 @@ app.use('/static/*', serveStatic({ root: '.' }));
 
 app.get('/api', async (c) => {
   try {
-    const html = await readFile(join(__dirname, 'home.html'), 'utf-8');
+    const html = await readFile(join(__dirname, 'leaflet.html'), 'utf-8');
     return c.html(html);
   } catch (err) {
     return c.json({ error: err.message }, 500);
@@ -154,14 +172,133 @@ app.get('/api', async (c) => {
 injectSpeedInsights()
 );
 
-app.get('/leaflet', async (c) => {
+app.get('/api/v2/sessions', async (c) => {
   try {
-    const html = await readFile(join(__dirname, 'leaflet.html'), 'utf-8');
-    return c.html(html);
+    // Fetch data from the Infinite Flight API
+    const response = await fetch('https://api.infiniteflight.com/public/v2/sessions', {
+      headers: {
+        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Make sure to set your API key in the environment variable
+      }
+    });
+    
+    const data = await response.json();
+
+    if (data.errorCode !== 0) {
+      return c.json({ error: 'Error fetching sessions from Infinite Flight API' }, 500);
+    }
+
+    // Filter the result to include only the "Expert" server
+    const expertServer = data.result.filter(server => server.name === 'Expert');
+
+    if (expertServer.length === 0) {
+      return c.json({ error: 'No Expert server found' }, 404);
+    }
+
+    // Return the filtered server information
+    return c.json({ result: expertServer });
   } catch (err) {
+    // Catch and return any errors
     return c.json({ error: err.message }, 500);
   }
 });
+
+app.get('/api/v2/sessions/:session_id/flights', async (c) => {
+  const session_id = c.req.param('session_id');
+  
+  try {
+    // Fetch data from the Infinite Flight API
+    const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${session_id}/flights`, {
+      headers: {
+        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+      }
+    });
+
+    const data = await response.json();
+
+    // Check if the API returned an error
+    if (data.errorCode !== 0) {
+      return c.json({ error: 'Error fetching flights from Infinite Flight API' }, 500);
+    }
+
+    // Filter flights whose callsigns end with 'dddIN' where d is a digit
+    const filteredFlights = data.result
+      .filter(flight => /\d{3}IN(?: Heavy| Super)?$/.test(flight.callsign))
+      .map(flight => ({
+        username: flight.username,
+        callsign: flight.callsign,
+        latitude: flight.latitude,
+        longitude: flight.longitude,
+        altitude: flight.altitude,
+        speed: flight.speed,
+        verticalSpeed: flight.verticalSpeed,
+        track: flight.track,
+        lastReport: flight.lastReport,
+        flightId: flight.flightId, // Optionally keep flightId if needed
+        heading: flight.heading,
+      }));
+
+    // Return the filtered flights as JSON
+    return c.json({ result: filteredFlights });
+  } catch (err) {
+    // Catch and return any errors
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/v2/sessions/:sessionId/flights/:flightId/route', async (c) => {
+  const sessionId = c.req.param('sessionId');
+  const flightId = c.req.param('flightId');
+
+  try {
+    // Fetch data from the Infinite Flight API
+    const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/route`, {
+      headers: {
+        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+      }
+    });
+
+    const data = await response.json();
+
+    // Check if the API returned an error
+    if (data.errorCode !== 0) {
+      return c.json({ error: 'Error fetching flight route from Infinite Flight API' }, 500);
+    }
+
+    // Return the flight route as is (as per the API response)
+    return c.json({ result: data.result });
+  } catch (err) {
+    // Catch and return any errors
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/v2/sessions/:sessionId/flights/:flightId/flightplan', async (c) => {
+  const sessionId = c.req.param('sessionId');
+  const flightId = c.req.param('flightId');
+
+  try {
+    // Fetch data from the Infinite Flight API
+    const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/flightplan`, {
+      headers: {
+        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+      }
+    });
+
+    const data = await response.json();
+
+    // Check if the API returned an error
+    if (data.errorCode !== 0) {
+      return c.json({ error: 'Error fetching flight plan from Infinite Flight API' }, 500);
+    }
+
+    // Return the flight plan as is (as per the API response)
+    return c.json({ result: data.result });
+  } catch (err) {
+    // Catch and return any errors
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 
 const handler = handle(app);
 
