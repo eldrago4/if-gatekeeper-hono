@@ -1,6 +1,3 @@
-const URLBASE = 'https://api.infiniteflight.com/public/v2';
-const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
-const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
 
 var airports = [
 
@@ -212,6 +209,11 @@ var routes = [
     { startICAO: 'VEBN', endICAO: 'VIDP' }, { startICAO: 'VEPT', endICAO: 'VIDP' }, 
     { startICAO: 'VIDP', endICAO: 'VIJO' }, { startICAO: 'KSFO', endICAO: 'VOBL' }];
 
+
+    const URLBASE = 'https://api.infiniteflight.com/public/v2';
+    const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
+    const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
+
     const map = L.map('map').setView([20.5937, 78.9629], 4);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
@@ -258,7 +260,7 @@ var routes = [
         try {
             const sessionsResponse = await fetch(`${URLBASE}/sessions?apikey=${APIKEY}`);
             const sessionsData = await sessionsResponse.json();
-            const expertSession = sessionsData.result.find(session => session.minimumAppVersion === '24.3' && session.worldType === 3);
+            const expertSession = sessionsData.result.find(session => session.name === 'Expert');
             const sessionId = expertSession?.id;
     
             if (!sessionId) {
