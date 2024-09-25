@@ -241,7 +241,7 @@ setInterval(fetchAndDisplayFlights, UPDATE_INTERVAL);
 
 const airportsResponse = await fetch(`https://1ved.cloud/api/inva/airports`);
 const airports = await airportsResponse.json();
-const routesResponse = await fetch(`https://1ved.cloud/api/inva/airports`);
+const routesResponse = await fetch(`https://1ved.cloud/api/inva/routes`);
 const routes = await airportsResponse.json();
 // Routes data with ICAO codes
 
