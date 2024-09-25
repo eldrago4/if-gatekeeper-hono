@@ -1,5 +1,5 @@
 const APIKEY = process.env.LIVE_API_KEY;
-const URLBASE = 'https://api.infiniteflight.com/public/v2';
+const URLBASE = '/1ved.cloud/api/v2';
 const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
 const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
 
@@ -53,7 +53,7 @@ async function fetchAndDisplayFlights() {
 
 
         // 1. Get Expert Server Session
-        const sessionsResponse = await fetch(`https://1ved.cloud/api/v2/sessions`);
+        const sessionsResponse = await fetch(`${URLBASE}/sessions`);
         const sessionsData = await sessionsResponse.json();
         const expertSession = sessionsData.result.find(session => session.minimumAppVersion === '24.3' && session.worldType === 3);
         const sessionId = expertSession?.id;
@@ -64,7 +64,7 @@ async function fetchAndDisplayFlights() {
         }
 
         // 2. Get Flights for the Expert Server session
-        const flightsResponse = await fetch(`${URLBASE}/flights/${sessionId}?apikey=${APIKEY}`);
+        const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
         const flightsData = await flightsResponse.json();
         async function fetchOperators() {
             const response = await fetch('operators.json');
@@ -87,7 +87,7 @@ async function fetchAndDisplayFlights() {
 
             try {
                 // Corrected route API URL with sessionId and flightId
-                const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route?apikey=${APIKEY}`);
+                const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route`);
                 if (!routeResponse.ok) {
                     console.warn(`Route not found for flight ${flightId}`);
                     continue; // Skip this flight if there's an error
