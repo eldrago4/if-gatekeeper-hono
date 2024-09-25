@@ -1,5 +1,5 @@
 const APIKEY = process.env.LIVE_API_KEY;
-const URLBASE = '/1ved.cloud/api/v2';
+const URLBASE = 'https://1ved.cloud/api/v2';
 const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
 const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
 
