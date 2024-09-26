@@ -171,13 +171,13 @@ app.get('/api', async (c) => {
 },
 injectSpeedInsights()
 );
-
+const API_KEY = process.env.LIVE_API_KEY
 app.get('/api/v2/sessions', async (c) => {
   try {
     // Fetch data from the Infinite Flight API
     const response = await fetch('https://api.infiniteflight.com/public/v2/sessions', {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Make sure to set your API key in the environment variable
+        'Authorization': `Bearer ${API_KEY}` // Make sure to set your API key in the environment variable
       }
     });
     
@@ -209,7 +209,7 @@ app.get('/api/v2/sessions/:session_id/flights', async (c) => {
     // Fetch data from the Infinite Flight API
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${session_id}/flights`, {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` // Use your API key from .env
       }
     });
 
@@ -253,7 +253,7 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/route', async (c) => {
     // Fetch data from the Infinite Flight API
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/route`, {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` // Use your API key from .env
       }
     });
 
@@ -280,7 +280,7 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/flightplan', async (c) =>
     // Fetch data from the Infinite Flight API
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/flightplan`, {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` // Use your API key from .env
       }
     });
 
