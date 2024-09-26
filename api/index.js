@@ -299,6 +299,125 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/flightplan', async (c) =>
   }
 });
 
+const SIMBRIEF_API_URL = 'https://www.simbrief.com/api/xml.fetcher.php?username={}&json=1';
+
+app.get('/api/simbrief', async (c) => {
+    const username = c.req.query('username');
+
+    if (!username) {
+        return c.json({ error: 'Missing required parameter: username' }, 400);
+    }
+
+    try {
+        // Fetch data from SimBrief API
+        const response = await fetch(SIMBRIEF_API_URL.replace('{}', username));
+
+        if (!response.ok) {
+            return c.json({ error: 'Failed to fetch data from SimBrief API' }, response.status);
+        }
+
+        const fplData = await response.json();
+
+        // Parse relevant fields from the response
+        const aircraft = fplData['aircraft'];
+        const general = fplData['general'];
+        const origin = fplData['origin'];
+        const destination = fplData['destination'];
+        const fuel = fplData['fuel'];
+        const weights = fplData['weights'];
+        const params = fplData['params'];
+        const tlr = fplData['tlr'];
+        const files = fplData['files'];
+        const images = fplData['images'];
+
+        // Prepare TLR (Takeoff and Landing Report) data
+        const takeoffTlr = tlr['takeoff'];
+        const landingTlr = tlr['landing'];
+        const plannedRunway = takeoffTlr['conditions']['planned_runway'];
+        const destinationPlannedRunway = landingTlr['conditions']['planned_runway'];
+        const runwayData = takeoffTlr['runway'].find(runway => runway['identifier'] === plannedRunway);
+        const destinationRunwayData = landingTlr['runway'].find(runway => runway['identifier'] === destinationPlannedRunway);
+
+        // Prepare map and profile image URLs
+        const routeMapUrl = images['directory'] + images['map'][0]['link'];
+        const verticalProfileMap = images['map'].find(image => image['name'] === 'Vertical profile');
+        const verticalProfileUrl = verticalProfileMap ? `https://www.simbrief.com/ofp/uads/${verticalProfileMap['link']}` : null;
+
+        // Prepare the PDF file URL
+        const pdfFileUrl = files['directory'] + files['pdf']['link'];
+
+        // Construct the JSON response with all the required data
+        const result = {
+            flight_id: `${general['icao_airline']}${general['flight_number']}`,
+            origin: {
+                icao: origin['icao_code'],
+                metar: origin['metar'],
+                elevation: origin['elevation'],
+                planned_runway: plannedRunway
+            },
+            destination: {
+                icao: destination['icao_code'],
+                metar: destination['metar'],
+                elevation: destination['elevation'],
+                planned_runway: destinationPlannedRunway
+            },
+            aircraft: {
+                type: aircraft['icaocode']
+            },
+            weights: {
+                pax: weights['pax_count'],
+                cargo: weights['cargo']
+            },
+            fuel: {
+                required: fuel['plan_ramp']
+            },
+            general: {
+                airac: params['airac'],
+                units: params['units'],
+                route: general['route'],
+                route_distance: general['route_distance'],
+                avg_wind_comp: general['avg_wind_comp'],
+                avg_wind_dir: general['avg_wind_dir'],
+                avg_wind_spd: general['avg_wind_spd'],
+                cruise_mach: general['cruise_mach'],
+                climb_profile: general['climb_profile'],
+                descent_profile: general['descent_profile'],
+                cruise_profile: general['cruise_profile'],
+                stepclimb: general['stepclimb_string']
+            },
+            takeoff_tlr: {
+                flap_setting: runwayData['flap_setting'],
+                speeds_v1: runwayData['speeds_v1'],
+                speeds_vr: runwayData['speeds_vr'],
+                speeds_v2: runwayData['speeds_v2'],
+                length: runwayData['length'],
+                true_course: runwayData['true_course'],
+                conditions: {
+                    wind_direction: takeoffTlr['conditions']['wind_direction'],
+                    wind_speed: takeoffTlr['conditions']['wind_speed']
+                }
+            },
+            landing_tlr: {
+                flap_setting: landingTlr['distance_dry']['flap_setting'],
+                speeds_vref: landingTlr['distance_dry']['speeds_vref'],
+                length: destinationRunwayData['length'],
+                true_course: destinationRunwayData['true_course'],
+                conditions: {
+                    wind_direction: landingTlr['conditions']['wind_direction'],
+                    wind_speed: landingTlr['conditions']['wind_speed']
+                }
+            },
+            route_map_url: routeMapUrl,
+            vertical_profile_url: verticalProfileUrl,
+            pdf_file_url: pdfFileUrl
+        };
+
+        return c.json(result);
+
+    } catch (error) {
+        return c.json({ error: `Error fetching flight plan: ${error.message}` }, 500);
+    }
+});
 
 const handler = handle(app);
 
