@@ -1,8 +1,20 @@
-    const airportsResponse = await fetch(`https://1ved.cloud/api/inva/airports`);
-    const airports = await airportsResponse.json();
-    const routesResponse = await fetch(`https://1ved.cloud/api/inva/routes`);
-    const routes = await routesResponse.json();
+    async function fetchInvaData() {
+    try {
+        
+        const airportsResponse = await fetch(`https://1ved.cloud/api/inva/airports`);
+        const airports = await airportsResponse.json();
 
+        
+        const routesResponse = await fetch(`https://1ved.cloud/api/inva/routes`);
+        const routes = await routesResponse.json();
+
+        // Use the fetched data
+        displayData(airports, routes);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+    fetchInvaData();
     const URLBASE = 'https://1ved.cloud/api/v2';
 
     const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
