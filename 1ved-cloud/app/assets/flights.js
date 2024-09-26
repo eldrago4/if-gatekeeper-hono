@@ -238,7 +238,7 @@
             
                 const callsign = flight.callsign;
                 return operatorNames.some(operator => callsign.startsWith(operator)) &&
-                       (callsign.endsWith('IN') || callsign.endsWith('IN Heavy'));
+                       (callsign.endsWith('IN') || callsign.endsWith('IN Heavy') || callsign.endsWith('IN Super'));
             });
 
             
