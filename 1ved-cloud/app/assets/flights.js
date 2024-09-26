@@ -1,5 +1,5 @@
-    import { airports } from '/api/data.js';
-    import { routes } from '/api/data.js';
+    import { airports } from 'api/data.js';
+    import { routes } from 'api/data.js';
        
     const URLBASE = 'https://1ved.cloud/api/v2';
 
