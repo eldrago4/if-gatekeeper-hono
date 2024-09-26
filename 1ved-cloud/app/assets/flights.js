@@ -269,8 +269,16 @@ var routes = [
             }
     
             const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
-            const filteredFlights = await flightsResponse.json();
+            const flightsData = await flightsResponse.json();
             const operatorNames = await fetchOperators();
+            const filteredFlights = flightsData.result.filter(flight => {
+            
+                const callsign = flight.callsign;
+                return operatorNames.some(operator => callsign.startsWith(operator)) &&
+                       (callsign.endsWith('IN') || callsign.endsWith('IN Heavy'));
+            });
+
+            
     
             
             const removeStaleMarkers = () => {
