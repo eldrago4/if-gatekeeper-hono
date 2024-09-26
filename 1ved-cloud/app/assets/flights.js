@@ -1,4 +1,5 @@
 
+
 var airports = [
 
     { name: 'Abu Dhabi', icao: 'OMAA', coordinates: [24.442856, 54.651474] },
@@ -209,8 +210,8 @@ var routes = [
     { startICAO: 'VEBN', endICAO: 'VIDP' }, { startICAO: 'VEPT', endICAO: 'VIDP' }, 
     { startICAO: 'VIDP', endICAO: 'VIJO' }, { startICAO: 'KSFO', endICAO: 'VOBL' }];
 
+    const URLBASE = 'https://1ved.cloud/api/v2';
 
-    const URLBASE = 'https://api.infiniteflight.com/public/v2';
     const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
     const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
 
@@ -255,10 +256,9 @@ var routes = [
         const data = await response.json();
         return data.names;
     }
-    const APIKEY = 'jvr8xfkoobd7vogtjq9xehellk23g9g0';
     async function fetchAndDisplayFlights() {
         try {
-            const sessionsResponse = await fetch(`${URLBASE}/sessions?apikey=${APIKEY}`);
+            const sessionsResponse = await fetch(`${URLBASE}/sessions`);
             const sessionsData = await sessionsResponse.json();
             const expertSession = sessionsData.result.find(session => session.name === 'Expert');
             const sessionId = expertSession?.id;
@@ -268,16 +268,11 @@ var routes = [
                 return;
             }
     
-            const flightsResponse = await fetch(`${URLBASE}/flights/${sessionId}?apikey=${APIKEY}`);
-            const flightsData = await flightsResponse.json();
+            const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
+            const filteredFlights = await flightsResponse.json();
             const operatorNames = await fetchOperators();
     
-            const filteredFlights = flightsData.result.filter(flight => {
-                const callsign = flight.callsign;
-                return operatorNames.some(operator => callsign.startsWith(operator)) &&
-                       (callsign.endsWith('IN') || callsign.endsWith('IN Heavy'));
-            });
-    
+            
             const removeStaleMarkers = () => {
                 for (const flightId in flightMarkers) {
                     if (!filteredFlights.some(flight => flight.flightId === flightId)) {
@@ -293,14 +288,14 @@ var routes = [
                 const previousPosition = flightMarkers[flightId]?.endPos || newPosition;
     
                 try {
-                    const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route?apikey=${APIKEY}`);
+                    const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route`);
                     if (!routeResponse.ok) return;
     
                     const routeData = await routeResponse.json();
                     const route = routeData.result;
     
                     if (route.length > 1) {
-                        const flightPlanResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/flightplan?apikey=${APIKEY}`);
+                        const flightPlanResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/flightplan`);
                         const flightPlanData = await flightPlanResponse.json();
                         const flightPlan = flightPlanData.result;
     
