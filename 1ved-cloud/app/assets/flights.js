@@ -1,14 +1,14 @@
-const airportsResponse = await fetch(`https://1ved.cloud/api/inva/airports`);
-const airports = await airportsResponse.json();
-const routesResponse = await fetch(`https://1ved.cloud/api/inva/routes`);
-const routes = await routesResponse.json();
+    const airportsResponse = await fetch(`https://1ved.cloud/api/inva/airports`);
+    const airports = await airportsResponse.json();
+    const routesResponse = await fetch(`https://1ved.cloud/api/inva/routes`);
+    const routes = await routesResponse.json();
 
-const URLBASE = 'https://1ved.cloud/api/v2';
+    const URLBASE = 'https://1ved.cloud/api/v2';
 
-const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
-const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
+    const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
+    const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
 
-const map = L.map('map').setView([20.5937, 78.9629], 4);
+    const map = L.map('map').setView([20.5937, 78.9629], 4);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         setZoom: 7,
