@@ -1,10 +1,28 @@
-    const airports = await fetch('https://1ved.cloud/api/inva/airports')
-        .then(response => response.json())
-        .catch(error => console.error('Error fetching airports:', error));
+    const airports = await fetch("https://1ved.cloud/api/inva/airports")
+        .then((response) => response.json())
 
-    const routes = await fetch('https://1ved.cloud/api/inva/routes')
-        .then(response => response.json())
-        .catch(error => console.error('Error fetching routes:', error));  
+        .catch((error) => {
+                console.error("Error fetching airports:", error);
+
+                return null; // Return null or some default value if fetch fails
+        });
+
+    const routes = await fetch("https://1ved.cloud/api/inva/routes")
+        .then((response) => response.json())
+
+        .catch((error) => {
+                console.error("Error fetching routes:", error);
+
+                return null; // Return null if fetch fails
+        });
+
+    if (!airports || !routes) {
+        console.error(
+                "Airports or routes data could not be loaded. Exiting...",
+        );
+
+        return; // Stop execution if data couldn't be fetched
+    }   
     const URLBASE = 'https://1ved.cloud/api/v2';
 
     const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
