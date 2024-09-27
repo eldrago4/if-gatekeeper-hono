@@ -53,6 +53,8 @@
 
     { name: 'Frankfurt', icao: 'EDDF', coordinates: [50.026421, 8.543125] },
 
+    { name: 'Fiji Nadi International', icao: 'FIMP', coordinates: [-17.7500, 177.4425] },
+
     { name: 'Goa', icao: 'VOGO', coordinates: [15.380789, 73.832108] },
 
     { name: 'Goa', icao: 'VOGA', coordinates: [15.744402, 73.860626] },
@@ -170,7 +172,18 @@
     { startICAO: 'OTHH', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOCI' }, { startICAO: 'VAAH', endICAO: 'VABB' }, 
     { startICAO: 'VABB', endICAO: 'VOML' }, { startICAO: 'VCBI', endICAO: 'VOMM' }, { startICAO: 'LIMC', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VNKT' }, { startICAO: 'VABP', endICAO: 'VIDP' }, { startICAO: 'OKKK', endICAO: 'VIDP' }, { startICAO: 'CYVR', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOTV' }, { startICAO: 'VABB', endICAO: 'VTBS' }, { startICAO: 'VAAH', endICAO: 'VIDP' }, { startICAO: 'VECC', endICAO: 'VEKU' }, { startICAO: 'VABO', endICAO: 'VIDP' }, { startICAO: 'OEJN', endICAO: 'VABB' }, { startICAO: 'VOCB', endICAO: 'VOMM' }, { startICAO: 'EGKK', endICAO: 'VOCI' }, { startICAO: 'VOHS', endICAO: 'VOTP' }, { startICAO: 'VABB', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VEPT' }, { startICAO: 'VIDP', endICAO: 'VOTV' }, { startICAO: 'VABB', endICAO: 'VOCB' }, { startICAO: 'VIDP', endICAO: 'WSSS' }, { startICAO: 'OMAA', endICAO: 'VABB' }, { startICAO: 'VIDP', endICAO: 'VILH' }, { startICAO: 'OEJN', endICAO: 'VOHS' }, { startICAO: 'VAID', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOBL' }, { startICAO: 'VABB', endICAO: 'VAID' }, { startICAO: 'OKKK', endICAO: 'VABB' }, { startICAO: 'EGBB', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VOBZ' }, { startICAO: 'EHAM', endICAO: 'VIDP' }, { startICAO: 'LLBG', endICAO: 'VIDP' }, { startICAO: 'VECC', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'YMML' }, { startICAO: 'RKSI', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VILK' }, { startICAO: 'OMDB', endICAO: 'VABB' }, { startICAO: 'VGHS', endICAO: 'VIDP' }, { startICAO: 'VILH', endICAO: 'VISR' }, { startICAO: 'VIDP', endICAO: 'VOMM' }, { startICAO: 'KEWR', endICAO: 'VABB' }, { startICAO: 'EGBB', endICAO: 'VIAR' }, { startICAO: 'VIAR', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VIJP' }, { startICAO: 'VABB', endICAO: 'VIJO' }, { startICAO: 'OMDB', endICAO: 'VOHS' }, { startICAO: 'VIDP', endICAO: 'YSSY' }, { startICAO: 'LFPG', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VYYY' }, { startICAO: 'OEJN', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VANP' }, { startICAO: 'VIDP', endICAO: 'VTBS' }, { startICAO: 'OTHH', endICAO: 'VABB' }, { startICAO: 'VHHH', endICAO: 'VIDP' }, { startICAO: 'VAUD', endICAO: 'VIDP' }, { startICAO: 'VOMM', endICAO: 'VOPB' }, { startICAO: 'VABB', endICAO: 'VOGO' }, { startICAO: 'VECC', endICAO: 'VNKT' }, { startICAO: 'VABB', endICAO: 'VECC' }, { startICAO: 'KORD', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VOBL' }, { startICAO: 'VIJU', endICAO: 'VILH' }, { startICAO: 'VAAU', endICAO: 'VIDP' }, { startICAO: 'VAHS', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VIAR' }, { startICAO: 'VEGT', endICAO: 'VEMR' }, { startICAO: 'OKKK', endICAO: 'VOMM' }, { startICAO: 'VABB', endICAO: 'VAJM' }, { startICAO: 'EGKK', endICAO: 'VOGA' }, { startICAO: 'VOPB', endICAO: 'VOVZ' }, { startICAO: 'KJFK', endICAO: 'VABB' }, { startICAO: 'KSFO', endICAO: 'VIDP' }, { startICAO: 'OMDB', endICAO: 'VOMM' }, { startICAO: 'VABB', endICAO: 'VAHS' }, { startICAO: 'VABB', endICAO: 'VEBN' }, { startICAO: 'VEBN', endICAO: 'VIDP' }, { startICAO: 'VEPT', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VIJO' }, { startICAO: 'KSFO', endICAO: 'VOBL' }];
 
-
+const codeshares  = [
+    { startICAO: 'WSSS', endICAO: 'YSSY' },
+    { startICAO: 'YSSY', endICAO: 'WSSS' },
+    { startICAO: 'WSSS', endICAO: 'EGLL' },
+    { startICAO: 'OMDB', endICAO: 'FIMP' },
+    { startICAO: 'FIMP', endICAO: 'OMDB' },
+    { startICAO: 'OMDB', endICAO: 'VABB' },
+    { startICAO: 'VABB', endICAO: 'OMDB' },
+    { startICAO: 'VHHH', endICAO: 'RKSI' },
+    { startICAO: 'RKSI', endICAO: 'VHHH' },
+    { startICAO: 'RKSI', endICAO: 'PHNL' },
+];
 
        
     const URLBASE = 'https://1ved.cloud/api/v2';
@@ -550,6 +563,23 @@ L.control.layers(baseMaps).addTo(map);
         highlightedRoutes.length = 0;
         elements.forEach(e => e.polyline.setStyle({ opacity: 1 }));
     }
+    const codesharesLayer = L.layerGroup();
+
+// Add codeshares routes as green polylines
+codeshares.forEach(route => {
+    const startAirport = getAirportByICAO(route.startICAO);
+    const endAirport = getAirportByICAO(route.endICAO);
+
+    if (startAirport && endAirport) {
+        const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
+        const polyline = L.polyline(curvePoints, { color: 'green', weight: 2 });
+        polyline.addTo(codesharesLayer);  // Add to the codesharesLayer
+    }
+});
+
+// Add overlay for codeshares layer
+L.control.layers(null, { 'Codeshares': codesharesLayer }).addTo(map);
+
     
     elements.forEach(e => {
         e.markerStart.on('mouseover', event => handleHover(event, true));
