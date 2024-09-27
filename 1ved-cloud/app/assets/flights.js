@@ -185,10 +185,10 @@ const codeshares  = [
     { startICAO: 'RKSI', endICAO: 'PHNL' },
 ];
 
-const URLBASE = 'https://1ved.cloud/api/v2';
 
-const UPDATE_INTERVAL = 60000; 
-const ANIMATION_DURATION = 59000; 
+const URLBASE = 'https://1ved.cloud/api/v2';
+const UPDATE_INTERVAL = 60000;
+const ANIMATION_DURATION = 59000;
 
 const map = L.map('map').setView([20.5937, 78.9629], 4);
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -196,166 +196,183 @@ var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     setZoom: 7,
     maxZoom: 18,
 });
+osm.addTo(map);
 
 var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
-    minZoom: 0,
-    maxZoom: 20,
-    attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    ext: 'png'
+    minZoom: 0, maxZoom: 20, attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', ext: 'png'
 });
-
 var Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
-    attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    apikey: 'ca647681c7b146619b484d6ee36fd93b',
-    maxZoom: 22
+    attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', apikey: 'ca647681c7b146619b484d6ee36fd93b', maxZoom: 22
 });
-
 var CyclOSM = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
-    maxZoom: 20,
-    attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    maxZoom: 20, attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
-
 var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 20
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>', subdomains: 'abcd', maxZoom: 20
 });
 
+var codeshareLayer = L.layerGroup();
 var baseMaps = {
-    'Open Street Map': osm,
-    'Smooth Dark': Stadia_AlidadeSmoothDark,
-    'Dark Matter': CartoDB_DarkMatter,
-    'Thunderforest Dark': Thunderforest_TransportDark,
-    'CycIOSM': CyclOSM
+    'Open Street Map': osm, 'Smooth Dark': Stadia_AlidadeSmoothDark, 'Dark Matter': CartoDB_DarkMatter, 'Thunderforest Dark': Thunderforest_TransportDark, 'CycIOSM': CyclOSM
 };
 
-osm.addTo(map);
-const codesharesLayer = L.layerGroup();
-L.control.layers(baseMaps, { 'Codeshares' : codesharesLayer }).addTo(map);
+L.control.layers(baseMaps, { 'Codeshares': codeshareLayer }).addTo(map);
 
 const flightMarkers = {};
-const highlightedRoutes = [];
 
-
-function getAirportByICAO(icao) {
-    return airports.find(a => a.icao === icao);
+function interpolatePosition(startPos, endPos, factor) {
+    return [
+        startPos[0] + (endPos[0] - startPos[0]) * factor,
+        startPos[1] + (endPos[1] - startPos[1]) * factor,
+    ];
 }
 
-function calculateBezierCurve(start, end, numPoints = 100) {
-    const midLat = (start[0] + end[0]) / 2;
-    const midLng = (start[1] + end[1]) / 2;
-    const dx = end[1] - start[1];
-    const dy = end[0] - start[0];
-    const controlLat = midLat + Math.abs(dx * 0.2);
-    const controlLng = midLng - Math.abs(dy * 0.1);
+function smoothMoveMarker(marker, startPos, endPos, duration) {
+    const startTime = performance.now();
 
-    return Array.from({ length: numPoints + 1 }, (_, i) => {
-        const t = i / numPoints;
-        return [
-            (1 - t) ** 2 * start[0] + 2 * (1 - t) * t * controlLat + t ** 2 * end[0],
-            (1 - t) ** 2 * start[1] + 2 * (1 - t) * t * controlLng + t ** 2 * end[1],
-        ];
-    });
+    function animate() {
+        const elapsed = performance.now() - startTime;
+        const factor = Math.min(elapsed / duration, 1);
+        marker.setLatLng(interpolatePosition(startPos, endPos, factor));
+
+        if (factor < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    animate();
 }
 
-
-function createRoute(route, color, group) {
-    const startAirport = getAirportByICAO(route.startICAO);
-    const endAirport = getAirportByICAO(route.endICAO);
-
-    if (!startAirport || !endAirport) return null;
-
-    const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-    const polyline = L.polyline(curvePoints, { color, weight: 2 }).addTo(map);
-
-    group.push({ startICAO: route.startICAO, endICAO: route.endICAO, polyline });
-    return polyline;
+async function fetchOperators() {
+    const response = await fetch('/1ved-cloud/app/assets/operators.json');
+    const data = await response.json();
+    return data.names;
 }
 
+async function fetchAndDisplayFlights() {
+    try {
+        const sessionsResponse = await fetch(`${URLBASE}/sessions`);
+        const sessionsData = await sessionsResponse.json();
+        const expertSession = sessionsData.result.find(session => session.name === 'Expert');
+        const sessionId = expertSession?.id;
 
+        if (!sessionId) {
+            return;
+        }
 
-
-
-const routeElements = {
-    primary: [],
-    codeshare: []
-};
-
-
-routes.forEach(route => {
-    createRoute(route, 'red', routeElements.primary);
-});
-
-
-codeshares.forEach(route => {
-    const polyline = createRoute(route, '#DAA520', routeElements.codeshare); 
-    polyline.addTo(codesharesLayer); 
-});
-
-
-
-
-function handleHoverOrClick(event, isHover) {
-    const hoveredIcao = event.target.options.icao;
-
-    if (highlightedRoutes.length === 0) {
-        
-        ['primary', 'codeshare'].forEach(type => {
-            routeElements[type].forEach(e => {
-                if (e.startICAO === hoveredIcao || e.endICAO === hoveredIcao) {
-                    e.polyline.setStyle({
-                        color: isHover ? 'red' : type === 'primary' ? 'red' : '#DAA520', 
-                        weight: isHover ? 2.7 : 2
-                    });
-                } else {
-                    e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 });
-                }
-            });
+        const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
+        const flightsData = await flightsResponse.json();
+        const operatorNames = await fetchOperators();
+        const filteredFlights = flightsData.result.filter(flight => {
+            const callsign = flight.callsign;
+            return operatorNames.some(operator => callsign.startsWith(operator)) &&
+                (callsign.endsWith('IN') || callsign.endsWith('IN Heavy') || callsign.endsWith('IN Super'));
         });
+
+        const removeStaleMarkers = () => {
+            for (const flightId in flightMarkers) {
+                if (!filteredFlights.some(flight => flight.flightId === flightId)) {
+                    map.removeLayer(flightMarkers[flightId].marker);
+                    delete flightMarkers[flightId];
+                }
+            }
+        };
+
+        const processFlight = async flight => {
+            const { flightId, heading, latitude, longitude, altitude, speed, callsign } = flight;
+            const newPosition = [latitude, longitude];
+            const previousPosition = flightMarkers[flightId]?.endPos || newPosition;
+
+            try {
+                const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route`);
+                if (!routeResponse.ok) return;
+
+                const routeData = await routeResponse.json();
+                const route = routeData.result;
+
+                if (route.length > 1) {
+                    const flightPlanResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/flightplan`);
+                    const flightPlanData = await flightPlanResponse.json();
+                    const flightPlan = flightPlanData.result;
+
+                    const firstWaypoint = flightPlan.flightPlanItems[0];
+                    const lastWaypoint = flightPlan.flightPlanItems[flightPlan.flightPlanItems.length - 1];
+
+                    const dep = firstWaypoint.identifier;
+                    const arrv = lastWaypoint.identifier;
+
+                    const depLatLng = [firstWaypoint.location.latitude, firstWaypoint.location.longitude];
+                    const arrvLatLng = [lastWaypoint.location.latitude, lastWaypoint.location.longitude];
+
+                    const updateMarker = marker => {
+                        smoothMoveMarker(marker, previousPosition, newPosition, ANIMATION_DURATION);
+                        flightMarkers[flightId].endPos = newPosition;
+                        marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 32px; height: 32px;"/>`;
+                    };
+
+                    const createMarker = () => {
+                        const marker = L.marker(newPosition, {
+                            icon: L.divIcon({
+                                className: 'rotated-aircraft-icon',
+                                html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 32px; height: 32px;" />`,
+                                iconSize: [5, 5],
+                                iconAnchor: [16, 16],
+                            }),
+                        });
+
+                        marker.bindTooltip(callsign, {
+                            permanent: true,
+                            direction: 'top',
+                            className: 'callsign-label',
+                            opacity: 0.9,
+                            offset: [0, -11],
+                        });
+
+                        marker.bindPopup(`
+                            <div class="flight-popup">
+                                <b>${callsign}</b><br>
+                                <b>Route:</b> ${dep} - ${arrv}<br>
+                                ${altitude < 10000 ? Math.ceil(altitude) + ' ft' : 'FL' + Math.ceil(altitude / 100)} |
+                                ${Math.ceil(speed)} kts
+                            </div>
+                        `);
+
+                        let dashedLine = null;
+                        marker.on('popupopen', () => {
+                            dashedLine = L.polyline([depLatLng, arrvLatLng], {
+                                color: 'black',
+                                weight: 1,
+                                dashArray: '4, 8',
+                            }).addTo(map);
+                        });
+
+marker.on('popupclose', () => {
+                            if (dashedLine) {
+                                map.removeLayer(dashedLine);
+                            }
+                        });
+
+                        flightMarkers[flightId] = { marker, endPos: newPosition };
+                        map.addLayer(marker);
+                    };
+
+                    if (flightMarkers[flightId]) {
+                        updateMarker(flightMarkers[flightId].marker);
+                    } else {
+                        createMarker();
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching route or flight plan:', error);
+            }
+        };
+
+        removeStaleMarkers();
+        await Promise.all(filteredFlights.map(processFlight));
+    } catch (error) {
+        console.error('Error fetching flights:', error);
     }
 }
 
-
-function handleClick(event) {
-    const clickedIcao = event.target.options.icao;
-
- 
-    highlightedRoutes.forEach(e => e.polyline.setStyle({ color: e.color, weight: 2 }));
-    highlightedRoutes.length = 0;
-
-    
-    ['primary', 'codeshare'].forEach(type => {
-        routeElements[type].forEach(e => {
-            if (e.startICAO === clickedIcao || e.endICAO === clickedIcao) {
-                e.polyline.setStyle({ color: 'red', weight: 2.7 });
-                highlightedRoutes.push(e);
-            } else {
-                e.polyline.setStyle({ opacity: 0.2 });
-            }
-        });
-    });
-}
-
-
-function resetHighlight() {
-    highlightedRoutes.forEach(e => e.polyline.setStyle({ color: e.color, weight: 2 }));
-    highlightedRoutes.length = 0;
-
-    ['primary', 'codeshare'].forEach(type => {
-        routeElements[type].forEach(e => e.polyline.setStyle({ opacity: 1 }));
-    });
-}
-
-
-airports.forEach(airport => {
-    const marker = L.marker(airport.coordinates, { icao: airport.icao }).addTo(map);
-
-    marker.on('mouseover', event => handleHoverOrClick(event, true));
-    marker.on('mouseout', event => handleHoverOrClick(event, false));
-    marker.on('click', handleClick);
-});
-
-
-map.on('click', resetHighlight);
-map.on('popupclose', resetHighlight);
-map.setZoom(5);
+fetchAndDisplayFlights();
+setInterval(fetchAndDisplayFlights, UPDATE_INTERVAL);                        
