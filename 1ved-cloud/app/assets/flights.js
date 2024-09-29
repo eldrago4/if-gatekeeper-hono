@@ -1,5 +1,5 @@
     
-    const airports = [
+const airports = [
 
     { name: 'Abu Dhabi', icao: 'OMAA', coordinates: [24.442856, 54.651474] },
 
@@ -168,7 +168,7 @@
     { name: 'Yangon', icao: 'VYYY', coordinates: [16.907301, 96.133217] }
 ];
 
-    const routes = [
+const routes = [
     { startICAO: 'OTHH', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOCI' }, { startICAO: 'VAAH', endICAO: 'VABB' }, 
     { startICAO: 'VABB', endICAO: 'VOML' }, { startICAO: 'VCBI', endICAO: 'VOMM' }, { startICAO: 'LIMC', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VNKT' }, { startICAO: 'VABP', endICAO: 'VIDP' }, { startICAO: 'OKKK', endICAO: 'VIDP' }, { startICAO: 'CYVR', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOTV' }, { startICAO: 'VABB', endICAO: 'VTBS' }, { startICAO: 'VAAH', endICAO: 'VIDP' }, { startICAO: 'VECC', endICAO: 'VEKU' }, { startICAO: 'VABO', endICAO: 'VIDP' }, { startICAO: 'OEJN', endICAO: 'VABB' }, { startICAO: 'VOCB', endICAO: 'VOMM' }, { startICAO: 'EGKK', endICAO: 'VOCI' }, { startICAO: 'VOHS', endICAO: 'VOTP' }, { startICAO: 'VABB', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VEPT' }, { startICAO: 'VIDP', endICAO: 'VOTV' }, { startICAO: 'VABB', endICAO: 'VOCB' }, { startICAO: 'VIDP', endICAO: 'WSSS' }, { startICAO: 'OMAA', endICAO: 'VABB' }, { startICAO: 'VIDP', endICAO: 'VILH' }, { startICAO: 'OEJN', endICAO: 'VOHS' }, { startICAO: 'VAID', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOBL' }, { startICAO: 'VABB', endICAO: 'VAID' }, { startICAO: 'OKKK', endICAO: 'VABB' }, { startICAO: 'EGBB', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VOBZ' }, { startICAO: 'EHAM', endICAO: 'VIDP' }, { startICAO: 'LLBG', endICAO: 'VIDP' }, { startICAO: 'VECC', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'YMML' }, { startICAO: 'RKSI', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VILK' }, { startICAO: 'OMDB', endICAO: 'VABB' }, { startICAO: 'VGHS', endICAO: 'VIDP' }, { startICAO: 'VILH', endICAO: 'VISR' }, { startICAO: 'VIDP', endICAO: 'VOMM' }, { startICAO: 'KEWR', endICAO: 'VABB' }, { startICAO: 'EGBB', endICAO: 'VIAR' }, { startICAO: 'VIAR', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VIJP' }, { startICAO: 'VABB', endICAO: 'VIJO' }, { startICAO: 'OMDB', endICAO: 'VOHS' }, { startICAO: 'VIDP', endICAO: 'YSSY' }, { startICAO: 'LFPG', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VYYY' }, { startICAO: 'OEJN', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VANP' }, { startICAO: 'VIDP', endICAO: 'VTBS' }, { startICAO: 'OTHH', endICAO: 'VABB' }, { startICAO: 'VHHH', endICAO: 'VIDP' }, { startICAO: 'VAUD', endICAO: 'VIDP' }, { startICAO: 'VOMM', endICAO: 'VOPB' }, { startICAO: 'VABB', endICAO: 'VOGO' }, { startICAO: 'VECC', endICAO: 'VNKT' }, { startICAO: 'VABB', endICAO: 'VECC' }, { startICAO: 'KORD', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VOBL' }, { startICAO: 'VIJU', endICAO: 'VILH' }, { startICAO: 'VAAU', endICAO: 'VIDP' }, { startICAO: 'VAHS', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VIAR' }, { startICAO: 'VEGT', endICAO: 'VEMR' }, { startICAO: 'OKKK', endICAO: 'VOMM' }, { startICAO: 'VABB', endICAO: 'VAJM' }, { startICAO: 'EGKK', endICAO: 'VOGA' }, { startICAO: 'VOPB', endICAO: 'VOVZ' }, { startICAO: 'KJFK', endICAO: 'VABB' }, { startICAO: 'KSFO', endICAO: 'VIDP' }, { startICAO: 'OMDB', endICAO: 'VOMM' }, { startICAO: 'VABB', endICAO: 'VAHS' }, { startICAO: 'VABB', endICAO: 'VEBN' }, { startICAO: 'VEBN', endICAO: 'VIDP' }, { startICAO: 'VEPT', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VIJO' }, { startICAO: 'KSFO', endICAO: 'VOBL' }];
 
@@ -198,7 +198,6 @@ const codeshares  = [
         maxZoom: 18,
     });
 osm.addTo(map);
-
 var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 20,
@@ -235,20 +234,20 @@ const codeshareLayer = L.layerGroup();
 codeshares.forEach(codeshare => {
     const startAirport = getAirportByICAO(codeshare.startICAO);
     const endAirport = getAirportByICAO(codeshare.endICAO);
-    
+
     if (startAirport && endAirport) {
         const routeCoordinates = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
         const polyline = L.polyline(routeCoordinates, {
             color: 'goldenrod', // Set the initial color to golden brown
             weight: 2,
         }).addTo(codeshareLayer);
-        
+
         polyline.icao = codeshare.startICAO; // Store the ICAO for easy access later
     }
 });
 
-L.control.layers(baseMaps, {'Codeshares' : codeshareLayer}).addTo(map);  
-  
+L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);    
+
     const flightMarkers = {};
     
     function interpolatePosition(startPos, endPos, factor) {
@@ -283,6 +282,7 @@ L.control.layers(baseMaps, {'Codeshares' : codeshareLayer}).addTo(map);
         const data = await response.json();
         return data.names;
     }
+    
     async function fetchAndDisplayFlights() {
         try {
             const sessionsResponse = await fetch(`${URLBASE}/sessions`);
@@ -412,140 +412,8 @@ L.control.layers(baseMaps, {'Codeshares' : codeshareLayer}).addTo(map);
                                 </style>
                             `);
     
-                            let dashedLine = null;
-                            marker.on('popupopen', () => {
-                                dashedLine = L.polyline([depLatLng, arrvLatLng], {
-                                    color: 'black',
-                                    weight: 1,
-                                    dashArray: '4, 8',
-                                }).addTo(map);
-                            });
-    
-                            marker.on('popupclose', () => {
-                                if (dashedLine) {
-                                    map.removeLayer(dashedLine);
-                                }
-                            });
-    
-                            flightMarkers[flightId] = { marker, endPos: newPosition };
-                            map.addLayer(marker);
-                        };
-    
-                        if (flightMarkers[flightId]) {
-                            updateMarker(flightMarkers[flightId].marker);
-                        } else {
-                            createMarker();
-                        }
-                    }
-                } catch (routeError) {
-                    console.error(`Error fetching route for flight ${flightId}:`, routeError);
-                }
-            };
-    
-            await Promise.all(filteredFlights.map(processFlight));
-            removeStaleMarkers();
-        } catch (error) {
-            console.error('Error fetching flights:', error);
-        }
-    }
-    
-    fetchAndDisplayFlights();
-    setInterval(fetchAndDisplayFlights, UPDATE_INTERVAL);
-    
-    const airportIcon = L.icon({
-        iconUrl: 'https://github.com/eldrago4/if-gatekeeper-hono/blob/346b253289fd5cce06d9cff82c4d315982dd2c36/1ved-cloud/app/assets/airport-icon.png?raw=true',
-        iconSize: [32, 32],
-        iconAnchor: [16, 16],
-        popupAnchor: [0, -16],
-    });
-    
-    const highlightedRoutes = [];
-    
-    function getAirportByICAO(icao) {
-        return airports.find(a => a.icao === icao);
-    }
-    
-    function calculateDistance(lat1, lng1, lat2, lng2) {
-        const R = 6371;
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLng = (lng2 - lng1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
-        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
-    
-    function calculateBezierCurve(start, end, numPoints = 100) {
-        const midLat = (start[0] + end[0]) / 2;
-        const midLng = (start[1] + end[1]) / 2;
-        const dx = end[1] - start[1];
-        const dy = end[0] - start[0];
-        const controlLat = midLat + Math.abs(dx * 0.2);
-        const controlLng = midLng - Math.abs(dy * 0.1);
-    
-        return Array.from({ length: numPoints + 1 }, (_, i) => {
-            const t = i / numPoints;
-            return [
-                (1 - t) ** 2 * start[0] + 2 * (1 - t) * t * controlLat + t ** 2 * end[0],
-                (1 - t) ** 2 * start[1] + 2 * (1 - t) * t * controlLng + t ** 2 * end[1],
-            ];
-        });
-    }
-    
-    function addRoute(route) {
-        const startAirport = getAirportByICAO(route.startICAO);
-        const endAirport = getAirportByICAO(route.endICAO);
-    
-        if (!startAirport || !endAirport) return;
-    
-        const markerStart = L.marker(startAirport.coordinates, { icon: airportIcon, icao: startAirport.icao }).addTo(map)
-            .bindPopup(`
-                <div class="flight-popup">${startAirport.name}<br>(${startAirport.icao})</div>
-                <style>
-                    .flight-popup {
-                        background-color: rgba(223, 223, 223, 0.741);
-                        font-weight: bold;
-                        padding-left: 15px;
-                        padding-right: 15px;
-                        padding-top: 5px;
-                        padding-bottom: 3px;
-                        border-radius: 5px;
-                        box-shadow: none;
-                        border: none;
-                    }
-                    .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                        background: transparent;
-                    }
-                    .leaflet-popup-content {
-                        margin: 0;
-                    }
-                </style>
-            `);
-    
-        const markerEnd = L.marker(endAirport.coordinates, { icon: airportIcon, icao: endAirport.icao }).addTo(map)
-            .bindPopup(`
-                <div class="flight-popup">${endAirport.name}<br>(${endAirport.icao})</div>
-                <style>
-                    .flight-popup {
-                        background-color: rgba(223, 223, 223, 0.741);
-                        font-weight: bold;
-                        padding: 5px;
-                        padding-left: 15px;
-                        padding-right: 15px;
-                        padding-top: 5px;
-                        padding-bottom: 3px;
-                        border-radius: 5px;
-                        box-shadow: none;
-                        border: none;
-                    }
-                    .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                        background: transparent;
-                    }
-                    .leaflet-popup-content {
-                        margin: 0;
-                    }
-                </style>
-            `);
-    
         const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
+        
         const polyline = L.polyline(curvePoints, { color: 'blue', weight: 1 }).addTo(map);
     
         return { markerStart, markerEnd, polyline, route };
@@ -583,7 +451,12 @@ L.control.layers(baseMaps, {'Codeshares' : codeshareLayer}).addTo(map);
         highlightedRoutes.length = 0;
         elements.forEach(e => e.polyline.setStyle({ opacity: 1 }));
     }
- 
+
+
+
+
+
+
 
     
     elements.forEach(e => {
@@ -597,25 +470,24 @@ L.control.layers(baseMaps, {'Codeshares' : codeshareLayer}).addTo(map);
     
     map.on('click', resetHighlight);
     map.on('popupclose', resetHighlight);
+    
     map.on('popupopen', function(e) {
     const clickedAirportICAO = e.popup._source.options.icao;
 
     codeshareLayer.eachLayer(function(layer) {
         if (layer.icao === clickedAirportICAO) {
-            // Keep the clicked airport's codeshare routes golden brown
-            layer.setStyle({ color: 'goldenrod', weight: 3 });
+            
+            layer.setStyle({ color: 'goldenrod', weight: 3, opacity: 1 });
         } else {
-            // Make other codeshare routes faint
-            layer.setStyle({ color: 'lightgray', weight: 1 });
+            layer.setStyle({ color: 'goldenrod', weight: 1, opacity: 0.2 });
         }
     });
 });
 
-map.on('popupclose', function() {
-    // Reset all codeshare routes back to golden brown
-    codeshareLayer.eachLayer(function(layer) {
-        layer.setStyle({ color: 'goldenrod', weight: 2 });
+    map.on('popupclose', function() {
+        // Reset all codeshare routes back to golden brown
+        codeshareLayer.eachLayer(function(layer) {
+            layer.setStyle({ color: 'goldenrod', weight: 1 });
+        });
     });
-});
     map.setZoom(5);
-
