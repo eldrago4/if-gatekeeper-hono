@@ -188,9 +188,8 @@ const codeshares  = [
        
     const URLBASE = 'https://1ved.cloud/api/v2';
 
-    const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
-    const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
-
+    const UPDATE_INTERVAL = 60000; 
+    const ANIMATION_DURATION = 59000; 
     const map = L.map('map').setView([20.5937, 78.9629], 4);
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
@@ -231,20 +230,6 @@ var baseMaps = { 'Open Street Map' : osm, 'Smooth Dark' : Stadia_AlidadeSmoothDa
 
 const codeshareLayer = L.layerGroup();
 
-codeshares.forEach(codeshare => {
-    const startAirport = getAirportByICAO(codeshare.startICAO);
-    const endAirport = getAirportByICAO(codeshare.endICAO);
-
-    if (startAirport && endAirport) {
-        const routeCoordinates = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-        const polyline = L.polyline(routeCoordinates, {
-            color: 'goldenrod', // Set the initial color to golden brown
-            weight: 2,
-        }).addTo(codeshareLayer);
-
-        polyline.icao = codeshare.startICAO; // Store the ICAO for easy access later
-    }
-});
 
 L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);    
 
@@ -453,6 +438,20 @@ L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);
     }
 
 
+codeshares.forEach(codeshare => {
+    const startAirport = getAirportByICAO(codeshare.startICAO);
+    const endAirport = getAirportByICAO(codeshare.endICAO);
+
+    if (startAirport && endAirport) {
+        const routeCoordinates = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
+        const polyline = L.polyline(routeCoordinates, {
+            color: 'goldenrod', 
+            weight: 1,
+        }).addTo(codeshareLayer);
+
+        polyline.icao = codeshare.startICAO; 
+    }
+});
 
 
 
@@ -477,15 +476,15 @@ L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);
     codeshareLayer.eachLayer(function(layer) {
         if (layer.icao === clickedAirportICAO) {
             
-            layer.setStyle({ color: 'goldenrod', weight: 3, opacity: 1 });
+            layer.setStyle({ color: 'goldenrod', weight: 3 });
         } else {
-            layer.setStyle({ color: 'goldenrod', weight: 1, opacity: 0.2 });
+            layer.setStyle({ color: 'goldenrod', weight: 1 });
         }
     });
 });
 
     map.on('popupclose', function() {
-        // Reset all codeshare routes back to golden brown
+        
         codeshareLayer.eachLayer(function(layer) {
             layer.setStyle({ color: 'goldenrod', weight: 1 });
         });
