@@ -1,5 +1,5 @@
     
-const airports = [
+    const airports = [
 
     { name: 'Abu Dhabi', icao: 'OMAA', coordinates: [24.442856, 54.651474] },
 
@@ -168,7 +168,7 @@ const airports = [
     { name: 'Yangon', icao: 'VYYY', coordinates: [16.907301, 96.133217] }
 ];
 
-const routes = [
+    const routes = [
     { startICAO: 'OTHH', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOCI' }, { startICAO: 'VAAH', endICAO: 'VABB' }, 
     { startICAO: 'VABB', endICAO: 'VOML' }, { startICAO: 'VCBI', endICAO: 'VOMM' }, { startICAO: 'LIMC', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VNKT' }, { startICAO: 'VABP', endICAO: 'VIDP' }, { startICAO: 'OKKK', endICAO: 'VIDP' }, { startICAO: 'CYVR', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOTV' }, { startICAO: 'VABB', endICAO: 'VTBS' }, { startICAO: 'VAAH', endICAO: 'VIDP' }, { startICAO: 'VECC', endICAO: 'VEKU' }, { startICAO: 'VABO', endICAO: 'VIDP' }, { startICAO: 'OEJN', endICAO: 'VABB' }, { startICAO: 'VOCB', endICAO: 'VOMM' }, { startICAO: 'EGKK', endICAO: 'VOCI' }, { startICAO: 'VOHS', endICAO: 'VOTP' }, { startICAO: 'VABB', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VEPT' }, { startICAO: 'VIDP', endICAO: 'VOTV' }, { startICAO: 'VABB', endICAO: 'VOCB' }, { startICAO: 'VIDP', endICAO: 'WSSS' }, { startICAO: 'OMAA', endICAO: 'VABB' }, { startICAO: 'VIDP', endICAO: 'VILH' }, { startICAO: 'OEJN', endICAO: 'VOHS' }, { startICAO: 'VAID', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VOBL' }, { startICAO: 'VABB', endICAO: 'VAID' }, { startICAO: 'OKKK', endICAO: 'VABB' }, { startICAO: 'EGBB', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VOBZ' }, { startICAO: 'EHAM', endICAO: 'VIDP' }, { startICAO: 'LLBG', endICAO: 'VIDP' }, { startICAO: 'VECC', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'YMML' }, { startICAO: 'RKSI', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VILK' }, { startICAO: 'OMDB', endICAO: 'VABB' }, { startICAO: 'VGHS', endICAO: 'VIDP' }, { startICAO: 'VILH', endICAO: 'VISR' }, { startICAO: 'VIDP', endICAO: 'VOMM' }, { startICAO: 'KEWR', endICAO: 'VABB' }, { startICAO: 'EGBB', endICAO: 'VIAR' }, { startICAO: 'VIAR', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VIJP' }, { startICAO: 'VABB', endICAO: 'VIJO' }, { startICAO: 'OMDB', endICAO: 'VOHS' }, { startICAO: 'VIDP', endICAO: 'YSSY' }, { startICAO: 'LFPG', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VYYY' }, { startICAO: 'OEJN', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VANP' }, { startICAO: 'VIDP', endICAO: 'VTBS' }, { startICAO: 'OTHH', endICAO: 'VABB' }, { startICAO: 'VHHH', endICAO: 'VIDP' }, { startICAO: 'VAUD', endICAO: 'VIDP' }, { startICAO: 'VOMM', endICAO: 'VOPB' }, { startICAO: 'VABB', endICAO: 'VOGO' }, { startICAO: 'VECC', endICAO: 'VNKT' }, { startICAO: 'VABB', endICAO: 'VECC' }, { startICAO: 'KORD', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VOBL' }, { startICAO: 'VIJU', endICAO: 'VILH' }, { startICAO: 'VAAU', endICAO: 'VIDP' }, { startICAO: 'VAHS', endICAO: 'VIDP' }, { startICAO: 'VABB', endICAO: 'VIAR' }, { startICAO: 'VEGT', endICAO: 'VEMR' }, { startICAO: 'OKKK', endICAO: 'VOMM' }, { startICAO: 'VABB', endICAO: 'VAJM' }, { startICAO: 'EGKK', endICAO: 'VOGA' }, { startICAO: 'VOPB', endICAO: 'VOVZ' }, { startICAO: 'KJFK', endICAO: 'VABB' }, { startICAO: 'KSFO', endICAO: 'VIDP' }, { startICAO: 'OMDB', endICAO: 'VOMM' }, { startICAO: 'VABB', endICAO: 'VAHS' }, { startICAO: 'VABB', endICAO: 'VEBN' }, { startICAO: 'VEBN', endICAO: 'VIDP' }, { startICAO: 'VEPT', endICAO: 'VIDP' }, { startICAO: 'VIDP', endICAO: 'VIJO' }, { startICAO: 'KSFO', endICAO: 'VOBL' }];
 
@@ -188,8 +188,9 @@ const codeshares  = [
        
     const URLBASE = 'https://1ved.cloud/api/v2';
 
-    const UPDATE_INTERVAL = 60000; 
-    const ANIMATION_DURATION = 59000; 
+    const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
+    const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
+
     const map = L.map('map').setView([20.5937, 78.9629], 4);
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
@@ -197,6 +198,7 @@ const codeshares  = [
         maxZoom: 18,
     });
 osm.addTo(map);
+
 var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 20,
@@ -227,12 +229,7 @@ var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all
 
 
 var baseMaps = { 'Open Street Map' : osm, 'Smooth Dark' : Stadia_AlidadeSmoothDark, 'Dark Matter' : CartoDB_DarkMatter, 'Thunderforest Dark' : Thunderforest_TransportDark, 'CycIOSM' : CyclOSM };
-
-const codeshareLayer = L.layerGroup();
-
-
-L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);    
-
+    L.control.layers(baseMaps).addTo(map);
     const flightMarkers = {};
     
     function interpolatePosition(startPos, endPos, factor) {
@@ -267,7 +264,6 @@ L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);
         const data = await response.json();
         return data.names;
     }
-    
     async function fetchAndDisplayFlights() {
         try {
             const sessionsResponse = await fetch(`${URLBASE}/sessions`);
@@ -389,104 +385,4 @@ L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);
                                         border: none;
                                     }
                                     .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                                        background: transparent;
-                                    }
-                                    .leaflet-popup-content {
-                                        margin: 0;
-                                    }
-                                </style>
-                            `);
-    
-        const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-        
-        const polyline = L.polyline(curvePoints, { color: 'blue', weight: 1 }).addTo(map);
-    
-        return { markerStart, markerEnd, polyline, route };
-    }
-    
-    const elements = routes.map(addRoute);
-    
-    function handleHover(event, isHover) {
-        if (highlightedRoutes.length === 0) {
-            const hoveredIcao = event.target.options.icao;
-            elements.forEach(e => e.route.startICAO === hoveredIcao || e.route.endICAO === hoveredIcao ?
-                e.polyline.setStyle({ color: isHover ? 'red' : 'blue', weight: isHover ? 2.7 : 1 }) :
-                e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 })
-            );
-        }
-    }
-    
-    function handleClick(event) {
-        const clickedIcao = event.target.options.icao;
-        highlightedRoutes.forEach(e => e.polyline.setStyle({ color: 'blue', weight: 1 }));
-        highlightedRoutes.length = 0;
-    
-        elements.forEach(e => {
-            if (e.route.startICAO === clickedIcao || e.route.endICAO === clickedIcao) {
-                e.polyline.setStyle({ color: 'red', weight: 2.7 });
-                highlightedRoutes.push(e);
-            } else {
-                e.polyline.setStyle({ opacity: 0.2 });
-            }
-        });
-    }
-    
-    function resetHighlight() {
-        highlightedRoutes.forEach(e => e.polyline.setStyle({ color: 'blue', weight: 1 }));
-        highlightedRoutes.length = 0;
-        elements.forEach(e => e.polyline.setStyle({ opacity: 1 }));
-    }
-
-
-codeshares.forEach(codeshare => {
-    const startAirport = getAirportByICAO(codeshare.startICAO);
-    const endAirport = getAirportByICAO(codeshare.endICAO);
-
-    if (startAirport && endAirport) {
-        const routeCoordinates = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-        const polyline = L.polyline(routeCoordinates, {
-            color: 'goldenrod', 
-            weight: 1,
-        }).addTo(codeshareLayer);
-
-        polyline.icao = codeshare.startICAO; 
-    }
-});
-
-
-
-
-
-    
-    elements.forEach(e => {
-        e.markerStart.on('mouseover', event => handleHover(event, true));
-        e.markerStart.on('mouseout', event => handleHover(event, false));
-        e.markerEnd.on('mouseover', event => handleHover(event, true));
-        e.markerEnd.on('mouseout', event => handleHover(event, false));
-        e.markerStart.on('click', handleClick);
-        e.markerEnd.on('click', handleClick);
-    });
-    
-    map.on('click', resetHighlight);
-    map.on('popupclose', resetHighlight);
-    
-    map.on('popupopen', function(e) {
-    const clickedAirportICAO = e.popup._source.options.icao;
-
-    codeshareLayer.eachLayer(function(layer) {
-        if (layer.icao === clickedAirportICAO) {
-            
-            layer.setStyle({ color: 'goldenrod', weight: 3 });
-        } else {
-            layer.setStyle({ color: 'goldenrod', weight: 1 });
-        }
-    });
-});
-
-    map.on('popupclose', function() {
-        
-        codeshareLayer.eachLayer(function(layer) {
-            layer.setStyle({ color: 'goldenrod', weight: 1 });
-        });
-    });
-    map.setZoom(5);
+   
