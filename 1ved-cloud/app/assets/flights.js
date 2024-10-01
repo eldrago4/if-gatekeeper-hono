@@ -873,8 +873,8 @@ const codeshares = [{
 
 const URLBASE = 'https://1ved.cloud/api/v2';
 
-const UPDATE_INTERVAL = 60000;
-const ANIMATION_DURATION = 59000;
+const UPDATE_INTERVAL = 60000; // 60 seconds for smooth animation
+const ANIMATION_DURATION = 59000; // 59 seconds for smooth interpolation
 
 const map = L.map('map').setView([20.5937, 78.9629], 4);
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -889,7 +889,7 @@ var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/a
     attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     ext: 'png'
 });
-
+Stadia_AlidadeSmoothDark.addTo(map)
 
 var Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -920,14 +920,6 @@ var baseMaps = {
     'CycIOSM': CyclOSM
 };
 
-var codeshareLayer = L.layerGroup();
-
-
-osm.addTo(map);
-L.control.layers(baseMaps, {
-    'Codeshares': codesharesLayer
-}).addTo(map);
-
 const flightMarkers = {};
 
 function interpolatePosition(startPos, endPos, factor) {
@@ -942,8 +934,7 @@ function smoothMoveMarker(marker, startPos, endPos, duration) {
 
     function animate() {
         const elapsed = performance.now() - startTime;
-        const factor = Math.min(elapsed / duration,
-            1);
+        const factor = Math.min(elapsed / duration, 1);
         marker.setLatLng(interpolatePosition(startPos, endPos, factor));
 
         if (factor < 1) {
@@ -963,7 +954,6 @@ async function fetchOperators() {
     const data = await response.json();
     return data.names;
 }
-
 async function fetchAndDisplayFlights() {
     try {
         const sessionsResponse = await fetch(`${URLBASE}/sessions`);
@@ -1105,7 +1095,6 @@ async function fetchAndDisplayFlights() {
                             `);
 
                         const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-
                         const polyline = L.polyline(curvePoints, {
                             color: 'blue', weight: 1
                         }).addTo(map);
@@ -1164,25 +1153,27 @@ async function fetchAndDisplayFlights() {
                             opacity: 1
                         }));
                     }
+                    const codesharesLayer = L.layerGroup();
 
-
-
-
-
-                    codeshares.forEach(codeshare => {
-                        const startAirport = getAirportByICAO(codeshare.startICAO);
-                        const endAirport = getAirportByICAO(codeshare.endICAO);
+                    // Add codeshares routes as green polylines
+                    codeshares.forEach(route => {
+                        const startAirport = getAirportByICAO(route.startICAO);
+                        const endAirport = getAirportByICAO(route.endICAO);
 
                         if (startAirport && endAirport) {
-                            const routeCoordinates = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-                            const polyline = L.polyline(routeCoordinates, {
-                                color: 'goldenrod',
-                                weight: 1,
-                            }).addTo(codeshareLayer);
-
-                            polyline.icao = codeshare.startICAO
+                            const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
+                            const polyline = L.polyline(curvePoints, {
+                                color: 'green', weight: 2
+                            });
+                            polyline.addTo(codesharesLayer); // Add to the codesharesLayer
                         }
                     });
+
+                    // Add overlay for codeshares layer
+                    L.control.layers(baseMaps,
+                        {
+                            'Codeshares': codesharesLayer
+                        }).addTo(map);
 
 
                     elements.forEach(e => {
@@ -1198,30 +1189,4 @@ async function fetchAndDisplayFlights() {
                         resetHighlight);
                     map.on('popupclose',
                         resetHighlight);
-
-                    map.on('popupopen',
-                        function(e) {
-                            const clickedAirportICAO = e.popup._source.options.icao;
-
-                            codeshareLayer.eachLayer(function(layer) {
-                                if (layer.icao === clickedAirportICAO) {
-
-                                    layer.setStyle({
-                                        color: 'goldenrod', weight: 3, opacity: 1
-                                    });
-                                } else {
-                                    layer.setStyle({
-                                        color: 'goldenrod', weight: 1, opacity: 0.2
-                                    });
-                                }
-                            });
-                        });
-
-                    map.on('popupclose', function() {
-                        codeshareLayer.eachLayer(function(layer) {
-                            layer.setStyle({
-                                color: 'goldenrod', weight: 1
-                            });
-                        });
-                    });
                     map.setZoom(5);
