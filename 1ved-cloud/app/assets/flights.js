@@ -889,7 +889,7 @@ var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/a
     attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     ext: 'png'
 });
-// Stadia_AlidadeSmoothDark.addTo(map);
+Stadia_AlidadeSmoothDark.addTo(map);
 
 var Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -917,7 +917,7 @@ var baseMaps = {
     'Smooth Dark': Stadia_AlidadeSmoothDark,
     'Dark Matter': CartoDB_DarkMatter,
     'Thunderforest Dark': Thunderforest_TransportDark,
-    'CycIOSM': CyclOSM
+    'CyclOSM': CyclOSM
 };
 
 const flightMarkers = {};
@@ -1169,11 +1169,8 @@ async function fetchAndDisplayFlights() {
                         }
                     });
 
-                    // Add overlay for codeshares layer
-                    L.control.layers(baseMaps,
-                        {
-                            'Codeshares': codesharesLayer
-                        }).addTo(map);
+
+                    
 
 
                     elements.forEach(e => {
