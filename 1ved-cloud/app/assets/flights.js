@@ -1167,14 +1167,10 @@ async function fetchAndDisplayFlights() {
                             polyline.addTo(codesharesLayer); // Add to the codesharesLayer
                         }
                     });
-                    var codesharesLayer = L.layerGroup();
+                    var codesharesLayer = L.layerGroup().addTo(map);
 
                     
-                    L.control.layers(baseMaps,
-                        {
-                            'Codeshares': codesharesLayer
-                        }).addTo(map);
-
+                    
 
                     elements.forEach(e => {
                         e.markerStart.on('mouseover', event => handleHover(event, true));
