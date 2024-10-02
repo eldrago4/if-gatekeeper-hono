@@ -921,7 +921,10 @@ codeshares.forEach(route => {
     const endAirport = getAirportByICAO(route.endICAO);
     if (startAirport && endAirport) {
         const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-        const polyline = L.polyline(curvePoints, { color: 'green', weight: 2 });
+        const polyline = L.polyline(curvePoints, { color: 'goldenrod', weight: 1, opacity: 1 });
+        polyline.on('mouseover', event => handleHover(event, true, true));
+        polyline.on('mouseout', event => handleHover(event, false, true));
+        polyline.on('click', handleClick);
         polyline.addTo(codesharesLayer);
     }
 });
@@ -1200,13 +1203,23 @@ function addRoute(route) {
 
 const elements = routes.map(addRoute);
 
-function handleHover(event, isHover) {
+function handleHover(event, isHover, isCodeshare = false) {
     if (highlightedRoutes.length === 0) {
         const hoveredIcao = event.target.options.icao;
         elements.forEach(e => e.route.startICAO === hoveredIcao || e.route.endICAO === hoveredIcao ?
             e.polyline.setStyle({ color: isHover ? 'red' : 'blue', weight: isHover ? 2.7 : 1 }) :
             e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 })
         );
+        if (isCodeshare) {
+            codesharesLayer.eachLayer(layer => {
+                const route = layer.options.route;
+                if (route.startICAO === hoveredIcao || route.endICAO === hoveredIcao) {
+                    layer.setStyle({ weight: isHover ? 2.7 : 1, opacity: 1 });
+                } else {
+                    layer.setStyle({ opacity: isHover ? 0.2 : 1 });
+                }
+            });
+        }
     }
 }
 
@@ -1222,12 +1235,24 @@ function handleClick(event) {
             e.polyline.setStyle({ opacity: 0.2 });
         }
     });
+    codesharesLayer.eachLayer(layer => {
+        const route = layer.options.route;
+        if (route.startICAO === clickedIcao || route.endICAO === clickedIcao) {
+            layer.setStyle({ weight: 2.7, opacity: 1 });
+            highlightedRoutes.push(layer);
+        } else {
+            layer.setStyle({ opacity: 0.2 });
+        }
+    });
 }
 
 function resetHighlight() {
     highlightedRoutes.forEach(e => e.polyline.setStyle({ color: 'blue', weight: 1 }));
     highlightedRoutes.length = 0;
     elements.forEach(e => e.polyline.setStyle({ opacity: 1 }));
+    codesharesLayer.eachLayer(layer => {
+        layer.setStyle({ weight: 1, opacity: 1 });
+    });
 }
 
 elements.forEach(e => {
