@@ -916,18 +916,7 @@ var baseMaps = {
 };
 
 var codesharesLayer = L.layerGroup();
-codeshares.forEach(route => {
-    const startAirport = getAirportByICAO(route.startICAO);
-    const endAirport = getAirportByICAO(route.endICAO);
-    if (startAirport && endAirport) {
-        const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
-        const polyline = L.polyline(curvePoints, { color: 'goldenrod', weight: 1, opacity: 1 });
-        polyline.on('mouseover', event => handleHover(event, true, true));
-        polyline.on('mouseout', event => handleHover(event, false, true));
-        polyline.on('click', handleClick);
-        polyline.addTo(codesharesLayer);
-    }
-});
+
 
 L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);
 
@@ -1262,6 +1251,19 @@ elements.forEach(e => {
     e.markerEnd.on('mouseout', event => handleHover(event, false));
     e.markerStart.on('click', handleClick);
     e.markerEnd.on('click', handleClick);
+});
+
+codeshares.forEach(route => {
+    const startAirport = getAirportByICAO(route.startICAO);
+    const endAirport = getAirportByICAO(route.endICAO);
+    if (startAirport && endAirport) {
+        const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
+        const polyline = L.polyline(curvePoints, { color: 'goldenrod', weight: 1, opacity: 1 });
+        polyline.on('mouseover', event => handleHover(event, true, true));
+        polyline.on('mouseout', event => handleHover(event, false, true));
+        polyline.on('click', handleClick);
+        polyline.addTo(codesharesLayer);
+    }
 });
 
 map.on('click', resetHighlight);
