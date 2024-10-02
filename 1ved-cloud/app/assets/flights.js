@@ -1153,6 +1153,7 @@ async function fetchAndDisplayFlights() {
                             opacity: 1
                         }));
                     }
+                    var codesharesLayer = L.layerGroup();
 
                     // Add codeshares routes as green polylines
                     codeshares.forEach(route => {
@@ -1167,10 +1168,13 @@ async function fetchAndDisplayFlights() {
                             polyline.addTo(codesharesLayer); // Add to the codesharesLayer
                         }
                     });
-                    var codesharesLayer = L.layerGroup().addTo(map);
+                    
+                    
+                    L.control.layers(baseMaps,
+                        {
+                            'Codeshares': codesharesLayer
+                        }).addTo(map);
 
-                    
-                    
 
                     elements.forEach(e => {
                         e.markerStart.on('mouseover', event => handleHover(event, true));
