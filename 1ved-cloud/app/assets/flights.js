@@ -917,7 +917,7 @@ var baseMaps = {
     'Smooth Dark': Stadia_AlidadeSmoothDark,
     'Dark Matter': CartoDB_DarkMatter,
     'Thunderforest Dark': Thunderforest_TransportDark,
-    'CyclOSM': CyclOSM
+    'CycIOSM': CyclOSM
 };
 
 const flightMarkers = {};
@@ -1153,7 +1153,6 @@ async function fetchAndDisplayFlights() {
                             opacity: 1
                         }));
                     }
-                    const codesharesLayer = L.layerGroup();
 
                     // Add codeshares routes as green polylines
                     codeshares.forEach(route => {
@@ -1168,9 +1167,13 @@ async function fetchAndDisplayFlights() {
                             polyline.addTo(codesharesLayer); // Add to the codesharesLayer
                         }
                     });
-
+                    var codesharesLayer = L.layerGroup();
 
                     
+                    L.control.layers(baseMaps,
+                        {
+                            'Codeshares': codesharesLayer
+                        }).addTo(map);
 
 
                     elements.forEach(e => {
