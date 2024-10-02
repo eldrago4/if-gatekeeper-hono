@@ -1259,7 +1259,6 @@ codeshares.forEach(route => {
     if (startAirport && endAirport) {
         const curvePoints = calculateBezierCurve(startAirport.coordinates, endAirport.coordinates);
         const polyline = L.polyline(curvePoints, { color: 'goldenrod', weight: 1, opacity: 1 });
-        polyline.options.route = route;
         polyline.on('mouseover', event => handleHover(event, true, true));
         polyline.on('mouseout', event => handleHover(event, false, true));
         polyline.on('click', handleClick);
