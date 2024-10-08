@@ -233,11 +233,11 @@ app.get('/api/v2/sessions/:session_id/flights', async (c) => {
         verticalSpeed: flight.verticalSpeed,
         track: flight.track,
         lastReport: flight.lastReport,
-        flightId: flight.flightId, // Optionally keep flightId if needed
+        flightId: flight.flightId, 
         heading: flight.heading,
       }));
 
-    // Return the filtered flights as JSON
+   
     return c.json({ result: filteredFlights });
   } catch (err) {
     // Catch and return any errors
@@ -250,24 +250,24 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/route', async (c) => {
   const flightId = c.req.param('flightId');
 
   try {
-    // Fetch data from the Infinite Flight API
+    
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/route`, {
       headers: {
-        'Authorization': `Bearer ${API_KEY}` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` 
       }
     });
 
     const data = await response.json();
 
-    // Check if the API returned an error
+    
     if (data.errorCode !== 0) {
       return c.json({ error: 'Error fetching flight route from Infinite Flight API' }, 500);
     }
 
-    // Return the flight route as is (as per the API response)
+    
     return c.json({ result: data.result });
   } catch (err) {
-    // Catch and return any errors
+   
     return c.json({ error: err.message }, 500);
   }
 });
@@ -277,7 +277,7 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/flightplan', async (c) =>
   const flightId = c.req.param('flightId');
 
   try {
-    // Fetch data from the Infinite Flight API
+    
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/flightplan`, {
       headers: {
         'Authorization': `Bearer ${API_KEY}` 
@@ -294,7 +294,7 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/flightplan', async (c) =>
     
     return c.json({ result: data.result });
   } catch (err) {
-    // Catch and return any errors
+    
     return c.json({ error: err.message }, 500);
   }
 });
@@ -318,7 +318,7 @@ app.get('/api/simbrief', async (c) => {
 
         const fplData = await response.json();
 
-        
+        const checkEmpty = (value) => value === '' || value === null || value === undefined ? 'N/A' : value;
         const aircraft = fplData['aircraft'];
         const general = fplData['general'];
         const origin = fplData['origin'];
@@ -390,9 +390,9 @@ app.get('/api/simbrief', async (c) => {
             },
             takeoff_tlr: {
                 flap_setting: runwayData['flap_setting'],
-                speeds_v1: runwayData['speeds_v1'] || 'N/A',
-                speeds_vr: runwayData['speeds_vr'] || 'N/A',
-                speeds_v2: runwayData['speeds_v2'] || 'N/A',
+                speeds_v1: checkEmpty(runwayData['speeds_v1']),
+                speeds_vr: checkEmpty(runwayData['speeds_vr']),
+                speeds_v2: checkEmpty(runwayData['speeds_v2']),
                 length: runwayData['length'],
                 true_course: runwayData['true_course'],
                 conditions: {
@@ -402,7 +402,7 @@ app.get('/api/simbrief', async (c) => {
             },
             landing_tlr: {
                 flap_setting: landingTlr['distance_dry']['flap_setting'],
-                speeds_vref: landingTlr['distance_dry']['speeds_vref'] || 'N/A',
+                speeds_vref: checkEmpty(landingTlr['distance_dry']['speeds_vref']),
                 length: destinationRunwayData['length'],
                 true_course: destinationRunwayData['true_course'],
                 conditions: {
