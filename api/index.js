@@ -351,8 +351,13 @@ app.get('/api/simbrief', async (c) => {
         const pdfFileUrl = files['directory'] + files['pdf']['link'];
 
         const cruiseAltitude = cruise_wpt + '/FL' + cruise_alt;
+        const flightId = checkEmpty(general['icao_airline']) 
+    ? general['flight_number'] 
+    : `${general['icao_airline']}${general['flight_number']}`;
+
+
         const result = {
-            flight_id: `${general['icao_airline']}${general['flight_number']}`,
+            flight_id: flightId,
             origin: {
                 icao: origin['icao_code'],
                 metar: origin['metar'],
