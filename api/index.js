@@ -280,18 +280,18 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/flightplan', async (c) =>
     // Fetch data from the Infinite Flight API
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/flightplan`, {
       headers: {
-        'Authorization': `Bearer ${API_KEY}` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` 
       }
     });
 
     const data = await response.json();
 
-    // Check if the API returned an error
+    
     if (data.errorCode !== 0) {
       return c.json({ error: 'Error fetching flight plan from Infinite Flight API' }, 500);
     }
 
-    // Return the flight plan as is (as per the API response)
+    
     return c.json({ result: data.result });
   } catch (err) {
     // Catch and return any errors
@@ -309,7 +309,7 @@ app.get('/api/simbrief', async (c) => {
     }
 
     try {
-        // Fetch data from SimBrief API
+       
         const response = await fetch(SIMBRIEF_API_URL.replace('{}', username));
 
         if (!response.ok) {
@@ -318,7 +318,7 @@ app.get('/api/simbrief', async (c) => {
 
         const fplData = await response.json();
 
-        // Parse relevant fields from the response
+        
         const aircraft = fplData['aircraft'];
         const general = fplData['general'];
         const origin = fplData['origin'];
@@ -329,8 +329,10 @@ app.get('/api/simbrief', async (c) => {
         const tlr = fplData['tlr'];
         const files = fplData['files'];
         const images = fplData['images'];
-
-        // Prepare TLR (Takeoff and Landing Report) data
+        const stepclimbs = general['stepclimb_string'].split('/');
+        const cruise_wpt = stepclimbs[stepclimbs.length - 2];
+        const cruise_alt = stepclimbs[stepclimbs.length - 1].replace(/^0+/, '');
+        
         const takeoffTlr = tlr['takeoff'];
         const landingTlr = tlr['landing'];
         const plannedRunway = takeoffTlr['conditions']['planned_runway'];
@@ -338,15 +340,15 @@ app.get('/api/simbrief', async (c) => {
         const runwayData = takeoffTlr['runway'].find(runway => runway['identifier'] === plannedRunway);
         const destinationRunwayData = landingTlr['runway'].find(runway => runway['identifier'] === destinationPlannedRunway);
 
-        // Prepare map and profile image URLs
+        
         const routeMapUrl = images['directory'] + images['map'][0]['link'];
         const verticalProfileMap = images['map'].find(image => image['name'] === 'Vertical profile');
         const verticalProfileUrl = verticalProfileMap ? `https://www.simbrief.com/ofp/uads/${verticalProfileMap['link']}` : null;
 
-        // Prepare the PDF file URL
+        
         const pdfFileUrl = files['directory'] + files['pdf']['link'];
 
-        // Construct the JSON response with all the required data
+        const cruiseAltitude = cruise_wpt + '/FL' + cruise_alt;
         const result = {
             flight_id: `${general['icao_airline']}${general['flight_number']}`,
             origin: {
@@ -383,6 +385,7 @@ app.get('/api/simbrief', async (c) => {
                 climb_profile: general['climb_profile'],
                 descent_profile: general['descent_profile'],
                 cruise_profile: general['cruise_profile'],
+                cruise_altitude: cruiseAltitude,
                 stepclimb: general['stepclimb_string']
             },
             takeoff_tlr: {
