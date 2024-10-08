@@ -318,7 +318,9 @@ app.get('/api/simbrief', async (c) => {
 
         const fplData = await response.json();
 
-        const checkEmpty = (value) => value === '' || value === null || value === undefined ? 'N/A' : value;
+        const checkEmpty = (value) => {
+    return (typeof value === 'object' && Object.keys(value).length === 0) || value === '' || value === null || value === undefined ? 'N/A' : value;
+};
         const aircraft = fplData['aircraft'];
         const general = fplData['general'];
         const origin = fplData['origin'];
