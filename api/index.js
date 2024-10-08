@@ -390,9 +390,9 @@ app.get('/api/simbrief', async (c) => {
             },
             takeoff_tlr: {
                 flap_setting: runwayData['flap_setting'],
-                speeds_v1: runwayData['speeds_v1'],
-                speeds_vr: runwayData['speeds_vr'],
-                speeds_v2: runwayData['speeds_v2'],
+                speeds_v1: runwayData['speeds_v1'] || 'N/A',
+                speeds_vr: runwayData['speeds_vr'] || 'N/A',
+                speeds_v2: runwayData['speeds_v2'] || 'N/A',
                 length: runwayData['length'],
                 true_course: runwayData['true_course'],
                 conditions: {
@@ -402,7 +402,7 @@ app.get('/api/simbrief', async (c) => {
             },
             landing_tlr: {
                 flap_setting: landingTlr['distance_dry']['flap_setting'],
-                speeds_vref: landingTlr['distance_dry']['speeds_vref'],
+                speeds_vref: landingTlr['distance_dry']['speeds_vref'] || 'N/A',
                 length: destinationRunwayData['length'],
                 true_course: destinationRunwayData['true_course'],
                 conditions: {
