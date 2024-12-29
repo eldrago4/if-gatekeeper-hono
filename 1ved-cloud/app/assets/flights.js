@@ -927,14 +927,22 @@ let inactivityTimeout;
 let isPaused = false;
 
 // Function to show the popup
-function sessionTimeout() {
-    const popupOverlay = document.getElementById('popupOverlay');
-    popupOverlay.classList.add('active');
+function showPopup() {
+    const popupOverlay = document.createElement('div');
+    popupOverlay.className = 'popup-overlay active';
+    popupOverlay.innerHTML = `
+        <div class="popup">
+            <h2>Session Timeout</h2>
+            <p>Your session has timed out due to inactivity.</p>
+            <button id="resumeButton">Resume</button>
+        </div>
+    `;
+    document.body.appendChild(popupOverlay);
 
     // Add event listener for the resume button
     document.getElementById('resumeButton').addEventListener('click', () => {
         isPaused = false;
-        popupOverlay.classList.remove('active');
+        document.body.removeChild(popupOverlay);
         fetchAndDisplayFlights(); // Resume API calls
     });
 }
@@ -948,10 +956,9 @@ function resetInactivityTimer() {
     }
     inactivityTimeout = setTimeout(() => {
         isPaused = true; // Pause API calls
-        sessionTimeout(); // Show the popup
+        showPopup(); // Show the popup
     }, inactivityTime);
 }
-
 
 // Event listeners for user activity
 window.addEventListener('mousemove', resetInactivityTimer);
