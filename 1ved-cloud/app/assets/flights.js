@@ -922,6 +922,42 @@ L.control.layers(baseMaps, { 'Codeshares': codesharesLayer }).addTo(map);
 
 const flightMarkers = {};
 
+const inactivityTime = 60000; // 1 minute
+let inactivityTimeout;
+let isPaused = false;
+
+// Function to show the popup
+function sessionTimeout() {
+    const popupOverlay = document.getElementById('popupOverlay');
+    popupOverlay.classList.add('active');
+
+    // Add event listener for the resume button
+    document.getElementById('resumeButton').addEventListener('click', () => {
+        isPaused = false;
+        popupOverlay.classList.remove('active');
+        fetchAndDisplayFlights(); // Resume API calls
+    });
+}
+
+// Function to reset inactivity timer
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimeout);
+    if (isPaused) {
+        isPaused = false; // Resume API calls if paused
+        fetchAndDisplayFlights();
+    }
+    inactivityTimeout = setTimeout(() => {
+        isPaused = true; // Pause API calls
+        sessionTimeout(); // Show the popup
+    }, inactivityTime);
+}
+
+
+// Event listeners for user activity
+window.addEventListener('mousemove', resetInactivityTimer);
+window.addEventListener('keydown', resetInactivityTimer);
+window.addEventListener('click', resetInactivityTimer);
+
 function interpolatePosition(startPos, endPos, factor) {
     return [
         startPos[0] + (endPos[0] - startPos[0]) * factor,
@@ -1269,3 +1305,4 @@ codeshares.forEach(route => {
 map.on('click', resetHighlight);
 map.on('popupclose', resetHighlight);
 map.setZoom(5);
+resetInactivityTimer();
