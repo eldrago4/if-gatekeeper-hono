@@ -996,6 +996,7 @@ async function fetchOperators() {
 }
 
 async function fetchAndDisplayFlights() {
+    if (isPaused) return;
     try {
         const sessionsResponse = await fetch(`${URLBASE}/sessions`);
         const sessionsData = await sessionsResponse.json();
