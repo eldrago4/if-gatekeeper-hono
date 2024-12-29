@@ -171,13 +171,13 @@ app.get('/api', async (c) => {
 },
 injectSpeedInsights()
 );
-
+const API_KEY = process.env.LIVE_API_KEY
 app.get('/api/v2/sessions', async (c) => {
   try {
     // Fetch data from the Infinite Flight API
     const response = await fetch('https://api.infiniteflight.com/public/v2/sessions', {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Make sure to set your API key in the environment variable
+        'Authorization': `Bearer ${API_KEY}` // Make sure to set your API key in the environment variable
       }
     });
     
@@ -209,7 +209,7 @@ app.get('/api/v2/sessions/:session_id/flights', async (c) => {
     // Fetch data from the Infinite Flight API
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${session_id}/flights`, {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` // Use your API key from .env
       }
     });
 
@@ -233,11 +233,11 @@ app.get('/api/v2/sessions/:session_id/flights', async (c) => {
         verticalSpeed: flight.verticalSpeed,
         track: flight.track,
         lastReport: flight.lastReport,
-        flightId: flight.flightId, // Optionally keep flightId if needed
+        flightId: flight.flightId, 
         heading: flight.heading,
       }));
 
-    // Return the filtered flights as JSON
+   
     return c.json({ result: filteredFlights });
   } catch (err) {
     // Catch and return any errors
@@ -250,24 +250,24 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/route', async (c) => {
   const flightId = c.req.param('flightId');
 
   try {
-    // Fetch data from the Infinite Flight API
+    
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/route`, {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` 
       }
     });
 
     const data = await response.json();
 
-    // Check if the API returned an error
+    
     if (data.errorCode !== 0) {
       return c.json({ error: 'Error fetching flight route from Infinite Flight API' }, 500);
     }
 
-    // Return the flight route as is (as per the API response)
+    
     return c.json({ result: data.result });
   } catch (err) {
-    // Catch and return any errors
+   
     return c.json({ error: err.message }, 500);
   }
 });
@@ -277,28 +277,157 @@ app.get('/api/v2/sessions/:sessionId/flights/:flightId/flightplan', async (c) =>
   const flightId = c.req.param('flightId');
 
   try {
-    // Fetch data from the Infinite Flight API
+    
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${sessionId}/flights/${flightId}/flightplan`, {
       headers: {
-        'Authorization': `Bearer jvr8xfkoobd7vogtjq9xehellk23g9g0` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` 
       }
     });
 
     const data = await response.json();
 
-    // Check if the API returned an error
+    
     if (data.errorCode !== 0) {
       return c.json({ error: 'Error fetching flight plan from Infinite Flight API' }, 500);
     }
 
-    // Return the flight plan as is (as per the API response)
+    
     return c.json({ result: data.result });
   } catch (err) {
-    // Catch and return any errors
+    
     return c.json({ error: err.message }, 500);
   }
 });
 
+const SIMBRIEF_API_URL = 'https://www.simbrief.com/api/xml.fetcher.php?username={}&json=1';
+
+app.get('/api/simbrief', async (c) => {
+    const username = c.req.query('username');
+
+    if (!username) {
+        return c.json({ error: 'Missing required parameter: username' }, 400);
+    }
+
+    try {
+       
+        const response = await fetch(SIMBRIEF_API_URL.replace('{}', username));
+
+        if (!response.ok) {
+            return c.json({ error: 'Failed to fetch data from SimBrief API' }, response.status);
+        }
+
+        const fplData = await response.json();
+
+        const checkEmpty = (value) => {
+    return (typeof value === 'object' && Object.keys(value).length === 0) || value === '' || value === null || value === undefined ? 'N/A' : value;
+};
+        const aircraft = fplData['aircraft'];
+        const general = fplData['general'];
+        const origin = fplData['origin'];
+        const destination = fplData['destination'];
+        const fuel = fplData['fuel'];
+        const weights = fplData['weights'];
+        const params = fplData['params'];
+        const tlr = fplData['tlr'];
+        const files = fplData['files'];
+        const images = fplData['images'];
+        const stepclimbs = general['stepclimb_string'].split('/');
+        const cruise_wpt = stepclimbs[stepclimbs.length - 2];
+        const cruise_alt = stepclimbs[stepclimbs.length - 1].replace(/^0+/, '');
+        
+        const takeoffTlr = tlr['takeoff'];
+        const landingTlr = tlr['landing'];
+        const plannedRunway = takeoffTlr['conditions']['planned_runway'];
+        const destinationPlannedRunway = landingTlr['conditions']['planned_runway'];
+        const runwayData = takeoffTlr['runway'].find(runway => runway['identifier'] === plannedRunway);
+        const destinationRunwayData = landingTlr['runway'].find(runway => runway['identifier'] === destinationPlannedRunway);
+
+        
+        const routeMapUrl = images['directory'] + images['map'][0]['link'];
+        const verticalProfileMap = images['map'].find(image => image['name'] === 'Vertical profile');
+        const verticalProfileUrl = verticalProfileMap ? `https://www.simbrief.com/ofp/uads/${verticalProfileMap['link']}` : null;
+
+        
+        const pdfFileUrl = files['directory'] + files['pdf']['link'];
+
+        const cruiseAltitude = cruise_wpt + '/FL' + cruise_alt;
+        const flightId = checkEmpty(general['icao_airline']) 
+    ? general['flight_number'] 
+    : `${general['icao_airline']}${general['flight_number']}`;
+
+
+        const result = {
+            flight_id: flightId,
+            origin: {
+                icao: origin['icao_code'],
+                metar: origin['metar'],
+                elevation: origin['elevation'],
+                planned_runway: plannedRunway
+            },
+            destination: {
+                icao: destination['icao_code'],
+                metar: destination['metar'],
+                elevation: destination['elevation'],
+                planned_runway: destinationPlannedRunway
+            },
+            aircraft: {
+                type: aircraft['icaocode']
+            },
+            weights: {
+                pax: weights['pax_count'],
+                cargo: weights['cargo']
+            },
+            fuel: {
+                required: fuel['plan_ramp']
+            },
+            general: {
+                airac: params['airac'],
+                units: params['units'],
+                route: general['route'],
+                route_distance: general['route_distance'],
+                avg_wind_comp: general['avg_wind_comp'],
+                avg_wind_dir: general['avg_wind_dir'],
+                avg_wind_spd: general['avg_wind_spd'],
+                cruise_mach: general['cruise_mach'],
+                climb_profile: general['climb_profile'],
+                descent_profile: general['descent_profile'],
+                cruise_profile: general['cruise_profile'],
+                cruise_altitude: cruiseAltitude,
+                stepclimb: general['stepclimb_string']
+            },
+            takeoff_tlr: {
+                flap_setting: runwayData['flap_setting'],
+                speeds_v1: checkEmpty(runwayData['speeds_v1']),
+                speeds_vr: checkEmpty(runwayData['speeds_vr']),
+                speeds_v2: checkEmpty(runwayData['speeds_v2']),
+                length: runwayData['length'],
+                true_course: runwayData['true_course'],
+                conditions: {
+                    wind_direction: takeoffTlr['conditions']['wind_direction'],
+                    wind_speed: takeoffTlr['conditions']['wind_speed']
+                }
+            },
+            landing_tlr: {
+                flap_setting: landingTlr['distance_dry']['flap_setting'],
+                speeds_vref: checkEmpty(landingTlr['distance_dry']['speeds_vref']),
+                length: destinationRunwayData['length'],
+                true_course: destinationRunwayData['true_course'],
+                conditions: {
+                    wind_direction: landingTlr['conditions']['wind_direction'],
+                    wind_speed: landingTlr['conditions']['wind_speed']
+                }
+            },
+            route_map_url: routeMapUrl,
+            vertical_profile_url: verticalProfileUrl,
+            pdf_file_url: pdfFileUrl
+        };
+
+        return c.json(result);
+
+    } catch (error) {
+        return c.json({ error: `Error fetching flight plan: ${error.message}` }, 500);
+    }
+});
 
 const handler = handle(app);
 

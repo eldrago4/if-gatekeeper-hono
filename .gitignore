@@ -18,6 +18,7 @@ tabnine.json
 # env
 .env
 .env.production
+data.js
 
 # logs
 logs/
