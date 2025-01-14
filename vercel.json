@@ -3,6 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "/api"
+    },
+    {
+      "source": "/fpldirection",
+      "destination": "/fpldirection"
     }
   ],
   "redirects": [
