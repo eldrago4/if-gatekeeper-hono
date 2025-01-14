@@ -171,7 +171,7 @@ app.get('/api', async (c) => {
 },
 injectSpeedInsights()
 );
-app.get('/if/fpldirection', async (c) => {
+app.get('/api/fpldirection', async (c) => {
   try {
     const html = await readFile(join(__dirname, 'revpath.html'), 'utf-8');
     return c.html(html);
