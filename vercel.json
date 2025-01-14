@@ -5,8 +5,8 @@
       "destination": "/api"
     },
     {
-      "source": "/api/fpldirection",
-      "destination": "/fpldirection"
+      "source": "/if/(.*)",
+      "destination": "/if"
     }
   ],
   "redirects": [
