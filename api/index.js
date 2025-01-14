@@ -171,7 +171,7 @@ app.get('/api', async (c) => {
 },
 injectSpeedInsights()
 );
-app.get('/fpldirection', async (c) => {
+app.get('/if/fpldirection', async (c) => {
   try {
     const html = await readFile(join(__dirname, 'revpath.html'), 'utf-8');
     return c.html(html);
@@ -186,7 +186,7 @@ app.get('/api/v2/sessions', async (c) => {
     // Fetch data from the Infinite Flight API
     const response = await fetch('https://api.infiniteflight.com/public/v2/sessions', {
       headers: {
-        'Authorization': `Bearer ${API_KEY}` // Make sure to set your API key in the environment variable
+        'Authorization': `Bearer ${API_KEY}` 
       }
     });
     
@@ -196,17 +196,14 @@ app.get('/api/v2/sessions', async (c) => {
       return c.json({ error: 'Error fetching sessions from Infinite Flight API' }, 500);
     }
 
-    // Filter the result to include only the "Expert" server
     const expertServer = data.result.filter(server => server.name === 'Expert');
 
     if (expertServer.length === 0) {
       return c.json({ error: 'No Expert server found' }, 404);
     }
 
-    // Return the filtered server information
     return c.json({ result: expertServer });
   } catch (err) {
-    // Catch and return any errors
     return c.json({ error: err.message }, 500);
   }
 });
@@ -215,21 +212,19 @@ app.get('/api/v2/sessions/:session_id/flights', async (c) => {
   const session_id = c.req.param('session_id');
   
   try {
-    // Fetch data from the Infinite Flight API
     const response = await fetch(`https://api.infiniteflight.com/public/v2/sessions/${session_id}/flights`, {
       headers: {
-        'Authorization': `Bearer ${API_KEY}` // Use your API key from .env
+        'Authorization': `Bearer ${API_KEY}` 
       }
     });
 
     const data = await response.json();
 
-    // Check if the API returned an error
     if (data.errorCode !== 0) {
       return c.json({ error: 'Error fetching flights from Infinite Flight API' }, 500);
     }
 
-    // Filter flights whose callsigns end with 'dddIN' where d is a digit
+    // Filter flights whose callsigns end with 'dddIN' 
     const filteredFlights = data.result
       .filter(flight => /\d{3}IN(?: Heavy| Super)?$/.test(flight.callsign))
       .map(flight => ({
@@ -249,7 +244,6 @@ app.get('/api/v2/sessions/:session_id/flights', async (c) => {
    
     return c.json({ result: filteredFlights });
   } catch (err) {
-    // Catch and return any errors
     return c.json({ error: err.message }, 500);
   }
 });
