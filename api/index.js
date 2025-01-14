@@ -171,6 +171,15 @@ app.get('/api', async (c) => {
 },
 injectSpeedInsights()
 );
+app.get('/fpldirection', async (c) => {
+  try {
+    const html = await readFile(join(__dirname, 'revpath.html'), 'utf-8');
+    return c.html(html);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+}
+);
 const API_KEY = process.env.LIVE_API_KEY
 app.get('/api/v2/sessions', async (c) => {
   try {
