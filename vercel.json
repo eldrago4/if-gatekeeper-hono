@@ -6,7 +6,7 @@
     },
     {
       "source": "/fpldirection",
-      "destination": "/fpldirection"
+      "destination": "/api/fpldirection"
     }
   ],
   "redirects": [
