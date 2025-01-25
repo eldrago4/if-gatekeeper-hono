@@ -615,7 +615,7 @@ const airports = [
         coordinates: [61.179004, -149.992561],
     },
     {
-        name: "Hagåtña",
+        name: "Hagatna",
         icao: "PGUM",
         coordinates: [13.4834, 144.796005],
     },
@@ -1247,7 +1247,7 @@ const routes = [
         endICAO: "WMKK",
     },
     {
-        startICAO: "YPAD ",
+        startICAO: "YPAD",
         endICAO: "WADD",
     },
     {
@@ -1279,7 +1279,7 @@ const routes = [
         endICAO: "OEJN",
     },
     {
-        startICAO: "WPDL ",
+        startICAO: "WPDL",
         endICAO: "WADD",
     },
     {
@@ -1455,7 +1455,7 @@ const routes = [
         endICAO: "KSFO",
     },
     {
-        startICAO: "KSF0",
+        startICAO: "KSFO",
         endICAO: "VIDP",
     },
     {
@@ -1523,7 +1523,7 @@ const routes = [
         endICAO: "WSSS",
     },
     {
-        startICAO: "KSF0",
+        startICAO: "KSFO",
         endICAO: "VOBL",
     },
     {
@@ -2003,7 +2003,7 @@ const routes = [
         endICAO: "OMAA",
     },
     {
-        startICAO: "0EJN",
+        startICAO: "OEJN",
         endICAO: "LGAV",
     },
     {
@@ -2403,7 +2403,7 @@ const routes = [
         endICAO: "OMDB",
     },
     {
-        startICAO: "EFHK ",
+        startICAO: "EFHK",
         endICAO: "KSEA",
     },
     {
@@ -2507,7 +2507,7 @@ const routes = [
         endICAO: "KLAX",
     },
     {
-        startICAO: "RCTP ",
+        startICAO: "RCTP",
         endICAO: "KSFO",
     },
     {
@@ -2587,7 +2587,7 @@ const routes = [
         endICAO: "OTHH",
     },
     {
-        startICAO: "PHNL ",
+        startICAO: "PHNL",
         endICAO: "PGUM",
     },
     {
@@ -2600,7 +2600,7 @@ const routes = [
     },
     {
         startICAO: "VIDP",
-        endICAO: "ZSPD ",
+        endICAO: "ZSPD",
     },
     {
         startICAO: "ZSPD",
@@ -2619,7 +2619,7 @@ const routes = [
         endICAO: "UUEE",
     },
     {
-        startICAO: "VIDP ",
+        startICAO: "VIDP",
         endICAO: "FIMP",
     },
     {
@@ -2680,7 +2680,7 @@ const routes = [
     },
     {
         startICAO: "VIDP",
-        endICAO: "TBPD",
+        endICAO: "TBPB",
     },
     {
         startICAO: "TBPB",
@@ -2708,18 +2708,18 @@ const routes = [
     },
     {
         startICAO: "WIII",
-        endICAO: "YMML ",
+        endICAO: "YMML",
     },
     {
         startICAO: "WIII",
-        endICAO: "YSSY ",
+        endICAO: "YSSY",
     },
     {
         startICAO: "WIII",
         endICAO: "EHAM",
     },
     {
-        startICAO: "OTHH ",
+        startICAO: "OTHH",
         endICAO: "WIII",
     },
     {
