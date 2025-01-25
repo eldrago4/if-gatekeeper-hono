@@ -1926,10 +1926,10 @@ const routes = [
      startICAO:'VABB',endICAO:'WADD'
   },
   {
-     startICAO:'WIII',endICAO:'VABB VIA VTBS'
+     startICAO:'WIII',endICAO:'VABB'
   },
   {
-     startICAO:'VABB',endICAO:'WIII VIA VTBS'
+     startICAO:'VABB',endICAO:'WIII'
   },
   {
      startICAO:'WMKK',endICAO:'UTTT'
@@ -1938,19 +1938,19 @@ const routes = [
      startICAO:'DGAA',endICAO:'VABB'
   },
   {
-     startICAO:'VOBL',endICAO:'EGLL VIA VABB'
+     startICAO:'VOBL',endICAO:'EGLL'
   },
   {
-     startICAO:'EGLL',endICAO:'VOBL VIA VABB'
+     startICAO:'EGLL',endICAO:'VOBL'
   },
   {
-     startICAO:'VOBL',endICAO:'KJFK VIA VABB'
+     startICAO:'VOBL',endICAO:'KJFK'
   },
   {
      startICAO:'VIAR',endICAO:'WMKK'
   },
   {
-     startICAO:'KJFK',endICAO:'VOBL VIA VABB`'
+     startICAO:'KJFK',endICAO:'VOBL'
   },
   {
      startICAO:'YPAD ',endICAO:'WADD'
@@ -1974,7 +1974,7 @@ const routes = [
      startICAO:'VOMM',endICAO:'VTBS'
   },
   {
-     startICAO:'WIII',endICAO:'OEJN VIA VOTV'
+     startICAO:'WIII',endICAO:'OEJN'
   },
   {
      startICAO:'WPDL ',endICAO:'WADD'
@@ -2973,10 +2973,10 @@ const routes = [
      startICAO:'VABB',endICAO:'VIDP'
   },
   {
-     startICAO:'VIDP',endICAO:'VEIM (VIA VEGT)'
+     startICAO:'VIDP',endICAO:'VEIM'
   },
   {
-     startICAO:'VEIM',endICAO:'VIDP (VIA VEGT)'
+     startICAO:'VEIM',endICAO:'VIDP'
   },
   {
      startICAO:'VIDP',endICAO:'VIJP'
@@ -4419,16 +4419,16 @@ const routes = [
      startICAO:'RKSI',endICAO:'VABB'
   },
   {
-     startICAO:'VABB',endICAO:'ZSPD (VIA VIDP, VTBS)'
+     startICAO:'VABB',endICAO:'ZSPD'
   },
   {
-     startICAO:'ZSPD (VIA VTBS, VIDP)',endICAO:'VABB'
+     startICAO:'ZSPD',endICAO:'VABB'
   },
   {
-     startICAO:'VABB',endICAO:'KLAX (VIA EDDF)'
+     startICAO:'VABB',endICAO:'KLAX'
   },
   {
-     startICAO:'KLAX (VIA EDDF)',endICAO:'VABB'
+     startICAO:'KLAX',endICAO:'VABB'
   },
   {
      startICAO:'VABB',endICAO:'LIMF'
