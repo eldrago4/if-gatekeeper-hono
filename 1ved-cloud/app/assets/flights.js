@@ -61,7 +61,7 @@ const airports = [
         "coordinates": [
             50.901402,
             4.48444
-        ]
+        ]            
     },
     {
         "name": "Berlin",
@@ -5704,11 +5704,10 @@ async function fetchAndDisplayFlights() {
         }
         const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
         const flightsData = await flightsResponse.json();
-        const operatorNames = await fetchOperators();
+       // const operatorNames = await fetchOperators();
         const filteredFlights = flightsData.result.filter(flight => {
             const callsign = flight.callsign;
-            return operatorNames.some(operator => callsign.startsWith(operator)) &&
-                (callsign.endsWith('IN') || callsign.endsWith('IN Heavy') || callsign.endsWith('IN Super'));
+            return (callsign.endsWith('IN') || callsign.endsWith('IN Heavy') || callsign.endsWith('IN Super'));
         });
         const removeStaleMarkers = () => {
             for (const flightId in flightMarkers) {
