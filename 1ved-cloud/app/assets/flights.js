@@ -1870,7 +1870,23 @@ const airports = [
             31.1434,
             121.805
         ]
-    }
+    },
+    {
+        "name": "Patna",
+        "icao": "VEPT",
+        "coordinates": [
+            25.591299, 
+            85.087997
+        ]
+    },
+    {
+        "name": "Barbados",
+        "icao": "TBPB",
+        "coordinates": [
+            13.074722, 
+            59.492222
+        ]
+    },
 ];
 
 const routes = [
