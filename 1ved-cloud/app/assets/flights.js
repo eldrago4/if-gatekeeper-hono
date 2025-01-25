@@ -5892,7 +5892,10 @@ function calculateBezierCurve(start, end, numPoints = 100) {
 function addRoute(route) {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
-    if (!startAirport || !endAirport) return;
+    if (!startAirport || !endAirport){
+        console.warn(`Route data incomplete: ${JSON.stringify(route)}`);
+        return;
+    }
     const markerStart = L.marker(startAirport.coordinates, { icon: airportIcon, icao: startAirport.icao }).addTo(map)
         .bindPopup(`
             <div class="flight-popup">${startAirport.name}<br>(${startAirport.icao})</div>
