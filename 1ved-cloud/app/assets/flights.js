@@ -13,39 +13,66 @@ const airports = [
         name: "Vancouver",
         icao: "CYVR",
         coordinates: [49.193901062, -123.183998108],
-    }
+    },
 ];
 const defaultRoutesPrefix = ["AI", "IX"];
 const routes = [
     {
         startICAO: "CYUL",
         endICAO: "BIKF",
-        fnum: "AI123"
+        fnum: "AI123",
     },
     {
         startICAO: "CYVR",
         endICAO: "BIKF",
-        fnum: "EY123"
+        fnum: "EY123",
     },
     {
         startICAO: "CYVR",
         endICAO: "CYUL",
-        fnum: "AI153"
-    }
+        fnum: "AI153",
+    },
 ];
 
 const group1 = [
-  "EY", "GA", "SQ", "MS", "KE", 
-  "BW", "HU", "AY", "CI", "ET", 
-  "FR", "DL"
+    "EY",
+    "GA",
+    "SQ",
+    "MS",
+    "KE",
+    "BW",
+    "HU",
+    "AY",
+    "CI",
+    "ET",
+    "FR",
+    "DL",
 ];
 
 const group2 = [
-  "D7", "LO", "QZ", "AK", "FD", 
-  "XJ", "KT", "TK", "OD", "Z2", 
-  "ID", "ZS", "SL", "JT", "I5", 
-  "TR", "NH", "BR", "UL", "OU", 
-  "LX", "U2", "AZ"
+    "D7",
+    "LO",
+    "QZ",
+    "AK",
+    "FD",
+    "XJ",
+    "KT",
+    "TK",
+    "OD",
+    "Z2",
+    "ID",
+    "ZS",
+    "SL",
+    "JT",
+    "I5",
+    "TR",
+    "NH",
+    "BR",
+    "UL",
+    "OU",
+    "LX",
+    "U2",
+    "AZ",
 ];
 
 const URLBASE = "https://1ved.cloud/api/v2";
@@ -63,18 +90,18 @@ var Stadia_AlidadeSmoothDark = L.tileLayer(
             '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         ext: "png",
     },
-).addTo(map);
+);
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
     setZoom: 7,
     maxZoom: 18,
-});
+}).addTo(map);
 
 var baseMaps = {
     "Open Street Map": osm,
-    "Smooth Dark": Stadia_AlidadeSmoothDark
+    "Smooth Dark": Stadia_AlidadeSmoothDark,
 };
 
 // var codesharesLayer = L.layerGroup();
@@ -84,7 +111,6 @@ var baseMaps = {
 const defaultRoutesLayer = L.layerGroup().addTo(map);
 const group1Layer = L.layerGroup();
 const group2Layer = L.layerGroup();
-
 
 const flightMarkers = {};
 
@@ -188,7 +214,9 @@ async function fetchAndDisplayFlights() {
         const removeStaleMarkers = () => {
             for (const flightId in flightMarkers) {
                 if (
-                    !filteredFlights.some((flight) => flight.flightId === flightId)
+                    !filteredFlights.some(
+                        (flight) => flight.flightId === flightId,
+                    )
                 ) {
                     map.removeLayer(flightMarkers[flightId].marker);
                     delete flightMarkers[flightId];
@@ -322,7 +350,10 @@ async function fetchAndDisplayFlights() {
                                 map.removeLayer(dashedLine);
                             }
                         });
-                        flightMarkers[flightId] = { marker, endPos: newPosition };
+                        flightMarkers[flightId] = {
+                            marker,
+                            endPos: newPosition,
+                        };
                         map.addLayer(marker);
                     };
                     if (flightMarkers[flightId]) {
@@ -367,7 +398,7 @@ function classifyRoute(route) {
     } else if (group2.includes(prefix)) {
         return "group2";
     }
-    return "default"; 
+    return "default";
 }
 
 function getAirportByICAO(icao) {
@@ -411,7 +442,7 @@ function calculateBezierCurve(start, end, numPoints = 100) {
 //     return;
 // }
 
-airports.forEach(airport => {
+airports.forEach((airport) => {
     const markerStart = L.marker(airport.coordinates, {
         icon: airportIcon,
         icao: airport.icao,
@@ -437,9 +468,72 @@ airports.forEach(airport => {
                      }
                 </style>
           `);
+    markerStart.on('click', () => focusAirport(airport.icao));
 });
 
+let focusedAirportICAO = null;
 
+function updateRouteStyles() {
+    const isFocused = focusedAirportICAO !== null;
+
+    defaultRoutesLayer.eachLayer((layer) => {
+        const route = layer.options.route;
+        if (isFocused) {
+            if (
+                route.startICAO === focusedAirportICAO ||
+                route.endICAO === focusedAirportICAO
+            ) {
+                layer.setStyle({ color: "red", weight: 2.7 });
+            } else {
+                layer.setStyle({ opacity: 0.7 });
+            }
+        } else {
+            layer.setStyle({ color: "blue", weight: 1 });
+        }
+    });
+
+    group1Layer.eachLayer((layer) => {
+        const route = layer.options.route;
+        if (isFocused) {
+            if (
+                route.startICAO === focusedAirportICAO ||
+                route.endICAO === focusedAirportICAO
+            ) {
+                layer.setStyle({ color: "goldenrod", weight: 2 });
+            } else {
+                layer.setStyle({ opacity: 0.7 });
+            }
+        } else {
+            layer.setStyle({ color: "goldenrod", weight: 1 });
+        }
+    });
+
+    group2Layer.eachLayer((layer) => {
+        const route = layer.options.route;
+        if (isFocused) {
+            if (
+                route.startICAO === focusedAirportICAO ||
+                route.endICAO === focusedAirportICAO
+            ) {
+                layer.setStyle({ color: "goldenrod", weight: 2 });
+            } else {
+                layer.setStyle({ opacity: 0.7 });
+            }
+        } else {
+            layer.setStyle({ color: "goldenrod", weight: 1 });
+        }
+    });
+}
+
+function focusAirport(icao) {
+    focusedAirportICAO = icao;
+    updateRouteStyles();
+}
+
+function unfocusAirport() {
+    focusedAirportICAO = null;
+    updateRouteStyles();
+}
 
 // function handleHover(event, isHover, isCodeshare = false) {
 //     if (highlightedRoutes.length === 0) {
@@ -538,40 +632,40 @@ airports.forEach(airport => {
 
 const overlayMaps = {
     "CODESHARES A": group1Layer,
-    "CODESHARES B": group2Layer
+    "CODESHARES B": group2Layer,
 };
 
 function addRoute(route) {
-    const startAirport = airports.find(a => a.icao === route.startICAO);
-    const endAirport = airports.find(a => a.icao === route.endICAO);
+    const startAirport = airports.find((a) => a.icao === route.startICAO);
+    const endAirport = airports.find((a) => a.icao === route.endICAO);
 
-    const routeLayer = L.polyline([
-        [startAirport.coordinates[0], startAirport.coordinates[1]],
-        [endAirport.coordinates[0], endAirport.coordinates[1]]
-    ], { color: 'blue' });
+    const routeLayer = L.polyline(
+        [
+            [startAirport.coordinates[0], startAirport.coordinates[1]],
+            [endAirport.coordinates[0], endAirport.coordinates[1]],
+        ],
+        { color: "blue" },
+    );
 
     // Classify the route and add to respective layer
     const group = classifyRoute(route);
-    if (group === 'group1') {
+    if (group === "group1") {
         routeLayer.addTo(group1Layer);
-    } else if (group === 'group2'){
+    } else if (group === "group2") {
         routeLayer.addTo(group2Layer);
-    }
-    else {
+    } else {
         routeLayer.addTo(defaultRoutesLayer);
     }
-
 }
 
 // Add routes to map
-routes.forEach(route => {
+routes.forEach((route) => {
     addRoute(route);
 });
 
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-// map.on("click", resetHighlight);
+map.on("click", unfocusAirport);
 // map.on("popupclose", resetHighlight);
 map.setZoom(5);
 resetInactivityTimer();
-
