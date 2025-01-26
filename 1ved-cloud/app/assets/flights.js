@@ -471,6 +471,42 @@ airports.forEach((airport) => {
     markerStart.on('click', () => focusAirport(airport.icao));
 });
 
+
+
+const overlayMaps = {
+    "CODESHARES A": group1Layer,
+    "CODESHARES B": group2Layer,
+};
+
+function addRoute(route) {
+    const startAirport = airports.find((a) => a.icao === route.startICAO);
+    const endAirport = airports.find((a) => a.icao === route.endICAO);
+
+    const routeLayer = L.polyline(
+        [
+            [startAirport.coordinates[0], startAirport.coordinates[1]],
+            [endAirport.coordinates[0], endAirport.coordinates[1]],
+        ],
+        { color: "blue" },
+    );
+
+    // Classify the route and add to respective layer
+    const group = classifyRoute(route);
+    if (group === "group1") {
+        routeLayer.addTo(group1Layer);
+    } else if (group === "group2") {
+        routeLayer.addTo(group2Layer);
+    } else {
+        routeLayer.addTo(defaultRoutesLayer);
+    }
+}
+
+// Add routes to map
+routes.forEach((route) => {
+    addRoute(route);
+});
+
+
 let focusedAirportICAO = null;
 
 function updateRouteStyles() {
@@ -629,39 +665,6 @@ function unfocusAirport() {
 //         polyline.addTo(codesharesLayer);
 //     }
 // });
-
-const overlayMaps = {
-    "CODESHARES A": group1Layer,
-    "CODESHARES B": group2Layer,
-};
-
-function addRoute(route) {
-    const startAirport = airports.find((a) => a.icao === route.startICAO);
-    const endAirport = airports.find((a) => a.icao === route.endICAO);
-
-    const routeLayer = L.polyline(
-        [
-            [startAirport.coordinates[0], startAirport.coordinates[1]],
-            [endAirport.coordinates[0], endAirport.coordinates[1]],
-        ],
-        { color: "blue" },
-    );
-
-    // Classify the route and add to respective layer
-    const group = classifyRoute(route);
-    if (group === "group1") {
-        routeLayer.addTo(group1Layer);
-    } else if (group === "group2") {
-        routeLayer.addTo(group2Layer);
-    } else {
-        routeLayer.addTo(defaultRoutesLayer);
-    }
-}
-
-// Add routes to map
-routes.forEach((route) => {
-    addRoute(route);
-});
 
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
