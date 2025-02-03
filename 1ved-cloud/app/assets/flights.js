@@ -560,7 +560,7 @@ function handleClick(event) {
     const clickedIcao = event.target.options.icao;
     highlightedRoutes.forEach((e) => {
         if (e.type === 'INVA'){
-        e.polyline.setStyle({ color: "blue", weight: 1 }),
+        e.polyline.setStyle({ color: "blue", weight: 1 })
         }
         else{e.polyline.setStyle({ color: "goldenrod", weight: 1 })}
     });
