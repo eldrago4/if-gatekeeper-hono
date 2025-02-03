@@ -429,35 +429,42 @@ function calculateBezierCurve(start, end, numPoints = 100) {
 }
 
 
-airports.forEach( (airport) => {
-    const markerStart = L.marker(airport.coordinates, {
+airports.forEach((airport) => {
+    const marker = L.marker(airport.coordinates, {
         icon: airportIcon,
         icao: airport.icao,
     }).addTo(map).bindPopup(
-                `<div class="flight-popup">${airport.name}<br>(${airport.icao})</div>
-                <style>
-                     .flight-popup {
-                          background-color: rgba(223, 223, 223, 0.741);
-                          font-weight: bold;
-                          padding-left: 15px;
-                          padding-right: 15px;
-                          padding-top: 5px;
-                          padding-bottom: 3px;
-                          border-radius: 5px;
-                          box-shadow: none;
-                          border: none;
-                     }
-                     .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                          background: transparent;
-                     }
-                     .leaflet-popup-content {
-                          margin: 0;
-                     }
-                </style>`
-            );
+        `<div class="flight-popup">${airport.name}<br>(${airport.icao})</div>
+        <style>
+             .flight-popup {
+                  background-color: rgba(223, 223, 223, 0.741);
+                  font-weight: bold;
+                  padding-left: 15px;
+                  padding-right: 15px;
+                  padding-top: 5px;
+                  padding-bottom: 3px;
+                  border-radius: 5px;
+                  box-shadow: none;
+                  border: none;
+             }
+             .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
+                  background: transparent;
+             }
+             .leaflet-popup-content {
+                  margin: 0;
+             }
+        </style>`
+    );
+
+    // Store the marker in the airport object
+    airport.markerStart = marker;
     
- 
+    // Add event listeners
+    marker.on("mouseover", (event) => handleHover(event, true));
+    marker.on("mouseout", (event) => handleHover(event, false));
+    marker.on("click", handleClick);
 });
+
 function addRoute(route) {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
@@ -576,21 +583,6 @@ function resetHighlight() {
     // });
 }
 
-elements.forEach((e) => {
-    e.markerStart.on("mouseover", (event) => handleHover(event, true));
-    e.markerStart.on("mouseout", (event) => handleHover(event, false));
-    e.markerEnd.on("mouseover", (event) => handleHover(event, true));
-    e.markerEnd.on("mouseout", (event) => handleHover(event, false));
-    if (e.type === 'codeshareA' || e.type === 'codeshareB'){
-        e.markerStart.on("mouseover", (event) => handleHover(event, true, true));
-        e.markerStart.on("mouseout", (event) => handleHover(event, false, true));
-        e.markerEnd.on("mouseover", (event) => handleHover(event, true, true));
-        e.markerEnd.on("mouseout", (event) => handleHover(event, false, true));
-    }
-    e.markerStart.on("click", handleClick);
-    e.markerEnd.on("click", handleClick);
-});
-
 codeshares.forEach((route) => {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
@@ -608,6 +600,16 @@ codeshares.forEach((route) => {
         polyline.on("mouseout", (event) => handleHover(event, false, true));
         polyline.on("click", handleClick);
         polyline.addTo(codesharesLayer);
+    }
+});
+
+elements.forEach((element) => {
+    if (element.type === 'codeshareA' || element.type === 'codeshareB') {
+        const airport = getAirportByICAO(element.route.startICAO);
+        if (airport && airport.markerStart) {
+            airport.markerStart.on("mouseover", (event) => handleHover(event, true, true));
+            airport.markerStart.on("mouseout", (event) => handleHover(event, false, true));
+        }
     }
 });
 
