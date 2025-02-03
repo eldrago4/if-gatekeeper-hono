@@ -440,7 +440,7 @@ for (route in routes) {
         icon: airportIcon,
         icao: startAirport.icao,
     }).addTo(map).bindPopup(
-                <div class="flight-popup">${startAirport.name}<br>(${startAirport.icao})</div>
+                `<div class="flight-popup">${startAirport.name}<br>(${startAirport.icao})</div>
                 <style>
                      .flight-popup {
                           background-color: rgba(223, 223, 223, 0.741);
@@ -459,12 +459,12 @@ for (route in routes) {
                      .leaflet-popup-content {
                           margin: 0;
                      }
-                </style>
+                </style>`
             );
     const markerEnd = L.marker(endAirport.coordinates, {
         icon: airportIcon,
         icao: endAirport.icao,
-    }).addTo(map).bindPopup(
+    }).addTo(map).bindPopup(`
                 <div class="flight-popup">${endAirport.name}<br>(${endAirport.icao})</div>
                 <style>
                      .flight-popup {
@@ -485,7 +485,7 @@ for (route in routes) {
                      .leaflet-popup-content {
                           margin: 0;
                      }
-                </style>
+                </style>`
           );    
 }
 function addRoute(route) {
