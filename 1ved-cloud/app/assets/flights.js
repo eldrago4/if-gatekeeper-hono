@@ -125,17 +125,16 @@ const flightMarkers = {};
 const inactivityTime = 15 * 60000;
 let inactivityTimeout;
 let isPaused = false;
-
 function showPopup() {
     const popupOverlay = document.createElement("div");
     popupOverlay.className = "popup-overlay active";
-    popupOverlay.innerHTML = 
+    popupOverlay.innerHTML = `
           <div class="popup">
                 <h2>Session Timeout</h2>
                 <p>Are you still here?</p>
                 <button id="resumeButton">Resume</button>
           </div>
-     ;
+     `;
     document.body.appendChild(popupOverlay);
 
     document.getElementById("resumeButton").addEventListener("click", () => {
@@ -196,7 +195,7 @@ async function fetchOperators() {
 async function fetchAndDisplayFlights() {
     if (isPaused) return;
     try {
-        const sessionsResponse = await fetch(${URLBASE}/sessions);
+        const sessionsResponse = await fetch(`${URLBASE}/sessions`);
         const sessionsData = await sessionsResponse.json();
         const expertSession = sessionsData.result.find(
             (session) => session.name === "Expert",
@@ -207,7 +206,7 @@ async function fetchAndDisplayFlights() {
             return;
         }
         const flightsResponse = await fetch(
-            ${URLBASE}/sessions/${sessionId}/flights,
+            `${URLBASE}/sessions/${sessionId}/flights`,
         );
         const flightsData = await flightsResponse.json();
         // const operatorNames = await fetchOperators();
@@ -244,14 +243,14 @@ async function fetchAndDisplayFlights() {
                 flightMarkers[flightId]?.endPos || newPosition;
             try {
                 const routeResponse = await fetch(
-                    ${URLBASE}/sessions/${sessionId}/flights/${flightId}/route,
+                    `${URLBASE}/sessions/${sessionId}/flights/${flightId}/route`,
                 );
                 if (!routeResponse.ok) return;
                 const routeData = await routeResponse.json();
                 const route = routeData.result;
                 if (route.length > 1) {
                     const flightPlanResponse = await fetch(
-                        ${URLBASE}/sessions/${sessionId}/flights/${flightId}/flightplan,
+                        `${URLBASE}/sessions/${sessionId}/flights/${flightId}/flightplan`,
                     );
                     const flightPlanData = await flightPlanResponse.json();
                     const flightPlan = flightPlanData.result;
@@ -282,13 +281,13 @@ async function fetchAndDisplayFlights() {
                             ANIMATION_DURATION,
                         );
                         flightMarkers[flightId].endPos = newPosition;
-                        marker._icon.innerHTML = <img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 32px; height: 32px;"/>;
+                        marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 32px; height: 32px;"/>`;
                     };
                     const createMarker = () => {
                         const marker = L.marker(newPosition, {
                             icon: L.divIcon({
                                 className: "rotated-aircraft-icon",
-                                html: <img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 32px; height: 32px;" />,
+                                html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 32px; height: 32px;" />`,
                                 iconSize: [5, 5],
                                 iconAnchor: [16, 16],
                             }),
@@ -301,7 +300,7 @@ async function fetchAndDisplayFlights() {
                             offset: [0, -11],
                         });
                         const style = document.createElement("style");
-                        style.textContent = 
+                        style.textContent = `
                                      .callsign-label {
                                           background-color: rgba(0, 0, 0, 0.45);
                                           color: rgb(255,223,0);
@@ -317,9 +316,9 @@ async function fetchAndDisplayFlights() {
                                      .callsign-label::before {
                                           display: none;
                                      }
-                                ;
+                                `;
                         document.head.appendChild(style);
-                        marker.bindPopup(
+                        marker.bindPopup(`
                                      <div class="flight-popup">
                                           <b>${callsign}</b><br>
                                           <b>Route:</b> ${dep} - ${arrv}<br>
@@ -342,7 +341,7 @@ async function fetchAndDisplayFlights() {
                                                 margin: 0;
                                           }
                                      </style>
-                                );
+                                `);
                         let dashedLine = null;
                         marker.on("popupopen", () => {
                             dashedLine = L.polyline([depLatLng, arrvLatLng], {
@@ -367,7 +366,7 @@ async function fetchAndDisplayFlights() {
                 }
             } catch (routeError) {
                 console.error(
-                    Error fetching route for flight ${callsign}:,
+                    `Error fetching route for flight ${callsign}:`,
                     routeError,
                 );
             }
@@ -378,6 +377,7 @@ async function fetchAndDisplayFlights() {
         console.error("Error fetching flights:", error);
     }
 }
+
 
 fetchAndDisplayFlights();
 setInterval(fetchAndDisplayFlights, UPDATE_INTERVAL);
