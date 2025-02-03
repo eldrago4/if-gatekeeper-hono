@@ -434,7 +434,6 @@ for (route in routes) {
     const endAirport = getAirportByICAO(route.endICAO);
     if (!startAirport || !endAirport) {
         console.warn(`Route data incomplete: ${JSON.stringify(route)}`);
-        return;
     }
 
     const markerStart = L.marker(startAirport.coordinates, {
