@@ -429,18 +429,12 @@ function calculateBezierCurve(start, end, numPoints = 100) {
 }
 
 
-for (route in routes) {
-    const startAirport = getAirportByICAO(route.startICAO);
-    const endAirport = getAirportByICAO(route.endICAO);
-    if (!startAirport || !endAirport) {
-        console.warn(`Route data incomplete: ${JSON.stringify(route)}`);
-    }
-
-    const markerStart = L.marker(startAirport.coordinates, {
+airports.forEach( (airport) => {
+    const markerStart = L.marker(airport.coordinates, {
         icon: airportIcon,
-        icao: startAirport.icao,
+        icao: airport.icao,
     }).addTo(map).bindPopup(
-                `<div class="flight-popup">${startAirport.name}<br>(${startAirport.icao})</div>
+                `<div class="flight-popup">${airport.name}<br>(${airport.icao})</div>
                 <style>
                      .flight-popup {
                           background-color: rgba(223, 223, 223, 0.741);
@@ -461,33 +455,9 @@ for (route in routes) {
                      }
                 </style>`
             );
-    const markerEnd = L.marker(endAirport.coordinates, {
-        icon: airportIcon,
-        icao: endAirport.icao,
-    }).addTo(map).bindPopup(`
-                <div class="flight-popup">${endAirport.name}<br>(${endAirport.icao})</div>
-                <style>
-                     .flight-popup {
-                          background-color: rgba(223, 223, 223, 0.741);
-                          font-weight: bold;
-                          padding: 5px;
-                          padding-left: 15px;
-                          padding-right: 15px;
-                          padding-top: 5px;
-                          padding-bottom: 3px;
-                          border-radius: 5px;
-                          box-shadow: none;
-                          border: none;
-                     }
-                     .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                          background: transparent;
-                     }
-                     .leaflet-popup-content {
-                          margin: 0;
-                     }
-                </style>`
-          );    
-}
+    
+ 
+});
 function addRoute(route) {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
