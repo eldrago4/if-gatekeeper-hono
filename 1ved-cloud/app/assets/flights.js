@@ -433,7 +433,7 @@ for (route in routes) {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
     if (!startAirport || !endAirport) {
-        console.warn(Route data incomplete: ${JSON.stringify(route)});
+        console.warn(`Route data incomplete: ${JSON.stringify(route)}`);
         return;
     }
 
@@ -493,7 +493,7 @@ function addRoute(route) {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
     if (!startAirport || !endAirport) {
-        console.warn(Route data incomplete: ${JSON.stringify(route)});
+        console.warn(`Route data incomplete: ${JSON.stringify(route)}`);
         return;
     }
 
