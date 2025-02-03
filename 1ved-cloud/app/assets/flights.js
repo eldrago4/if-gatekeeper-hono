@@ -644,4 +644,4 @@ codeshares.forEach((route) => {
 map.on("click", resetHighlight);
 map.on("popupclose", resetHighlight);
 map.setZoom(5);
-resetInactivityTimer();-
+resetInactivityTimer();
