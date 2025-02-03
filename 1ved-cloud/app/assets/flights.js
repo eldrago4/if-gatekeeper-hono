@@ -502,7 +502,7 @@ function addRoute(route) {
     );
 
     const type = getRouteType(route.fnum);
-
+    let polyline;
     if (type === 'codeshareB'){
         const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 }).addTo(codesharesB);
     } else if (type === 'codeshareA'){
@@ -525,7 +525,7 @@ function handleHover(event, isHover, isCodeshare = false) {
                       color: isHover ? "red" : "blue",
                       weight: isHover ? 2.7 : 1,
                   })
-                : e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 }),
+                : e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 })
         );
         if (isCodeshare) {
             codesharesA.eachLayer((layer) => {
@@ -558,12 +558,12 @@ function handleHover(event, isHover, isCodeshare = false) {
 
 function handleClick(event) {
     const clickedIcao = event.target.options.icao;
-    highlightedRoutes.forEach((e) =>
+    highlightedRoutes.forEach((e) => {
         if (e.type === 'INVA'){
         e.polyline.setStyle({ color: "blue", weight: 1 }),
         }
         else{e.polyline.setStyle({ color: "goldenrod", weight: 1 })}
-    );
+    });
     highlightedRoutes.length = 0;
     elements.forEach((e) => {
         if (
@@ -572,6 +572,7 @@ function handleClick(event) {
         ) {
             if (e.type === 'INVA') {
                 e.polyline.setStyle({ color: "red", weight: 2.7 });
+            }
             else{
                 return;
             }
@@ -592,10 +593,11 @@ function handleClick(event) {
 }
 
 function resetHighlight() {
-    highlightedRoutes.forEach((e) =>
-        if (e.type === 'INVA') {
-            e.polyline.setStyle({ color: "blue", weight: 1 })
-        }
+    highlightedRoutes.forEach((e) => {
+            if (e.type === 'INVA') {
+                e.polyline.setStyle({ color: "blue", weight: 1 })
+            }
+    }
     );
     highlightedRoutes.length = 0;
     elements.forEach((e) => e.polyline.setStyle({ opacity: 1 }));
