@@ -27,20 +27,43 @@ const client = new Client({
     rejectUnauthorized: false
   }
 });
-
-client.connect(async (err) => {
+const inva_client = new Client({
+  connectionString: process.env.NEON_INVA_ROUTES,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+inva_client.connect(async (err) => {
   if (err) {
     console.error('neon connection ', err.stack);
 
     setTimeout(() => {
-      client.connect(async (err) => {
+      inva_client.connect(async (err) => {
         if (err) {
-          console.error('neon connection ', err.stack);
+          console.error('neon connection err', err.stack);
         } else {
-          console.log('Connected to the database successfully.');
+          console.log('Connected to the inva_routes database successfully.');
         }
       });
-    }, 5000); // Retry after 5 seconds
+    }, 1000); // Retry after 5 seconds
+  } else {
+    console.log('Connected to the database successfully.');
+  }
+});
+
+client.connect(async (err) => {
+  if (err) {
+    console.error('neon connection err', err.stack);
+
+    setTimeout(() => {
+      client.connect(async (err) => {
+        if (err) {
+          console.error('neon connection err', err.stack);
+        } else {
+          console.log('Connected to the gates database successfully.');
+        }
+      });
+    }, 1500); // Retry after 5 seconds
   } else {
     console.log('Connected to the database successfully.');
   }
@@ -207,6 +230,16 @@ app.get('/api/v2/sessions', async (c) => {
     return c.json({ error: err.message }, 500);
   }
 });
+
+app.get('/api/addroute', async (c) => {
+  try {
+    const html = await readFile(join(__dirname, 'addroute.html'), 'utf-8');
+    return c.html(html);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+}
+);
 
 app.get('/api/v2/sessions/:session_id/flights', async (c) => {
   const session_id = c.req.param('session_id');
