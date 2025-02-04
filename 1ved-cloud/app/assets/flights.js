@@ -1183,2110 +1183,3273 @@ const airports = [
 
 const routes = [
     {
-        startICAO: "WAJJ",
-        endICAO: "WIII",
+        "fnum": "AIH75",
+        "startICAO": "VTBS",
+        "endICAO": "VECC"
     },
     {
-        startICAO: "WADD",
-        endICAO: "RJAA",
+        "fnum": "IX684",
+        "startICAO": "VOMD",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "WADD",
-        endICAO: "WIII",
+        "fnum": "IX1212",
+        "startICAO": "VABB",
+        "endICAO": "VOML"
     },
     {
-        startICAO: "WIII",
-        endICAO: "WMKK",
+        "fnum": "IX2892",
+        "startICAO": "VEIM",
+        "endICAO": "VEGT"
     },
     {
-        startICAO: "WIII",
-        endICAO: "ZGGG",
+        "fnum": "IX1097",
+        "startICAO": "VEBS",
+        "endICAO": "VAPO"
     },
     {
-        startICAO: "WADD",
-        endICAO: "ZSPD",
+        "fnum": "IX2710",
+        "startICAO": "VERC",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "WIII",
-        endICAO: "VHHH",
+        "fnum": "EY18",
+        "startICAO": "EGLL",
+        "endICAO": "OMAA"
     },
     {
-        startICAO: "KSFO",
-        endICAO: "VOBL",
+        "fnum": "IX235",
+        "startICAO": "VABB",
+        "endICAO": "OOMS"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "EDDM",
+        "fnum": "IX558",
+        "startICAO": "VOHS",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "WADD",
-        endICAO: "VABB",
+        "fnum": "IX1589",
+        "startICAO": "VOBL",
+        "endICAO": "VECC"
     },
     {
-        startICAO: "WIII",
-        endICAO: "VABB",
+        "fnum": "D7600",
+        "startICAO": "WMKK",
+        "endICAO": "UAAA"
     },
     {
-        startICAO: "WMKK",
-        endICAO: "UTTT",
+        "fnum": "GA657",
+        "startICAO": "WAJJ",
+        "endICAO": "WIII"
     },
     {
-        startICAO: "DGAA",
-        endICAO: "VABB",
+        "fnum": "LO571",
+        "startICAO": "EPWA",
+        "endICAO": "LYBE"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "EGLL",
+        "fnum": "AI2380",
+        "startICAO": "VIDP",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "KJFK",
+        "fnum": "GA880",
+        "startICAO": "WADD",
+        "endICAO": "RJAA"
     },
     {
-        startICAO: "VIAR",
-        endICAO: "WMKK",
+        "fnum": "IX297",
+        "startICAO": "VABB",
+        "endICAO": "OMAA"
     },
     {
-        startICAO: "YPAD",
-        endICAO: "WADD",
+        "fnum": "IX2511",
+        "startICAO": "VOBL",
+        "endICAO": "VAID"
     },
     {
-        startICAO: "YPAD",
-        endICAO: "WMKK",
+        "fnum": "IX2643",
+        "startICAO": "VECC",
+        "endICAO": "VAID"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "YPPH",
+        "fnum": "EY5047",
+        "startICAO": "OMAA",
+        "endICAO": "EKCH"
     },
     {
-        startICAO: "WADD",
-        endICAO: "YMML",
+        "fnum": "IX2511",
+        "startICAO": "VAID",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "WADD",
-        endICAO: "YSSY",
+        "fnum": "QZ542",
+        "startICAO": "WADD",
+        "endICAO": "YBCS"
     },
     {
-        startICAO: "WIMM",
-        endICAO: "VOMM",
+        "fnum": "AI533",
+        "startICAO": "VOBL",
+        "endICAO": "VISR"
     },
     {
-        startICAO: "VOMM",
-        endICAO: "VTBS",
+        "fnum": "IX251",
+        "startICAO": "VABB",
+        "endICAO": "OMSJ"
     },
     {
-        startICAO: "WIII",
-        endICAO: "OEJN",
+        "fnum": "IX2834",
+        "startICAO": "VOHS",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "WPDL",
-        endICAO: "WADD",
+        "fnum": "EY873",
+        "startICAO": "OMAA",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "WMKK",
-        endICAO: "VECC",
+        "fnum": "AI598",
+        "startICAO": "VABB",
+        "endICAO": "VOBZ"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "EKCH",
+        "fnum": "IX2754",
+        "startICAO": "VOHS",
+        "endICAO": "VISR"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOPB",
+        "fnum": "IX2838",
+        "startICAO": "VOHS",
+        "endICAO": "VEBN"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VABB",
+        "fnum": "AK9",
+        "startICAO": "WMKK",
+        "endICAO": "VOTV"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOHS",
+        "fnum": "IX265",
+        "startICAO": "VABB",
+        "endICAO": "OKKK"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOBZ",
+        "fnum": "IX581",
+        "startICAO": "VOTV",
+        "endICAO": "OEDF"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOVZ",
+        "fnum": "IX2711",
+        "startICAO": "VOBL",
+        "endICAO": "VILK"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VEGT",
+        "fnum": "IX2931",
+        "startICAO": "VOHS",
+        "endICAO": "VEBS"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VEPT",
+        "fnum": "AI150",
+        "startICAO": "EGKK",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "YMML",
+        "fnum": "AI151",
+        "startICAO": "VIDP",
+        "endICAO": "LSZH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "YSSY",
+        "fnum": "IX420",
+        "startICAO": "OMAA",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "LOWW",
+        "fnum": "IX743",
+        "startICAO": "VOKN",
+        "endICAO": "OMSJ"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OBBI",
+        "fnum": "AI187",
+        "startICAO": "VIDP",
+        "endICAO": "CYYZ"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VGHS",
+        "fnum": "IX968",
+        "startICAO": "VOBL",
+        "endICAO": "VOTV"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "CYYZ",
+        "fnum": "IX3991",
+        "startICAO": "VABB",
+        "endICAO": "VAJM"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "CYVR",
+        "fnum": "FD130",
+        "startICAO": "VTBD",
+        "endICAO": "VIJP"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "EHAM",
+        "fnum": "IX178",
+        "startICAO": "VASU",
+        "endICAO": "VTBS"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "LFPG",
+        "fnum": "IX747",
+        "startICAO": "VOKN",
+        "endICAO": "OMDB"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "EDDF",
+        "fnum": "EY5059",
+        "startICAO": "OMAA",
+        "endICAO": "SCEL"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VHHH",
+        "fnum": "IX2890",
+        "startICAO": "VIJP",
+        "endICAO": "VOHS"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "LIMC",
+        "fnum": "IX183",
+        "startICAO": "VEBN",
+        "endICAO": "OMSJ"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "RJAA",
+        "fnum": "IX717",
+        "startICAO": "VOKN",
+        "endICAO": "OMAA"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "HKJK",
+        "fnum": "XJ600",
+        "startICAO": "VTBD",
+        "endICAO": "RJAA"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OKKK",
+        "fnum": "AI2479",
+        "startICAO": "VIDP",
+        "endICAO": "VABJ"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VYYY",
+        "fnum": "AI457",
+        "startICAO": "VILH",
+        "endICAO": "VICG"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VNKT",
+        "fnum": "GA401",
+        "startICAO": "WADD",
+        "endICAO": "WIII"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OTHH",
+        "fnum": "GA810",
+        "startICAO": "WIII",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OEDF",
+        "fnum": "AI101",
+        "startICAO": "VIDP",
+        "endICAO": "KJFK"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OEJN",
+        "fnum": "IX711",
+        "startICAO": "VOKN",
+        "endICAO": "OOMS"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OERK",
+        "fnum": "EY5013",
+        "startICAO": "OMAA",
+        "endICAO": "KATL"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "WSSS",
+        "fnum": "KT168",
+        "startICAO": "VDPP",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "RKSI",
+        "fnum": "GA898",
+        "startICAO": "WIII",
+        "endICAO": "ZGGG"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VCBI",
+        "fnum": "IX1098",
+        "startICAO": "VEBS",
+        "endICAO": "VECC"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VTBS",
+        "fnum": "IX150",
+        "startICAO": "OOMS",
+        "endICAO": "VILK"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OMDB",
+        "fnum": "GA870",
+        "startICAO": "WADD",
+        "endICAO": "ZSPD"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VTSP",
+        "fnum": "GA872",
+        "startICAO": "WIII",
+        "endICAO": "VHHH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "EGBB",
+        "fnum": "AI176",
+        "startICAO": "KSFO",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "EGLL",
+        "fnum": "TK1629",
+        "startICAO": "LTFM",
+        "endICAO": "EDDM"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "KORD",
+        "fnum": "GA814",
+        "startICAO": "WADD",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "KEWR",
+        "fnum": "GA861",
+        "startICAO": "WIII",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "KIAD",
-        endICAO: "VIDP",
+        "fnum": "IX2814",
+        "startICAO": "VILK",
+        "endICAO": "VOHS"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "KJFK",
+        "fnum": "AK604",
+        "startICAO": "WMKK",
+        "endICAO": "YPPH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "KSFO",
+        "fnum": "SQ282",
+        "startICAO": "NZAA",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "KSFO",
-        endICAO: "VIDP",
+        "fnum": "OD751",
+        "startICAO": "WMKK",
+        "endICAO": "UTTT"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "LLBG",
+        "fnum": "IX997",
+        "startICAO": "VOHS",
+        "endICAO": "OEJN"
     },
     {
-        startICAO: "VABB",
-        endICAO: "YMML",
+        "fnum": "AI2847",
+        "startICAO": "VIDP",
+        "endICAO": "VOGO"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OKKK",
+        "fnum": "AIH46",
+        "startICAO": "DGAA",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OOMS",
+        "fnum": "AIH47",
+        "startICAO": "VOBL",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OTHH",
+        "fnum": "AIH49",
+        "startICAO": "VOBL",
+        "endICAO": "KJFK"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OEJN",
+        "fnum": "OD272",
+        "startICAO": "VIAR",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OERK",
+        "fnum": "AIH55",
+        "startICAO": "VECC",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "VABB",
-        endICAO: "WSSS",
+        "fnum": "OD174",
+        "startICAO": "YPAD",
+        "endICAO": "WADD"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VTBS",
+        "fnum": "IX2761",
+        "startICAO": "VOBL",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OMDB",
+        "fnum": "Z292",
+        "startICAO": "RPLL",
+        "endICAO": "VMMC"
     },
     {
-        startICAO: "VABB",
-        endICAO: "EGLL",
+        "fnum": "OD122",
+        "startICAO": "YPAD",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "VABB",
-        endICAO: "KEWR",
+        "fnum": "EY423",
+        "startICAO": "OMAA",
+        "endICAO": "RPLL"
     },
     {
-        startICAO: "VABB",
-        endICAO: "KJFK",
+        "fnum": "IX106",
+        "startICAO": "VILK",
+        "endICAO": "VTBS"
     },
     {
-        startICAO: "VABB",
-        endICAO: "KSFO",
+        "fnum": "AI109 ",
+        "startICAO": "VIDP",
+        "endICAO": "VAAH"
     },
     {
-        startICAO: "VAAH",
-        endICAO: "EGKK",
+        "fnum": "OD196",
+        "startICAO": "NZAA",
+        "endICAO": "YPPH"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "WSSS",
+        "fnum": "IX2762",
+        "startICAO": "VOBL",
+        "endICAO": "VOML"
     },
     {
-        startICAO: "KSFO",
-        endICAO: "VOBL",
+        "fnum": "FD186",
+        "startICAO": "VECC",
+        "endICAO": "VTSP"
     },
     {
-        startICAO: "VOHS",
-        endICAO: "OMDB",
+        "fnum": "LO229",
+        "startICAO": "EPWA",
+        "endICAO": "LOWI"
     },
     {
-        startICAO: "VECC",
-        endICAO: "VNKT",
+        "fnum": "AIH109",
+        "startICAO": "VAAH",
+        "endICAO": "HKJK"
     },
     {
-        startICAO: "VOHS",
-        endICAO: "VOTP",
+        "fnum": "AIC202",
+        "startICAO": "KEWR",
+        "endICAO": "TBPB"
     },
     {
-        startICAO: "VOHS",
-        endICAO: "VOBL",
+        "fnum": "ID6003",
+        "startICAO": "WADD",
+        "endICAO": "YMML"
     },
     {
-        startICAO: "VOHS",
-        endICAO: "VABB",
+        "fnum": "IX813",
+        "startICAO": "VOML",
+        "endICAO": "OMDB"
     },
     {
-        startICAO: "VOHS",
-        endICAO: "VOMM",
+        "fnum": "AIH111",
+        "startICAO": "VIAR",
+        "endICAO": "LIRF"
     },
     {
-        startICAO: "VAAH",
-        endICAO: "VIDP",
+        "fnum": "ID6005",
+        "startICAO": "WADD",
+        "endICAO": "YSSY"
     },
     {
-        startICAO: "VAAH",
-        endICAO: "VABB",
+        "fnum": "ZS501",
+        "startICAO": "RPLL",
+        "endICAO": "WBKK"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VIDP",
+        "fnum": "LO231",
+        "startICAO": "EPWA",
+        "endICAO": "EBBR"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VABB",
+        "fnum": "ID6021",
+        "startICAO": "WIMM",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOGO",
+        "fnum": "IX2692",
+        "startICAO": "VIJP",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VOMM",
+        "fnum": "AIH107",
+        "startICAO": "VOHS",
+        "endICAO": "KORD"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VIGR",
+        "fnum": "IX1171",
+        "startICAO": "VISR",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VOVZ",
+        "fnum": "EY216",
+        "startICAO": "OMAA",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VEPT",
+        "fnum": "AI2205",
+        "startICAO": "VIDP",
+        "endICAO": "OMDB"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VOGO",
+        "fnum": "SL6215",
+        "startICAO": "VOMM",
+        "endICAO": "VTBS"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VABJ",
+        "fnum": "IX1174",
+        "startICAO": "VIDP",
+        "endICAO": "VEBS"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VAJM",
+        "fnum": "FD3146",
+        "startICAO": "VTBD",
+        "endICAO": "VTCC"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VAHS",
+        "fnum": "LO251",
+        "startICAO": "EPWA",
+        "endICAO": "ELLX"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VABO",
+        "fnum": "IX2655",
+        "startICAO": "VOMM",
+        "endICAO": "VECC"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VOML",
+        "fnum": "IX1125",
+        "startICAO": "VIDP",
+        "endICAO": "VOGA"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VOTV",
+        "fnum": "JT70",
+        "startICAO": "WIII",
+        "endICAO": "OEJN"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VAID",
+        "fnum": "IX995",
+        "startICAO": "VOHS",
+        "endICAO": "OERK"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VANP",
+        "fnum": "ID8061",
+        "startICAO": "WPDL",
+        "endICAO": "WADD"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VIAR",
+        "fnum": "IX2641",
+        "startICAO": "VECC",
+        "endICAO": "VOPB"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VIJP",
+        "fnum": "EY274",
+        "startICAO": "OMAA",
+        "endICAO": "VOHS"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VIJO",
+        "fnum": "AI2017",
+        "startICAO": "VIDP",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VAUD",
+        "fnum": "OD281",
+        "startICAO": "WMKK",
+        "endICAO": "VECC"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VOCB",
+        "fnum": "IX2542",
+        "startICAO": "VOBL",
+        "endICAO": "VIGR"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VILK",
+        "fnum": "IX173",
+        "startICAO": "VASU",
+        "endICAO": "OMDB"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VECC",
+        "fnum": "D7101",
+        "startICAO": "WMKK",
+        "endICAO": "HKJK"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VOMM",
+        "fnum": "LO3879",
+        "startICAO": "EPWA",
+        "endICAO": "EPKT"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VAHS",
+        "fnum": "AI157",
+        "startICAO": "VIDP",
+        "endICAO": "EKCH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VABO",
+        "fnum": "AI485",
+        "startICAO": "VIDP",
+        "endICAO": "VOPB"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VIJU",
+        "fnum": "AI860",
+        "startICAO": "VIDP",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VISR",
+        "fnum": "AI553",
+        "startICAO": "VIDP",
+        "endICAO": "VOHS"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOCI",
+        "fnum": "AI459",
+        "startICAO": "VIDP",
+        "endICAO": "VOBZ"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOTV",
+        "fnum": "AI451",
+        "startICAO": "VIDP",
+        "endICAO": "VOVZ"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VILH",
+        "fnum": "AI891",
+        "startICAO": "VIDP",
+        "endICAO": "VEGT"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VABP",
+        "fnum": "AI407",
+        "startICAO": "VIDP",
+        "endICAO": "VEPT"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VAID",
+        "fnum": "AI308",
+        "startICAO": "VIDP",
+        "endICAO": "YMML"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VAAU",
+        "fnum": "AI302",
+        "startICAO": "VIDP",
+        "endICAO": "YSSY"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "LTFM",
+        "fnum": "AI153",
+        "startICAO": "VIDP",
+        "endICAO": "LOWW"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "RKSI",
+        "fnum": "AI939",
+        "startICAO": "VIDP",
+        "endICAO": "OBBI"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "WSSS",
+        "fnum": "AI227",
+        "startICAO": "VIDP",
+        "endICAO": "VGHS"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VEIM",
+        "fnum": "AI185",
+        "startICAO": "VIDP",
+        "endICAO": "CYVR"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VIJP",
+        "fnum": "AI155",
+        "startICAO": "VIDP",
+        "endICAO": "EHAM"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VILK",
+        "fnum": "AI143",
+        "startICAO": "VIDP",
+        "endICAO": "LFPG"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OMSJ",
+        "fnum": "AI121",
+        "startICAO": "VIDP",
+        "endICAO": "EDDF"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VOML",
+        "fnum": "AI314",
+        "startICAO": "VIDP",
+        "endICAO": "VHHH"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VOCI",
+        "fnum": "AI137",
+        "startICAO": "VIDP",
+        "endICAO": "LIMC"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "YSSY",
+        "fnum": "AI306",
+        "startICAO": "VIDP",
+        "endICAO": "RJAA"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "KLAX",
+        "fnum": "AI961",
+        "startICAO": "VIDP",
+        "endICAO": "HKJK"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "EGLL",
+        "fnum": "AI901",
+        "startICAO": "VIDP",
+        "endICAO": "OKKK"
     },
     {
-        startICAO: "ZSPD",
-        endICAO: "WSSS",
+        "fnum": "AI235",
+        "startICAO": "VIDP",
+        "endICAO": "VYYY"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "VHHH",
+        "fnum": "AI211",
+        "startICAO": "VIDP",
+        "endICAO": "VNKT"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "CYVR",
+        "fnum": "AI971",
+        "startICAO": "VIDP",
+        "endICAO": "OTHH"
     },
     {
-        startICAO: "WMKK",
-        endICAO: "WSSS",
+        "fnum": "AI913",
+        "startICAO": "VIDP",
+        "endICAO": "OEDF"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "VVTS",
+        "fnum": "AI991",
+        "startICAO": "VIDP",
+        "endICAO": "OEJN"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "VAAH",
+        "fnum": "AI925",
+        "startICAO": "VIDP",
+        "endICAO": "OERK"
     },
     {
-        startICAO: "VTBS",
-        endICAO: "WSSS",
+        "fnum": "AI312",
+        "startICAO": "VIDP",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "RPLL",
+        "fnum": "AI281",
+        "startICAO": "VIDP",
+        "endICAO": "VCBI"
     },
     {
-        startICAO: "WSSS",
-        endICAO: "KSEA",
+        "fnum": "AI332",
+        "startICAO": "VIDP",
+        "endICAO": "VTBS"
     },
     {
-        startICAO: "EIDW",
-        endICAO: "EHAM",
+        "fnum": "AI376",
+        "startICAO": "VIDP",
+        "endICAO": "VTSP"
     },
     {
-        startICAO: "EIDW",
-        endICAO: "EBBR",
+        "fnum": "AI113",
+        "startICAO": "VIDP",
+        "endICAO": "EGBB"
     },
     {
-        startICAO: "EIDW",
-        endICAO: "LFBD",
+        "fnum": "AI127",
+        "startICAO": "VIDP",
+        "endICAO": "KORD"
     },
     {
-        startICAO: "EIDW",
-        endICAO: "EGCC",
+        "fnum": "AI105",
+        "startICAO": "VIDP",
+        "endICAO": "KEWR"
     },
     {
-        startICAO: "EIDW",
-        endICAO: "EGPH",
+        "fnum": "AI104",
+        "startICAO": "KIAD",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "EVRA",
-        endICAO: "EIDW",
+        "fnum": "AI173",
+        "startICAO": "VIDP",
+        "endICAO": "KSFO"
     },
     {
-        startICAO: "EVRA",
-        endICAO: "LEMG",
+        "fnum": "AI184",
+        "startICAO": "KSF0",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "EGBB",
-        endICAO: "LEMD",
+        "fnum": "AI139",
+        "startICAO": "VIDP",
+        "endICAO": "LLBG"
     },
     {
-        startICAO: "EGBB",
-        endICAO: "GCLP",
+        "fnum": "AI310",
+        "startICAO": "VABB",
+        "endICAO": "YMML"
     },
     {
-        startICAO: "EGHH",
-        endICAO: "GCRR",
+        "fnum": "AI981",
+        "startICAO": "VABB",
+        "endICAO": "OTHH"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LCPH",
+        "fnum": "AI931",
+        "startICAO": "VABB",
+        "endICAO": "OEJN"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LPPD",
+        "fnum": "AI921",
+        "startICAO": "VABB",
+        "endICAO": "OERK"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LGAV",
+        "fnum": "AI342",
+        "startICAO": "VABB",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "GMMX",
+        "fnum": "AI330",
+        "startICAO": "VABB",
+        "endICAO": "VTBS"
     },
     {
-        startICAO: "HECA",
-        endICAO: "LLBG",
+        "fnum": "AI919",
+        "startICAO": "VABB",
+        "endICAO": "OMDB"
     },
     {
-        startICAO: "HECA",
-        endICAO: "ORBI",
+        "fnum": "AI129",
+        "startICAO": "VABB",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "HECA",
-        endICAO: "OKKK",
+        "fnum": "AI191",
+        "startICAO": "VABB",
+        "endICAO": "KEWR"
     },
     {
-        startICAO: "HECA",
-        endICAO: "OEMA",
+        "fnum": "AI119",
+        "startICAO": "VABB",
+        "endICAO": "KJFK"
     },
     {
-        startICAO: "HECA",
-        endICAO: "LGAV",
+        "fnum": "AI179",
+        "startICAO": "VABB",
+        "endICAO": "KSFO"
     },
     {
-        startICAO: "HECA",
-        endICAO: "OMSJ",
+        "fnum": "AI171",
+        "startICAO": "VAAH",
+        "endICAO": "EGKK"
     },
     {
-        startICAO: "HECA",
-        endICAO: "LIMC",
+        "fnum": "AI392",
+        "startICAO": "VOBL",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "HECA",
-        endICAO: "LEBL",
+        "fnum": "AI176",
+        "startICAO": "KSF0",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "HECA",
-        endICAO: "HSPN",
+        "fnum": "AI951",
+        "startICAO": "VOHS",
+        "endICAO": "OMDB"
     },
     {
-        startICAO: "HECA",
-        endICAO: "EKCH",
+        "fnum": "AI247",
+        "startICAO": "VECC",
+        "endICAO": "VNKT"
     },
     {
-        startICAO: "HECA",
-        endICAO: "EBBR",
+        "fnum": "AI542",
+        "startICAO": "VOHS",
+        "endICAO": "VOTP"
     },
     {
-        startICAO: "HECA",
-        endICAO: "RJAA",
+        "fnum": "AI652",
+        "startICAO": "VOHS",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "HECA",
-        endICAO: "EGCC",
+        "fnum": "AI546",
+        "startICAO": "VOHS",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "HECA",
-        endICAO: "WIII",
+        "fnum": "AI614",
+        "startICAO": "VAAH",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "HECA",
-        endICAO: "KIAD",
+        "fnum": "AI501",
+        "startICAO": "VOBL",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "HECA",
-        endICAO: "ZGGG",
+        "fnum": "AI589",
+        "startICAO": "VOBL",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "HECA",
-        endICAO: "FAOR",
+        "fnum": "IX1596",
+        "startICAO": "VIDP",
+        "endICAO": "VIGR"
     },
     {
-        startICAO: "HECA",
-        endICAO: "VGHS",
+        "fnum": "AI653",
+        "startICAO": "VABB",
+        "endICAO": "VOVZ"
     },
     {
-        startICAO: "HECA",
-        endICAO: "DNMM",
+        "fnum": "AI673",
+        "startICAO": "VABB",
+        "endICAO": "VEPT"
     },
     {
-        startICAO: "HECA",
-        endICAO: "HKJK",
+        "fnum": "AI663",
+        "startICAO": "VABB",
+        "endICAO": "VOGO"
     },
     {
-        startICAO: "OMDW",
-        endICAO: "LEZG",
+        "fnum": "AI601",
+        "startICAO": "VABB",
+        "endICAO": "VABJ"
     },
     {
-        startICAO: "MMMX",
-        endICAO: "SEQM",
+        "fnum": "AI655",
+        "startICAO": "VABB",
+        "endICAO": "VAHS"
     },
     {
-        startICAO: "MMMX",
-        endICAO: "MMGL",
+        "fnum": "AI669",
+        "startICAO": "VABB",
+        "endICAO": "VABO"
     },
     {
-        startICAO: "MMGL",
-        endICAO: "KIAH",
+        "fnum": "AI657",
+        "startICAO": "VABB",
+        "endICAO": "VOTV"
     },
     {
-        startICAO: "OMDB",
-        endICAO: "WMKK",
+        "fnum": "AI635",
+        "startICAO": "VABB",
+        "endICAO": "VAID"
     },
     {
-        startICAO: "WMKK",
-        endICAO: "NZAA",
+        "fnum": "AI629",
+        "startICAO": "VABB",
+        "endICAO": "VANP"
     },
     {
-        startICAO: "LGAV",
-        endICAO: "KEWR",
+        "fnum": "AI649",
+        "startICAO": "VABB",
+        "endICAO": "VIAR"
     },
     {
-        startICAO: "OMDB",
-        endICAO: "FIMP",
+        "fnum": "AI611",
+        "startICAO": "VABB",
+        "endICAO": "VIJP"
     },
     {
-        startICAO: "OAKB",
-        endICAO: "OMDB",
+        "fnum": "AI645",
+        "startICAO": "VABB",
+        "endICAO": "VIJO"
     },
     {
-        startICAO: "OMDB",
-        endICAO: "VECC",
+        "fnum": "AI643",
+        "startICAO": "VABB",
+        "endICAO": "VAUD"
     },
     {
-        startICAO: "OMDB",
-        endICAO: "OIIE",
+        "fnum": "AI609",
+        "startICAO": "VABB",
+        "endICAO": "VOCB"
     },
     {
-        startICAO: "OMDB",
-        endICAO: "VOBL",
+        "fnum": "AI625",
+        "startICAO": "VABB",
+        "endICAO": "VILK"
     },
     {
-        startICAO: "OMDB",
-        endICAO: "DNAA",
+        "fnum": "AI675",
+        "startICAO": "VABB",
+        "endICAO": "VECC"
     },
     {
-        startICAO: "OMDB",
-        endICAO: "FNLU",
+        "fnum": "AI570",
+        "startICAO": "VABB",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "RKSI",
+        "fnum": "AI403",
+        "startICAO": "VIDP",
+        "endICAO": "VAHS"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VOTV",
+        "fnum": "AI819",
+        "startICAO": "VIDP",
+        "endICAO": "VABO"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOMM",
+        "fnum": "AI821",
+        "startICAO": "VIDP",
+        "endICAO": "VIJU"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VAPO",
+        "fnum": "AI420",
+        "startICAO": "VIDP",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "KMIA",
-        endICAO: "LTFM",
+        "fnum": "AI801",
+        "startICAO": "VIDP",
+        "endICAO": "VOTV"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "OTHH",
+        "fnum": "AI445",
+        "startICAO": "VIDP",
+        "endICAO": "VILH"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "HAAB",
+        "fnum": "AI433",
+        "startICAO": "VIDP",
+        "endICAO": "VABP"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "OMAA",
+        "fnum": "AI443",
+        "startICAO": "VIDP",
+        "endICAO": "VAAU"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "LGAV",
+        "fnum": "SQ392",
+        "startICAO": "WSSS",
+        "endICAO": "LTFM"
     },
     {
-        startICAO: "LGAV",
-        endICAO: "OEJN",
+        "fnum": "SQ600",
+        "startICAO": "WSSS",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "EDDM",
+        "fnum": "SQ801",
+        "startICAO": "ZBAA",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "VOBL",
+        "fnum": "IX783",
+        "startICAO": "VIDP",
+        "endICAO": "VEIM"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "EGKK",
+        "fnum": "IX2789",
+        "startICAO": "VIDP",
+        "endICAO": "VIJP"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "EHAM",
+        "fnum": "I5548",
+        "startICAO": "VIDP",
+        "endICAO": "VILK"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "WMKK",
+        "fnum": "IX135",
+        "startICAO": "VIDP",
+        "endICAO": "OMSJ"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "KIAD",
+        "fnum": "IX1132",
+        "startICAO": "VOBL",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "ZBAD",
+        "fnum": "SQ231",
+        "startICAO": "WSSS",
+        "endICAO": "YSSY"
     },
     {
-        startICAO: "OEJN",
-        endICAO: "RJAA",
+        "fnum": "SQ306",
+        "startICAO": "WSSS",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "LJLJ",
+        "fnum": "SQ827",
+        "startICAO": "ZSPD",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "ESSA",
+        "fnum": "SQ874",
+        "startICAO": "WSSS",
+        "endICAO": "VHHH"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "HAAB",
+        "fnum": "SQ48",
+        "startICAO": "WSSS",
+        "endICAO": "CYVR"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "VIDP",
+        "fnum": "SQ107",
+        "startICAO": "WMKK",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "DNMM",
+        "fnum": "SQ184",
+        "startICAO": "WSSS",
+        "endICAO": "VVTS"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "KDTW",
+        "fnum": "SQ530",
+        "startICAO": "WSSS",
+        "endICAO": "VAAH"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "KORD",
+        "fnum": "SQ1705",
+        "startICAO": "VTBS",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "LTFM",
-        endICAO: "SBGR",
+        "fnum": "TR396",
+        "startICAO": "WSSS",
+        "endICAO": "RPLL"
     },
     {
-        startICAO: "TTPP",
-        endICAO: "TGPY",
+        "fnum": "SQ28",
+        "startICAO": "WSSS",
+        "endICAO": "KSEA"
     },
     {
-        startICAO: "KJFK",
-        endICAO: "MKJP",
+        "fnum": "FR420",
+        "startICAO": "EIDW",
+        "endICAO": "EHAM"
     },
     {
-        startICAO: "CYYZ",
-        endICAO: "MKJP",
+        "fnum": "FR657",
+        "startICAO": "EIDW",
+        "endICAO": "EBBR"
     },
     {
-        startICAO: "MKJP",
-        endICAO: "TNCM",
+        "fnum": "FR6485",
+        "startICAO": "EIDW",
+        "endICAO": "LFBD"
     },
     {
-        startICAO: "TAPA",
-        endICAO: "MKJP",
+        "fnum": "FR562",
+        "startICAO": "EIDW",
+        "endICAO": "EGCC"
     },
     {
-        startICAO: "TTPP",
-        endICAO: "TLPC",
+        "fnum": "FR814",
+        "startICAO": "EIDW",
+        "endICAO": "EGPH"
     },
     {
-        startICAO: "KJFK",
-        endICAO: "SYCJ",
+        "fnum": "FR4097",
+        "startICAO": "EVRA",
+        "endICAO": "EIDW"
     },
     {
-        startICAO: "CYYZ",
-        endICAO: "SYCJ",
+        "fnum": "FR3294",
+        "startICAO": "EVRA",
+        "endICAO": "LEMG"
     },
     {
-        startICAO: "TTPP",
-        endICAO: "TVSA",
+        "fnum": "FR9163",
+        "startICAO": "EGBB",
+        "endICAO": "LEMD"
     },
     {
-        startICAO: "TTPP",
-        endICAO: "SYCJ",
+        "fnum": "FR1129",
+        "startICAO": "EGBB",
+        "endICAO": "GCLP"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "ZHHH",
+        "fnum": "FR6762",
+        "startICAO": "EGHH",
+        "endICAO": "GCRR"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "VVTS",
+        "fnum": "FR4927",
+        "startICAO": "EGCC",
+        "endICAO": "LCPH"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "RJAA",
+        "fnum": "FR9032",
+        "startICAO": "EGCC",
+        "endICAO": "LPPD"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "WSSS",
+        "fnum": "FR3218",
+        "startICAO": "EGCC",
+        "endICAO": "LGAV"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "ZGGG",
+        "fnum": "FR3126",
+        "startICAO": "EGCC",
+        "endICAO": "GMMX"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "UUEE",
+        "fnum": "MS603",
+        "startICAO": "HECA",
+        "endICAO": "LLBG"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "RJBB",
+        "fnum": "MS627",
+        "startICAO": "HECA",
+        "endICAO": "ORBI"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "VTBS",
+        "fnum": "MS610",
+        "startICAO": "HECA",
+        "endICAO": "OKKK"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "VLVT",
+        "fnum": "MS639",
+        "startICAO": "HECA",
+        "endICAO": "OEMA"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "ZSCN",
+        "fnum": "MS749",
+        "startICAO": "HECA",
+        "endICAO": "LGAV"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "YMML",
+        "fnum": "MS966",
+        "startICAO": "HECA",
+        "endICAO": "OMSJ"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "NZAA",
+        "fnum": "MS703",
+        "startICAO": "HECA",
+        "endICAO": "LIMC"
     },
     {
-        startICAO: "ZJHK",
-        endICAO: "OMAA",
+        "fnum": "MS767",
+        "startICAO": "HECA",
+        "endICAO": "LEBL"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "EIDW",
+        "fnum": "MS865",
+        "startICAO": "HECA",
+        "endICAO": "HSPN"
     },
     {
-        startICAO: "ZBAA",
-        endICAO: "EGCC",
+        "fnum": "MS759",
+        "startICAO": "HECA",
+        "endICAO": "EKCH"
     },
     {
-        startICAO: "VOMM",
-        endICAO: "VECC",
+        "fnum": "MS725",
+        "startICAO": "HECA",
+        "endICAO": "EBBR"
     },
     {
-        startICAO: "ZSPD",
-        endICAO: "RKSI",
+        "fnum": "MS964",
+        "startICAO": "HECA",
+        "endICAO": "RJAA"
     },
     {
-        startICAO: "VHHH",
-        endICAO: "RKSI",
+        "fnum": "MS781",
+        "startICAO": "HECA",
+        "endICAO": "EGCC"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "RCTP",
+        "fnum": "MS977",
+        "startICAO": "HECA",
+        "endICAO": "WIII"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "VTSP",
+        "fnum": "MS981",
+        "startICAO": "HECA",
+        "endICAO": "KIAD"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "VNKT",
+        "fnum": "MS958",
+        "startICAO": "HECA",
+        "endICAO": "ZGGG"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "PHNL",
+        "fnum": "MS839",
+        "startICAO": "HECA",
+        "endICAO": "FAOR"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "KJFK",
+        "fnum": "MS970",
+        "startICAO": "HECA",
+        "endICAO": "VGHS"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "NZAA",
+        "fnum": "MS552",
+        "startICAO": "HECA",
+        "endICAO": "DNMM"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "EGCC",
+        "fnum": "MS512",
+        "startICAO": "HECA",
+        "endICAO": "HKJK"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "KMIA",
+        "fnum": "EK9919",
+        "startICAO": "OMDW",
+        "endICAO": "LEZG"
     },
     {
-        startICAO: "RKSI",
-        endICAO: "OKKK",
+        "fnum": "EK9919",
+        "startICAO": "MMMX",
+        "endICAO": "SEQM"
     },
     {
-        startICAO: "VOMM",
-        endICAO: "WSSS",
+        "fnum": "EK9936",
+        "startICAO": "MMMX",
+        "endICAO": "MMGL"
     },
     {
-        startICAO: "VEMN",
-        endICAO: "VEIM",
+        "fnum": "EK9936",
+        "startICAO": "MMGL",
+        "endICAO": "KIAH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VIAR",
+        "fnum": "EK448 ",
+        "startICAO": "OMDB",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "VECC",
-        endICAO: "VOPB",
+        "fnum": "EK448 ",
+        "startICAO": "WMKK",
+        "endICAO": "NZAA"
     },
     {
-        startICAO: "VECC",
-        endICAO: "VEIM",
+        "fnum": "EK209",
+        "startICAO": "LGAV",
+        "endICAO": "KEWR"
     },
     {
-        startICAO: "VECC",
-        endICAO: "VEGT",
+        "fnum": "EK701",
+        "startICAO": "OMDB",
+        "endICAO": "FIMP"
     },
     {
-        startICAO: "VEGT",
-        endICAO: "VEMR",
+        "fnum": "EK641",
+        "startICAO": "OAKB",
+        "endICAO": "OMDB"
     },
     {
-        startICAO: "VECC",
-        endICAO: "VEKU",
+        "fnum": "EK570",
+        "startICAO": "OMDB",
+        "endICAO": "VECC"
     },
     {
-        startICAO: "VECC",
-        endICAO: "VIDP",
+        "fnum": "EK971",
+        "startICAO": "OMDB",
+        "endICAO": "OIIE"
     },
     {
-        startICAO: "VECC",
-        endICAO: "VEAT",
+        "fnum": "EK564",
+        "startICAO": "OMDB",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "VABB",
+        "fnum": "EK785",
+        "startICAO": "OMDB",
+        "endICAO": "DNAA"
     },
     {
-        startICAO: "VOMM",
-        endICAO: "VOPB",
+        "fnum": "EK793",
+        "startICAO": "OMDB",
+        "endICAO": "FNLU"
     },
     {
-        startICAO: "VOMM",
-        endICAO: "VOCB",
+        "fnum": "KE856",
+        "startICAO": "ZBAA",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "VOMM",
-        endICAO: "VOMD",
+        "fnum": "AI429",
+        "startICAO": "VIDP",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VEBN",
+        "fnum": "AI847",
+        "startICAO": "VIDP",
+        "endICAO": "VAPO"
     },
     {
-        startICAO: "RJTT",
-        endICAO: "RJBB",
+        "fnum": "TK78",
+        "startICAO": "KMIA",
+        "endICAO": "LTFM"
     },
     {
-        startICAO: "RJTT",
-        endICAO: "RJCC",
+        "fnum": "SV542",
+        "startICAO": "OEJN",
+        "endICAO": "OTHH"
     },
     {
-        startICAO: "RJGG",
-        endICAO: "RJAA",
+        "fnum": "SV421",
+        "startICAO": "OEJN",
+        "endICAO": "HAAB"
     },
     {
-        startICAO: "RJBB",
-        endICAO: "ZSHC",
+        "fnum": "SV570",
+        "startICAO": "OEJN",
+        "endICAO": "OMAA"
     },
     {
-        startICAO: "ROAH",
-        endICAO: "RJBB",
+        "fnum": "SV195",
+        "startICAO": "0EJN",
+        "endICAO": "LGAV"
     },
     {
-        startICAO: "RJAA",
-        endICAO: "VABB",
+        "fnum": "SV196",
+        "startICAO": "LGAV",
+        "endICAO": "OEJN"
     },
     {
-        startICAO: "RJAA",
-        endICAO: "MMMX",
+        "fnum": "SV175",
+        "startICAO": "OEJN",
+        "endICAO": "EDDM"
     },
     {
-        startICAO: "RJTT",
-        endICAO: "EGLL",
+        "fnum": "SV866",
+        "startICAO": "OEJN",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "LFPG",
-        endICAO: "RJTT",
+        "fnum": "SV101",
+        "startICAO": "OEJN",
+        "endICAO": "EGKK"
     },
     {
-        startICAO: "RJTT",
-        endICAO: "KIAH",
+        "fnum": "SV215",
+        "startICAO": "OEJN",
+        "endICAO": "EHAM"
     },
     {
-        startICAO: "RJGG",
-        endICAO: "VHHH",
+        "fnum": "SV834",
+        "startICAO": "OEJN",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "RJAA",
-        endICAO: "RPLL",
+        "fnum": "SV35",
+        "startICAO": "OEJN",
+        "endICAO": "KIAD"
     },
     {
-        startICAO: "RJAA",
-        endICAO: "RCTP",
+        "fnum": "SV886",
+        "startICAO": "OEJN",
+        "endICAO": "ZBAD"
     },
     {
-        startICAO: "RJAA",
-        endICAO: "PANC",
+        "fnum": "SV152",
+        "startICAO": "OEJN",
+        "endICAO": "RJAA"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VABP",
+        "fnum": "TK1061",
+        "startICAO": "LTFM",
+        "endICAO": "LJLJ"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VOCL",
+        "fnum": "TK1789",
+        "startICAO": "LTFM",
+        "endICAO": "ESSA"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VIGR",
+        "fnum": "TK676",
+        "startICAO": "LTFM",
+        "endICAO": "HAAB"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VAPO",
+        "fnum": "TK716",
+        "startICAO": "LTFM",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VIJP",
+        "fnum": "TK626",
+        "startICAO": "LTFM",
+        "endICAO": "DNMM"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VEBN",
+        "fnum": "TK205",
+        "startICAO": "LTFM",
+        "endICAO": "KDTW"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "VOKN",
+        "fnum": "TK5",
+        "startICAO": "LTFM",
+        "endICAO": "KORD"
     },
     {
-        startICAO: "VOML",
-        endICAO: "VOKN",
+        "fnum": "TK193",
+        "startICAO": "LTFM",
+        "endICAO": "SBGR"
     },
     {
-        startICAO: "VOML",
-        endICAO: "OBBI",
+        "fnum": "BW430",
+        "startICAO": "TTPP",
+        "endICAO": "TGPY"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "OMAA",
+        "fnum": "BW6",
+        "startICAO": "KJFK",
+        "endICAO": "MKJP"
     },
     {
-        startICAO: "VOML",
-        endICAO: "OKKK",
+        "fnum": "BW78",
+        "startICAO": "CYYZ",
+        "endICAO": "MKJP"
     },
     {
-        startICAO: "VOML",
-        endICAO: "OOMS",
+        "fnum": "BW417",
+        "startICAO": "MKJP",
+        "endICAO": "TNCM"
     },
     {
-        startICAO: "VOML",
-        endICAO: "OTHH",
+        "fnum": "BW418",
+        "startICAO": "TAPA",
+        "endICAO": "MKJP"
     },
     {
-        startICAO: "VOML",
-        endICAO: "OEDF",
+        "fnum": "BW434",
+        "startICAO": "TTPP",
+        "endICAO": "TLPC"
     },
     {
-        startICAO: "VOML",
-        endICAO: "OMAA",
+        "fnum": "BW481",
+        "startICAO": "KJFK",
+        "endICAO": "SYCJ"
     },
     {
-        startICAO: "VOML",
-        endICAO: "OMDB",
+        "fnum": "BW617",
+        "startICAO": "CYYZ",
+        "endICAO": "SYCJ"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "KSEA",
+        "fnum": "BW436",
+        "startICAO": "TTPP",
+        "endICAO": "TVSA"
     },
     {
-        startICAO: "KSEA",
-        endICAO: "EFHK",
+        "fnum": "BW462",
+        "startICAO": "TTPP",
+        "endICAO": "SYCJ"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "KLAX",
+        "fnum": "HU7061",
+        "startICAO": "ZJHK",
+        "endICAO": "ZHHH"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "MMUN",
+        "fnum": "HU767",
+        "startICAO": "ZJHK",
+        "endICAO": "VVTS"
     },
     {
-        startICAO: "ESSA",
-        endICAO: "KMIA",
+        "fnum": "HU439",
+        "startICAO": "ZBAA",
+        "endICAO": "RJAA"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "KORD",
+        "fnum": "HU74",
+        "startICAO": "ZJHK",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "HEGN",
+        "fnum": "HU7001",
+        "startICAO": "ZJHK",
+        "endICAO": "ZGGG"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "GCRR",
+        "fnum": "HU7985",
+        "startICAO": "ZBAA",
+        "endICAO": "UUEE"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "LPMA",
+        "fnum": "HU473",
+        "startICAO": "ZBAA",
+        "endICAO": "RJBB"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "GCTS",
+        "fnum": "HU429",
+        "startICAO": "ZBAA",
+        "endICAO": "VTBS"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "LPPR",
+        "fnum": "HU461",
+        "startICAO": "ZJHK",
+        "endICAO": "VLVT"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "LFPG",
+        "fnum": "HU6001",
+        "startICAO": "ZJHK",
+        "endICAO": "ZSCN"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "LEBL",
+        "fnum": "HU485",
+        "startICAO": "ZJHK",
+        "endICAO": "YMML"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "LSZH",
+        "fnum": "HU797",
+        "startICAO": "ZJHK",
+        "endICAO": "NZAA"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "EFRO",
+        "fnum": "HU763",
+        "startICAO": "ZJHK",
+        "endICAO": "OMAA"
     },
     {
-        startICAO: "EFHK",
-        endICAO: "ESGG",
+        "fnum": "HU751",
+        "startICAO": "ZBAA",
+        "endICAO": "EIDW"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "RJCC",
+        "fnum": "HU753",
+        "startICAO": "ZBAA",
+        "endICAO": "EGCC"
     },
     {
-        startICAO: "RCKH",
-        endICAO: "RKSI",
+        "fnum": "KE896",
+        "startICAO": "ZSPD",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "RCKH",
-        endICAO: "RJOT",
+        "fnum": "KE172",
+        "startICAO": "VHHH",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "RKSS",
+        "fnum": "KE185",
+        "startICAO": "RKSI",
+        "endICAO": "RCTP"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "RPLL",
+        "fnum": "KE663",
+        "startICAO": "RKSI",
+        "endICAO": "VTSP"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "WIII",
+        "fnum": "KE695",
+        "startICAO": "RKSI",
+        "endICAO": "VNKT"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "WSSS",
+        "fnum": "KE53",
+        "startICAO": "RKSI",
+        "endICAO": "PHNL"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "PTRO",
+        "fnum": "KE85",
+        "startICAO": "RKSI",
+        "endICAO": "KJFK"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "WADD",
+        "fnum": "KE411",
+        "startICAO": "RKSI",
+        "endICAO": "NZAA"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "KLAX",
+        "fnum": "KE909",
+        "startICAO": "RKSI",
+        "endICAO": "EGCC"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "KSFO",
+        "fnum": "KE25",
+        "startICAO": "RKSI",
+        "endICAO": "KMIA"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "KSFO",
+        "fnum": "KE953",
+        "startICAO": "RKSI",
+        "endICAO": "OKKK"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "KONT",
+        "fnum": "AI346",
+        "startICAO": "VOMM",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "LOWW",
+        "fnum": "AI734",
+        "startICAO": "VEMN",
+        "endICAO": "VEIM"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "EGLL",
+        "fnum": "AI479",
+        "startICAO": "VIDP",
+        "endICAO": "VIAR"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "FACT",
+        "fnum": "AI733",
+        "startICAO": "VECC",
+        "endICAO": "VEIM"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "VABB",
+        "fnum": "AI709",
+        "startICAO": "VECC",
+        "endICAO": "VEGT"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "VOMM",
+        "fnum": "AI709",
+        "startICAO": "VEGT",
+        "endICAO": "VEMR"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "VIDP",
+        "fnum": "AI753",
+        "startICAO": "VECC",
+        "endICAO": "VEKU"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "VOBL",
+        "fnum": "AI763",
+        "startICAO": "VECC",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "LFPG",
+        "fnum": "AI743",
+        "startICAO": "VECC",
+        "endICAO": "VEAT"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "EDDF",
+        "fnum": "AI517",
+        "startICAO": "VOCI",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "SBGR",
+        "fnum": "AI549",
+        "startICAO": "VOMM",
+        "endICAO": "VOPB"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "LIRF",
+        "fnum": "AI429",
+        "startICAO": "VOMM",
+        "endICAO": "VOCB"
     },
     {
-        startICAO: "KATL",
-        endICAO: "HAAB",
+        "fnum": "AI671",
+        "startICAO": "VOMM",
+        "endICAO": "VOMD"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "HKMO",
+        "fnum": "AI406",
+        "startICAO": "VIDP",
+        "endICAO": "VEBN"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "OOMS",
+        "fnum": "NH93",
+        "startICAO": "RJTT",
+        "endICAO": "RJBB"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "HBBA",
+        "fnum": "NH51",
+        "startICAO": "RJTT",
+        "endICAO": "RJCC"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "HTZA",
+        "fnum": "NH492",
+        "startICAO": "RJGG",
+        "endICAO": "RJAA"
     },
     {
-        startICAO: "HAAB",
-        endICAO: "OTHH",
+        "fnum": "NH951",
+        "startICAO": "RJBB",
+        "endICAO": "ZSHC"
     },
     {
-        startICAO: "PHNL",
-        endICAO: "PGUM",
+        "fnum": "NH1732",
+        "startICAO": "ROAH",
+        "endICAO": "RJBB"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "LSZH",
+        "fnum": "NH829",
+        "startICAO": "RJAA",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "YPAD",
+        "fnum": "NH180",
+        "startICAO": "RJAA",
+        "endICAO": "MMMX"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "ZSPD",
+        "fnum": "NH211",
+        "startICAO": "RJTT",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "ZSPD",
-        endICAO: "VIDP",
+        "fnum": "NH216",
+        "startICAO": "LFPG",
+        "endICAO": "RJTT"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "VOCB",
+        "fnum": "NH114",
+        "startICAO": "RJTT",
+        "endICAO": "KIAH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "OYSN",
+        "fnum": "NH875",
+        "startICAO": "RJGG",
+        "endICAO": "VHHH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "UUEE",
+        "fnum": "NH8596",
+        "startICAO": "RJAA",
+        "endICAO": "RPLL"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "FIMP",
+        "fnum": "NH8539",
+        "startICAO": "RJAA",
+        "endICAO": "RCTP"
     },
     {
-        startICAO: "FIMP",
-        endICAO: "VIDP",
+        "fnum": "KZ134",
+        "startICAO": "RJAA",
+        "endICAO": "PANC"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OMSJ",
+        "fnum": "AI633",
+        "startICAO": "VABB",
+        "endICAO": "VABP"
     },
     {
-        startICAO: "VABB",
-        endICAO: "CYUL",
+        "fnum": "IX1346",
+        "startICAO": "VOCL",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OYSN",
+        "fnum": "IX1428",
+        "startICAO": "VOBL",
+        "endICAO": "VAPO"
     },
     {
-        startICAO: "VABB",
-        endICAO: "CYYZ",
+        "fnum": "IX1427",
+        "startICAO": "VOBL",
+        "endICAO": "VIJP"
     },
     {
-        startICAO: "VABB",
-        endICAO: "OMFJ",
+        "fnum": "IX938",
+        "startICAO": "VOBL",
+        "endICAO": "VEBN"
     },
     {
-        startICAO: "VABB",
-        endICAO: "FALE",
+        "fnum": "IX714",
+        "startICAO": "VOBL",
+        "endICAO": "VOKN"
     },
     {
-        startICAO: "VABB",
-        endICAO: "RKSI",
+        "fnum": "IX790",
+        "startICAO": "VOML",
+        "endICAO": "VOKN"
     },
     {
-        startICAO: "VABB",
-        endICAO: "ZSPD",
+        "fnum": "IX789",
+        "startICAO": "VOML",
+        "endICAO": "OBBI"
     },
     {
-        startICAO: "VABB",
-        endICAO: "KLAX",
+        "fnum": "IX893",
+        "startICAO": "VOML",
+        "endICAO": "OKKK"
     },
     {
-        startICAO: "VABB",
-        endICAO: "LIMF",
+        "fnum": "IX817",
+        "startICAO": "VOML",
+        "endICAO": "OOMS"
     },
     {
-        startICAO: "VABB",
-        endICAO: "ZBAA",
+        "fnum": "IX821",
+        "startICAO": "VOML",
+        "endICAO": "OTHH"
     },
     {
-        startICAO: "VABB",
-        endICAO: "YSSY",
+        "fnum": "IX884",
+        "startICAO": "OEDF",
+        "endICAO": "VOML"
     },
     {
-        startICAO: "VABB",
-        endICAO: "ORBI",
+        "fnum": "IX815",
+        "startICAO": "VOML",
+        "endICAO": "OMAA"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "TBPB",
+        "fnum": "AY33",
+        "startICAO": "EFHK",
+        "endICAO": "KSEA"
     },
     {
-        startICAO: "TBPB",
-        endICAO: "VIDP",
+        "fnum": "AY1",
+        "startICAO": "EFHK",
+        "endICAO": "KLAX"
     },
     {
-        startICAO: "PGUM",
-        endICAO: "WMKK",
+        "fnum": "AY1985",
+        "startICAO": "EFHK",
+        "endICAO": "MMUN"
     },
     {
-        startICAO: "VOBL",
-        endICAO: "EGKK",
+        "fnum": "AY17",
+        "startICAO": "ESSA",
+        "endICAO": "KMIA"
     },
     {
-        startICAO: "VDSV",
-        endICAO: "VDPP",
+        "fnum": "AY9",
+        "startICAO": "EFHK",
+        "endICAO": "KORD"
     },
     {
-        startICAO: "VOGA",
-        endICAO: "EGKK",
+        "fnum": "AY2132",
+        "startICAO": "EFHK",
+        "endICAO": "HEGN"
     },
     {
-        startICAO: "VIAR",
-        endICAO: "EGKK",
+        "fnum": "AY2133",
+        "startICAO": "EFHK",
+        "endICAO": "GCRR"
     },
     {
-        startICAO: "WIII",
-        endICAO: "YMML",
+        "fnum": "AY1731",
+        "startICAO": "EFHK",
+        "endICAO": "LPMA"
     },
     {
-        startICAO: "WIII",
-        endICAO: "YSSY",
+        "fnum": "AY1691",
+        "startICAO": "EFHK",
+        "endICAO": "GCTS"
     },
     {
-        startICAO: "WIII",
-        endICAO: "EHAM",
+        "fnum": "AY1687",
+        "startICAO": "EFHK",
+        "endICAO": "LPPR"
     },
     {
-        startICAO: "OTHH",
-        endICAO: "WIII",
+        "fnum": "AY1571",
+        "startICAO": "EFHK",
+        "endICAO": "LFPG"
     },
     {
-        startICAO: "WIII",
-        endICAO: "OTHH",
+        "fnum": "AY1653",
+        "startICAO": "EFHK",
+        "endICAO": "LEBL"
     },
     {
-        startICAO: "WADD",
-        endICAO: "RJBB",
+        "fnum": "AY1511",
+        "startICAO": "EFHK",
+        "endICAO": "LSZH"
     },
     {
-        startICAO: "VVTS",
-        endICAO: "VIDP",
+        "fnum": "AY531",
+        "startICAO": "EFHK",
+        "endICAO": "EFRO"
     },
     {
-        startICAO: "LPPT",
-        endICAO: "EGLL",
+        "fnum": "AY861",
+        "startICAO": "EFHK",
+        "endICAO": "ESGG"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "LPPT",
+        "fnum": "CI130",
+        "startICAO": "RCTP",
+        "endICAO": "RJCC"
     },
     {
-        startICAO: "LOWW",
-        endICAO: "LPPT",
+        "fnum": "CI164",
+        "startICAO": "RCKH",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "WADD",
-        endICAO: "WPDL",
+        "fnum": "CI78",
+        "startICAO": "RCKH",
+        "endICAO": "RJOT"
     },
     {
-        startICAO: "VABB",
-        endICAO: "FIMP",
+        "fnum": "CI260",
+        "startICAO": "RCTP",
+        "endICAO": "RKSS"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "VTBS",
+        "fnum": "CI701",
+        "startICAO": "RCTP",
+        "endICAO": "RPLL"
     },
     {
-        startICAO: "VABB",
-        endICAO: "VCBI",
+        "fnum": "CI761",
+        "startICAO": "RCTP",
+        "endICAO": "WIII"
     },
     {
-        startICAO: "VCBI",
-        endICAO: "VOBL",
+        "fnum": "CI753",
+        "startICAO": "RCTP",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "VOHS",
-        endICAO: "VCBI",
+        "fnum": "CI28",
+        "startICAO": "RCTP",
+        "endICAO": "PTRO"
     },
     {
-        startICAO: "VCBI",
-        endICAO: "VOCI",
+        "fnum": "CI771",
+        "startICAO": "RCTP",
+        "endICAO": "WADD"
     },
     {
-        startICAO: "VCBI",
-        endICAO: "WIII",
+        "fnum": "CI5116",
+        "startICAO": "RCTP",
+        "endICAO": "KLAX"
     },
     {
-        startICAO: "VCBI",
-        endICAO: "WMKK",
+        "fnum": "CI4",
+        "startICAO": "RCTP",
+        "endICAO": "KSFO"
     },
     {
-        startICAO: "VCBI",
-        endICAO: "VOMD",
+        "fnum": "CI24",
+        "startICAO": "RCTP",
+        "endICAO": "KONT"
     },
     {
-        startICAO: "VCBI",
-        endICAO: "VOTR",
+        "fnum": "CI64",
+        "startICAO": "RCTP",
+        "endICAO": "LOWW"
     },
     {
-        startICAO: "VCBI",
-        endICAO: "VOTV",
+        "fnum": "CI81",
+        "startICAO": "RCTP",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "LDZA",
-        endICAO: "EDDF",
+        "fnum": "ET847",
+        "startICAO": "HAAB",
+        "endICAO": "FACT"
     },
     {
-        startICAO: "LDZA",
-        endICAO: "EGLL",
+        "fnum": "ET640",
+        "startICAO": "HAAB",
+        "endICAO": "VABB"
     },
     {
-        startICAO: "LDZA",
-        endICAO: "LFPG",
+        "fnum": "ET692",
+        "startICAO": "HAAB",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "LDDU",
-        endICAO: "EDDF",
+        "fnum": "ET686",
+        "startICAO": "HAAB",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "LDZA",
-        endICAO: "LOWW",
+        "fnum": "ET690",
+        "startICAO": "HAAB",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "SBGR",
-        endICAO: "EDDM",
+        "fnum": "ET704",
+        "startICAO": "HAAB",
+        "endICAO": "LFPG"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "FAOR",
+        "fnum": "ET706",
+        "startICAO": "HAAB",
+        "endICAO": "EDDF"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "SAEZ",
+        "fnum": "ET506",
+        "startICAO": "HAAB",
+        "endICAO": "SBGR"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "SKBO",
+        "fnum": "ET702",
+        "startICAO": "HAAB",
+        "endICAO": "LIRF"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "KMCO",
+        "fnum": "ET519",
+        "startICAO": "KATL",
+        "endICAO": "HAAB"
     },
     {
-        startICAO: "CYUL",
-        endICAO: "EDDF",
+        "fnum": "ET322",
+        "startICAO": "HAAB",
+        "endICAO": "HKMO"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "DNMM",
+        "fnum": "ET624",
+        "startICAO": "HAAB",
+        "endICAO": "OOMS"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "UBBB",
+        "fnum": "ET810",
+        "startICAO": "HAAB",
+        "endICAO": "HBBA"
     },
     {
-        startICAO: "OJAI",
-        endICAO: "EDDF",
+        "fnum": "ET812",
+        "startICAO": "HAAB",
+        "endICAO": "HTZA"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "OMDB",
+        "fnum": "ET432",
+        "startICAO": "HAAB",
+        "endICAO": "OTHH"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "OLBA",
+        "fnum": "OD1",
+        "startICAO": "PHNL",
+        "endICAO": "PGUM"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "LLBG",
+        "fnum": "AIH01",
+        "startICAO": "VIDP",
+        "endICAO": "YPAD"
     },
     {
-        startICAO: "BIKF",
-        endICAO: "EDDM",
+        "fnum": "AIH05",
+        "startICAO": "VIDP",
+        "endICAO": "ZSPD"
     },
     {
-        startICAO: "EDDM",
-        endICAO: "UUDD",
+        "fnum": "AIH07",
+        "startICAO": "VIDP",
+        "endICAO": "VOCB"
     },
     {
-        startICAO: "EDDF",
-        endICAO: "LEIB",
+        "fnum": "AIH09",
+        "startICAO": "VIDP",
+        "endICAO": "OYSN"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "EGLL",
+        "fnum": "AIH11",
+        "startICAO": "VIDP",
+        "endICAO": "UUEE"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "EDDF",
+        "fnum": "AIH13",
+        "startICAO": "VIDP",
+        "endICAO": "FIMP"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "LFPG",
+        "fnum": "AIH19",
+        "startICAO": "VABB",
+        "endICAO": "CYUL"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "VHHH",
+        "fnum": "AIH21",
+        "startICAO": "VABB",
+        "endICAO": "OYSN"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "RJAA",
+        "fnum": "AIH23",
+        "startICAO": "VABB",
+        "endICAO": "CYYZ"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "KLAX",
+        "fnum": "AIH25",
+        "startICAO": "VABB",
+        "endICAO": "OMFJ"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "WSSS",
+        "fnum": "AIH27",
+        "startICAO": "VABB",
+        "endICAO": "FALE"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "VABB",
+        "fnum": "AIH29",
+        "startICAO": "VABB",
+        "endICAO": "RKSI"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "LIMC",
+        "fnum": "AIH31",
+        "startICAO": "VABB",
+        "endICAO": "ZSPD"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "KBOS",
+        "fnum": "AIH33",
+        "startICAO": "VABB",
+        "endICAO": "KLAX"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "EHAM",
+        "fnum": "AIH35",
+        "startICAO": "VABB",
+        "endICAO": "LIMF"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "FAOR",
+        "fnum": "AIH37",
+        "startICAO": "VABB",
+        "endICAO": "ZBAA"
     },
     {
-        startICAO: "LSZH",
-        endICAO: "ZSPD",
+        "fnum": "AIH41",
+        "startICAO": "VABB",
+        "endICAO": "YSSY"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "WMKK",
+        "fnum": "AIH43",
+        "startICAO": "VABB",
+        "endICAO": "ORBI"
     },
     {
-        startICAO: "VIAR",
-        endICAO: "EGBB",
+        "fnum": "AIC202",
+        "startICAO": "TBPB",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "EHAM",
+        "fnum": "OD1",
+        "startICAO": "PGUM",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "EGGW",
-        endICAO: "LTAI",
+        "fnum": "EY260",
+        "startICAO": "OMAA",
+        "endICAO": "VRMM"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "EDDB",
+        "fnum": "EY289",
+        "startICAO": "VAAH",
+        "endICAO": "OMAA"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LTFM",
+        "fnum": "AIH59",
+        "startICAO": "VOBL",
+        "endICAO": "EGKK"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LIRF",
+        "fnum": "JT5384",
+        "startICAO": "VDSV",
+        "endICAO": "VDPP"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LFPO",
+        "fnum": "IX483",
+        "startICAO": "VOBL",
+        "endICAO": "OEDF"
     },
     {
-        startICAO: "EGKK",
-        endICAO: "BIKF",
+        "fnum": "XJ382",
+        "startICAO": "VTBD",
+        "endICAO": "YSSY"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LEIB",
+        "fnum": "IX2516",
+        "startICAO": "VOBL",
+        "endICAO": "VOBZ"
     },
     {
-        startICAO: "EGKK",
-        endICAO: "LPMA",
+        "fnum": "EY5023",
+        "startICAO": "OMAA",
+        "endICAO": "VIJP"
     },
     {
-        startICAO: "EGKK",
-        endICAO: "LGAV",
+        "fnum": "AI145",
+        "startICAO": "VOGA",
+        "endICAO": "EGKK"
     },
     {
-        startICAO: "EGKK",
-        endICAO: "LMML",
+        "fnum": "AI169",
+        "startICAO": "VIAR",
+        "endICAO": "EGKK"
     },
     {
-        startICAO: "EGKK",
-        endICAO: "EPKK",
+        "fnum": "IX2516",
+        "startICAO": "VOBZ",
+        "endICAO": "VOVZ"
     },
     {
-        startICAO: "EGKK",
-        endICAO: "LCPH",
+        "fnum": "IX710",
+        "startICAO": "OEDF",
+        "endICAO": "VOKN"
     },
     {
-        startICAO: "EGAA",
-        endICAO: "LEBL",
+        "fnum": "IX2517",
+        "startICAO": "VOVZ",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "EGGW",
-        endICAO: "GCRR",
+        "fnum": "IX751",
+        "startICAO": "VOKN",
+        "endICAO": "OMRK"
     },
     {
-        startICAO: "EGGW",
-        endICAO: "GCTS",
+        "fnum": "GA716",
+        "startICAO": "WIII",
+        "endICAO": "YMML"
     },
     {
-        startICAO: "LSGG",
-        endICAO: "LTAI",
+        "fnum": "D7550",
+        "startICAO": "WMKK",
+        "endICAO": "RJCC"
     },
     {
-        startICAO: "LSGG",
-        endICAO: "EGNT",
+        "fnum": "IX698",
+        "startICAO": "OKKK",
+        "endICAO": "VOMM"
     },
     {
-        startICAO: "EGNT",
-        endICAO: "LEAL",
+        "fnum": "GA712",
+        "startICAO": "WIII",
+        "endICAO": "YSSY"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LLBG",
+        "fnum": "IX2892",
+        "startICAO": "VEGT",
+        "endICAO": "VOHS"
     },
     {
-        startICAO: "EGKK",
-        endICAO: "LIMC",
+        "fnum": "IX2882",
+        "startICAO": "VOHS",
+        "endICAO": "VOBN"
     },
     {
-        startICAO: "LSGG",
-        endICAO: "EGBB",
+        "fnum": "GA88",
+        "startICAO": "WIII",
+        "endICAO": "EHAM"
     },
     {
-        startICAO: "EGPH",
-        endICAO: "LXGB",
+        "fnum": "IX2883",
+        "startICAO": "VOHS",
+        "endICAO": "VEBD"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "LOWI",
+        "fnum": "GA901",
+        "startICAO": "OTHH",
+        "endICAO": "WIII"
     },
     {
-        startICAO: "EGCC",
-        endICAO: "EFRO",
+        "fnum": "AI695",
+        "startICAO": "VABB",
+        "endICAO": "VEBS"
     },
     {
-        startICAO: "EGGW",
-        endICAO: "LGMK",
+        "fnum": "GA882",
+        "startICAO": "WADD",
+        "endICAO": "RJBB"
     },
     {
-        startICAO: "EGGW",
-        endICAO: "LSGG",
+        "fnum": "AIH37 ",
+        "startICAO": "EGBB",
+        "endICAO": "CYYZ"
     },
     {
-        startICAO: "EGGW",
-        endICAO: "EGPH",
+        "fnum": "AI389",
+        "startICAO": "VVTS",
+        "endICAO": "VIDP"
     },
     {
-        startICAO: "EGGW",
-        endICAO: "LEMD",
+        "fnum": "AI2145",
+        "startICAO": "VIDP",
+        "endICAO": "WADD"
     },
     {
-        startICAO: "EDDB",
-        endICAO: "LPPR",
+        "fnum": "AI2273",
+        "startICAO": "VIDP",
+        "endICAO": "VRMM"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "KIAH",
+        "fnum": "AI2241",
+        "startICAO": "VABB",
+        "endICAO": "FIMP"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "PANC",
+        "fnum": "AI2271",
+        "startICAO": "VABB",
+        "endICAO": "VRMM"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "KORD",
+        "fnum": "AI2237",
+        "startICAO": "VABB",
+        "endICAO": "OEDF"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "EHAM",
+        "fnum": "AI227",
+        "startICAO": "VABB",
+        "endICAO": "EDDF"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "VHHH",
+        "fnum": "AI223",
+        "startICAO": "VABB",
+        "endICAO": "LFPG"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "WMKK",
+        "fnum": "AI2111",
+        "startICAO": "VAPO",
+        "endICAO": "WSSS"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "VVNB",
+        "fnum": "AI2131",
+        "startICAO": "VABB",
+        "endICAO": "VCBI"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "ZSPD",
+        "fnum": "AI2653",
+        "startICAO": "VABB",
+        "endICAO": "VICG"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "EDDM",
+        "fnum": "AI2621",
+        "startICAO": "VABB",
+        "endICAO": "VEBN"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "CYVR",
+        "fnum": "AI2619",
+        "startICAO": "VABB",
+        "endICAO": "VIDN"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "ZBAA",
+        "fnum": "AI2513",
+        "startICAO": "VABB",
+        "endICAO": "VOGA"
     },
     {
-        startICAO: "RCTP",
-        endICAO: "RPVM",
+        "fnum": "AI2574",
+        "startICAO": "VOBL",
+        "endICAO": "VAAH"
     },
     {
-        startICAO: "VIDP",
-        endICAO: "LEMD",
+        "fnum": "AI2633",
+        "startICAO": "VOBL",
+        "endICAO": "VAUD"
     },
     {
-        startICAO: "VILH",
-        endICAO: "VISR",
+        "fnum": "AI2755",
+        "startICAO": "VOBL",
+        "endICAO": "VEGT"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "NTAA",
+        "fnum": "AI2508",
+        "startICAO": "VOPB",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "NZCH",
+        "fnum": "AI2881",
+        "startICAO": "VOBL",
+        "endICAO": "VOGO"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "YMML",
+        "fnum": "AI2615",
+        "startICAO": "VOBL",
+        "endICAO": "VIDN"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "NZQN",
+        "fnum": "AI2611",
+        "startICAO": "VISR",
+        "endICAO": "VIJU"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "YSSY",
+        "fnum": "AI2637",
+        "startICAO": "VIDP",
+        "endICAO": "VICG"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "YBBN",
+        "fnum": "AI2617",
+        "startICAO": "VIDP",
+        "endICAO": "VIDN"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "KJFK",
+        "fnum": "AI2627",
+        "startICAO": "VIDP",
+        "endICAO": "VAUD"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "CYVR",
+        "fnum": "AI2793",
+        "startICAO": "VIDP",
+        "endICAO": "VERP"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "WSSS",
+        "fnum": "AI2753",
+        "startICAO": "VIDP",
+        "endICAO": "VERC"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "KLAX",
+        "fnum": "AI2725",
+        "startICAO": "VIDP",
+        "endICAO": "VEBD"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "KIAH",
+        "fnum": "AI2726",
+        "startICAO": "VEBD",
+        "endICAO": "VEMN"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "YPAD",
+        "fnum": "AI2589",
+        "startICAO": "VOHS",
+        "endICAO": "VOGA"
     },
     {
-        startICAO: "NZCH",
-        endICAO: "YMML",
+        "fnum": "AI2597",
+        "startICAO": "VAAH",
+        "endICAO": "VOGO"
     },
     {
-        startICAO: "NZAA",
-        endICAO: "WADD",
+        "fnum": "AIH53",
+        "startICAO": "VIDP",
+        "endICAO": "LIRF"
     },
     {
-        startICAO: "PHNL",
-        endICAO: "NZAA",
+        "fnum": "IX441",
+        "startICAO": "VOCI",
+        "endICAO": "OOMS"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OERK",
+        "fnum": "IX256",
+        "startICAO": "OMSJ",
+        "endICAO": "VAID"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OTHH",
+        "fnum": "AIH76 ",
+        "startICAO": "VIDP",
+        "endICAO": "VHHX"
     },
     {
-        startICAO: "VOHS",
-        endICAO: "OEDF",
+        "fnum": "AIH76 ",
+        "startICAO": "VHHX",
+        "endICAO": "RJBB"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OKKK",
+        "fnum": "IX476",
+        "startICAO": "OTHH",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OBBI",
+        "fnum": "EY51",
+        "startICAO": "OMAA",
+        "endICAO": "LSGG"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OMAA",
+        "fnum": "EY430",
+        "startICAO": "OMAA",
+        "endICAO": "VTSP"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OEDF",
+        "fnum": "TP1350",
+        "startICAO": "LPPT",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OMDB",
+        "fnum": "TP571",
+        "startICAO": "EDDF",
+        "endICAO": "LPPT"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OMSJ",
+        "fnum": "TP1271",
+        "startICAO": "LOWW",
+        "endICAO": "LPPT"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OOMS",
+        "fnum": "IX2715",
+        "startICAO": "VAPO",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "OOSA",
+        "fnum": "IX1191",
+        "startICAO": "VEGT",
+        "endICAO": "VEAT"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "VOCL",
+        "fnum": "IX1098",
+        "startICAO": "VECC",
+        "endICAO": "VOHS"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "VECC",
+        "fnum": "EY21",
+        "startICAO": "OMAA",
+        "endICAO": "EGCC"
     },
     {
-        startICAO: "VOCI",
-        endICAO: "VOHS",
+        "fnum": "BR211",
+        "startICAO": "RCTP",
+        "endICAO": "VTBS"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OOSA",
+        "fnum": "UL171",
+        "startICAO": "VCBI",
+        "endICAO": "VOBL"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OEJN",
+        "fnum": "UL176",
+        "startICAO": "VOHS",
+        "endICAO": "VCBI"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OERK",
+        "fnum": "UL165",
+        "startICAO": "VCBI",
+        "endICAO": "VOCI"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OKKK",
+        "fnum": "UL364",
+        "startICAO": "VCBI",
+        "endICAO": "WIII"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OEDF",
+        "fnum": "UL314",
+        "startICAO": "VCBI",
+        "endICAO": "WMKK"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OBBI",
+        "fnum": "UL137",
+        "startICAO": "VCBI",
+        "endICAO": "VOMD"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OTHH",
+        "fnum": "UL131",
+        "startICAO": "VCBI",
+        "endICAO": "VOTR"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OMAA",
+        "fnum": "UL161",
+        "startICAO": "VCBI",
+        "endICAO": "VOTV"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OMDB",
+        "fnum": "OU410",
+        "startICAO": "LDZA",
+        "endICAO": "EDDF"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OMSJ",
+        "fnum": "OU490",
+        "startICAO": "LDZA",
+        "endICAO": "EGLL"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OMRK",
+        "fnum": "OU470",
+        "startICAO": "LDZA",
+        "endICAO": "LFPG"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OMAL",
+        "fnum": "OU418",
+        "startICAO": "LDDU",
+        "endICAO": "EDDF"
     },
     {
-        startICAO: "VOCL",
-        endICAO: "OOMS",
+        "fnum": "OU440",
+        "startICAO": "LDZA",
+        "endICAO": "LOWW"
     },
     {
-        startICAO: "VEBS",
-        endICAO: "VECC",
+        "fnum": "DLH505",
+        "startICAO": "SBGR",
+        "endICAO": "EDDM"
     },
     {
-        startICAO: "FALE",
-        endICAO: "FAOR",
+        "fnum": "DLH572",
+        "startICAO": "EDDF",
+        "endICAO": "FAOR"
     },
+    {
+        "fnum": "DLH510",
+        "startICAO": "EDDF",
+        "endICAO": "SAEZ"
+    },
+    {
+        "fnum": "DLH542",
+        "startICAO": "EDDF",
+        "endICAO": "SKBO"
+    },
+    {
+        "fnum": "DLH464",
+        "startICAO": "EDDF",
+        "endICAO": "KMCO"
+    },
+    {
+        "fnum": "DLH479",
+        "startICAO": "CYUL",
+        "endICAO": "EDDF"
+    },
+    {
+        "fnum": "DLH568",
+        "startICAO": "EDDF",
+        "endICAO": "DNMM"
+    },
+    {
+        "fnum": "DLH612",
+        "startICAO": "EDDF",
+        "endICAO": "UBBB"
+    },
+    {
+        "fnum": "DLH130",
+        "startICAO": "OJAI",
+        "endICAO": "EDDF"
+    },
+    {
+        "fnum": "DLH630",
+        "startICAO": "EDDF",
+        "endICAO": "OMDB"
+    },
+    {
+        "fnum": "DLH130",
+        "startICAO": "EDDF",
+        "endICAO": "OLBA"
+    },
+    {
+        "fnum": "DLH684",
+        "startICAO": "EDDF",
+        "endICAO": "LLBG"
+    },
+    {
+        "fnum": "DLH246",
+        "startICAO": "BIKF",
+        "endICAO": "EDDM"
+    },
+    {
+        "fnum": "DLH145",
+        "startICAO": "EDDM",
+        "endICAO": "UUDD"
+    },
+    {
+        "fnum": "DLH115",
+        "startICAO": "EDDF",
+        "endICAO": "LEIB"
+    },
+    {
+        "fnum": "LX316",
+        "startICAO": "LSZH",
+        "endICAO": "EGLL"
+    },
+    {
+        "fnum": "LX1068",
+        "startICAO": "LSZH",
+        "endICAO": "EDDF"
+    },
+    {
+        "fnum": "LX632",
+        "startICAO": "LSZH",
+        "endICAO": "LFPG"
+    },
+    {
+        "fnum": "LX138",
+        "startICAO": "LSZH",
+        "endICAO": "VHHH"
+    },
+    {
+        "fnum": "LX160",
+        "startICAO": "LSZH",
+        "endICAO": "RJAA"
+    },
+    {
+        "fnum": "LX40",
+        "startICAO": "LSZH",
+        "endICAO": "KLAX"
+    },
+    {
+        "fnum": "LX176",
+        "startICAO": "LSZH",
+        "endICAO": "WSSS"
+    },
+    {
+        "fnum": "LX154",
+        "startICAO": "LSZH",
+        "endICAO": "VABB"
+    },
+    {
+        "fnum": "LX1612",
+        "startICAO": "LSZH",
+        "endICAO": "LIMC"
+    },
+    {
+        "fnum": "LX52",
+        "startICAO": "LSZH",
+        "endICAO": "KBOS"
+    },
+    {
+        "fnum": "LX724",
+        "startICAO": "LSZH",
+        "endICAO": "EHAM"
+    },
+    {
+        "fnum": "LX288",
+        "startICAO": "LSZH",
+        "endICAO": "FAOR"
+    },
+    {
+        "fnum": "LX188",
+        "startICAO": "LSZH",
+        "endICAO": "ZSPD"
+    },
+    {
+        "fnum": "AI384",
+        "startICAO": "VIDP",
+        "endICAO": "WMKK"
+    },
+    {
+        "fnum": "AI117",
+        "startICAO": "VIAR",
+        "endICAO": "EGBB"
+    },
+    {
+        "fnum": "U22161",
+        "startICAO": "EGCC",
+        "endICAO": "EHAM"
+    },
+    {
+        "fnum": "U22183",
+        "startICAO": "EGGW",
+        "endICAO": "LTAI"
+    },
+    {
+        "fnum": "U22199",
+        "startICAO": "EGCC",
+        "endICAO": "EDDB"
+    },
+    {
+        "fnum": "U22151",
+        "startICAO": "EGCC",
+        "endICAO": "LTFM"
+    },
+    {
+        "fnum": "U22123",
+        "startICAO": "EGCC",
+        "endICAO": "LIRF"
+    },
+    {
+        "fnum": "U22116",
+        "startICAO": "EGCC",
+        "endICAO": "LFPO"
+    },
+    {
+        "fnum": "U26539",
+        "startICAO": "EGKK",
+        "endICAO": "BIKF"
+    },
+    {
+        "fnum": "U21935",
+        "startICAO": "EGCC",
+        "endICAO": "LEIB"
+    },
+    {
+        "fnum": "U26401",
+        "startICAO": "EGKK",
+        "endICAO": "LPMA"
+    },
+    {
+        "fnum": "U26405",
+        "startICAO": "EGKK",
+        "endICAO": "LGAV"
+    },
+    {
+        "fnum": "U26497",
+        "startICAO": "EGKK",
+        "endICAO": "LMML"
+    },
+    {
+        "fnum": "U26525",
+        "startICAO": "EGKK",
+        "endICAO": "EPKK"
+    },
+    {
+        "fnum": "U26574",
+        "startICAO": "EGKK",
+        "endICAO": "LCPH"
+    },
+    {
+        "fnum": "U23001",
+        "startICAO": "EGAA",
+        "endICAO": "LEBL"
+    },
+    {
+        "fnum": "U22025",
+        "startICAO": "EGGW",
+        "endICAO": "GCRR"
+    },
+    {
+        "fnum": "U22039",
+        "startICAO": "EGGW",
+        "endICAO": "GCTS"
+    },
+    {
+        "fnum": "U21545",
+        "startICAO": "LSGG",
+        "endICAO": "LTAI"
+    },
+    {
+        "fnum": "U21551",
+        "startICAO": "LSGG",
+        "endICAO": "EGNT"
+    },
+    {
+        "fnum": "U25516",
+        "startICAO": "EGNT",
+        "endICAO": "LEAL"
+    },
+    {
+        "fnum": "U21827",
+        "startICAO": "EGCC",
+        "endICAO": "LLBG"
+    },
+    {
+        "fnum": "U28189",
+        "startICAO": "EGKK",
+        "endICAO": "LIMC"
+    },
+    {
+        "fnum": "U21571",
+        "startICAO": "LSGG",
+        "endICAO": "EGBB"
+    },
+    {
+        "fnum": "U26933",
+        "startICAO": "EGPH",
+        "endICAO": "LXGB"
+    },
+    {
+        "fnum": "U22299",
+        "startICAO": "EGCC",
+        "endICAO": "LOWI"
+    },
+    {
+        "fnum": "U22283",
+        "startICAO": "EGCC",
+        "endICAO": "EFRO"
+    },
+    {
+        "fnum": "U22383",
+        "startICAO": "EGGW",
+        "endICAO": "LGMK"
+    },
+    {
+        "fnum": "U22049",
+        "startICAO": "EGGW",
+        "endICAO": "LSGG"
+    },
+    {
+        "fnum": "U2301",
+        "startICAO": "EGGW",
+        "endICAO": "EGPH"
+    },
+    {
+        "fnum": "U22203",
+        "startICAO": "EGGW",
+        "endICAO": "LEMD"
+    },
+    {
+        "fnum": "U25331",
+        "startICAO": "EDDB",
+        "endICAO": "LPPR"
+    },
+    {
+        "fnum": "BR52",
+        "startICAO": "RCTP",
+        "endICAO": "KIAH"
+    },
+    {
+        "fnum": "BR626",
+        "startICAO": "RCTP",
+        "endICAO": "PANC"
+    },
+    {
+        "fnum": "BR56",
+        "startICAO": "RCTP",
+        "endICAO": "KORD"
+    },
+    {
+        "fnum": "BR75",
+        "startICAO": "RCTP",
+        "endICAO": "EHAM"
+    },
+    {
+        "fnum": "BR809",
+        "startICAO": "RCTP",
+        "endICAO": "VHHH"
+    },
+    {
+        "fnum": "BR217",
+        "startICAO": "RCTP",
+        "endICAO": "WMKK"
+    },
+    {
+        "fnum": "BR385",
+        "startICAO": "RCTP",
+        "endICAO": "VVNB"
+    },
+    {
+        "fnum": "BR712",
+        "startICAO": "RCTP",
+        "endICAO": "ZSPD"
+    },
+    {
+        "fnum": "BR71",
+        "startICAO": "RCTP",
+        "endICAO": "EDDM"
+    },
+    {
+        "fnum": "BR10",
+        "startICAO": "RCTP",
+        "endICAO": "CYVR"
+    },
+    {
+        "fnum": "BR716",
+        "startICAO": "RCTP",
+        "endICAO": "ZBAA"
+    },
+    {
+        "fnum": "BR281",
+        "startICAO": "RCTP",
+        "endICAO": "RPVM"
+    },
+    {
+        "fnum": "AIH51",
+        "startICAO": "VIDP",
+        "endICAO": "LEMD"
+    },
+    {
+        "fnum": "AI448",
+        "startICAO": "VILH",
+        "endICAO": "VISR"
+    },
+    {
+        "fnum": "IX421",
+        "startICAO": "VOCI",
+        "endICAO": "OERK"
+    },
+    {
+        "fnum": "IX929",
+        "startICAO": "VOHS",
+        "endICAO": "OEDF"
+    },
+    {
+        "fnum": "IX395",
+        "startICAO": "VOCI",
+        "endICAO": "OKKK"
+    },
+    {
+        "fnum": "IX471",
+        "startICAO": "VOCI",
+        "endICAO": "OBBI"
+    },
+    {
+        "fnum": "IX481",
+        "startICAO": "VOCI",
+        "endICAO": "OEDF"
+    },
+    {
+        "fnum": "IX435",
+        "startICAO": "VOCI",
+        "endICAO": "OMDB"
+    },
+    {
+        "fnum": "IX411",
+        "startICAO": "VOCI",
+        "endICAO": "OMSJ"
+    },
+    {
+        "fnum": "IX445",
+        "startICAO": "VOCI",
+        "endICAO": "OOSA"
+    },
+    {
+        "fnum": "IX5003",
+        "startICAO": "VOCI",
+        "endICAO": "VOCL"
+    },
+    {
+        "fnum": "IX1128",
+        "startICAO": "VOCI",
+        "endICAO": "VECC"
+    },
+    {
+        "fnum": "IX342",
+        "startICAO": "OOSA",
+        "endICAO": "VOCL"
+    },
+    {
+        "fnum": "IX399",
+        "startICAO": "VOCL",
+        "endICAO": "OEJN"
+    },
+    {
+        "fnum": "IX322",
+        "startICAO": "OERK",
+        "endICAO": "VOCL"
+    },
+    {
+        "fnum": "IX393",
+        "startICAO": "VOCL",
+        "endICAO": "OKKK"
+    },
+    {
+        "fnum": "IX382",
+        "startICAO": "OEDF",
+        "endICAO": "VOCL"
+    },
+    {
+        "fnum": "IX473",
+        "startICAO": "VOCL",
+        "endICAO": "OBBI"
+    },
+    {
+        "fnum": "IX375",
+        "startICAO": "VOCL",
+        "endICAO": "OTHH"
+    },
+    {
+        "fnum": "IX347",
+        "startICAO": "VOCL",
+        "endICAO": "OMAA"
+    },
+    {
+        "fnum": "IX345",
+        "startICAO": "VOCL",
+        "endICAO": "OMDB"
+    },
+    {
+        "fnum": "IX353",
+        "startICAO": "VOCL",
+        "endICAO": "OMSJ"
+    },
+    {
+        "fnum": "IX331",
+        "startICAO": "VOCL",
+        "endICAO": "OMRK"
+    },
+    {
+        "fnum": "IX335",
+        "startICAO": "VOCL",
+        "endICAO": "OMAL"
+    },
+    {
+        "fnum": "IX337",
+        "startICAO": "VOCL",
+        "endICAO": "OOMS"
+    },
+    {
+        "fnum": "AIH27",
+        "startICAO": "FALE",
+        "endICAO": "FAOR"
+    },
+    {
+        "fnum": "AZ78",
+        "startICAO": "LIRF",
+        "endICAO": "LEBL"
+    },
+    {
+        "fnum": "AZ332",
+        "startICAO": "LIRF",
+        "endICAO": "LFPG"
+    },
+    {
+        "fnum": "AZ432",
+        "startICAO": "LIRF",
+        "endICAO": "EDDM"
+    },
+    {
+        "fnum": "AZ9054",
+        "startICAO": "LIRF",
+        "endICAO": "LGRP"
+    },
+    {
+        "fnum": "AZ722",
+        "startICAO": "LIRF",
+        "endICAO": "LGAV"
+    },
+    {
+        "fnum": "AZ856",
+        "startICAO": "LIRF",
+        "endICAO": "OMDB"
+    },
+    {
+        "fnum": "AZ854",
+        "startICAO": "LIRF",
+        "endICAO": "GOBD"
+    },
+    {
+        "fnum": "AZ838",
+        "startICAO": "LIRF",
+        "endICAO": "OERK"
+    },
+    {
+        "fnum": "AZ848",
+        "startICAO": "LIRF",
+        "endICAO": "OEJN"
+    },
+    {
+        "fnum": "AZ620",
+        "startICAO": "LIRF",
+        "endICAO": "KLAX"
+    },
+    {
+        "fnum": "AZ614",
+        "startICAO": "LIRF",
+        "endICAO": "KBOS"
+    },
+    {
+        "fnum": "AZ678",
+        "startICAO": "LIRF",
+        "endICAO": "SBGR"
+    },
+    {
+        "fnum": "AZ680",
+        "startICAO": "LIRF",
+        "endICAO": "SAEZ"
+    },
+    {
+        "fnum": "AZ792",
+        "startICAO": "LIRF",
+        "endICAO": "RJTT"
+    },
+    {
+        "fnum": "AI449",
+        "startICAO": "VILH",
+        "endICAO": "VIJU"
+    },
+    {
+        "fnum": "IX592",
+        "startICAO": "VASU",
+        "endICAO": "VECC"
+    },
+    {
+        "fnum": "IX171",
+        "startICAO": "VASU",
+        "endICAO": "OMSJ"
+    },
+    {
+        "fnum": "IX1996",
+        "startICAO": "VASU",
+        "endICAO": "VIDP"
+    },
+    {
+        "fnum": "IX1173",
+        "startICAO": "VOHS",
+        "endICAO": "VASU"
+    },
+    {
+        "fnum": "IX1569",
+        "startICAO": "VASU",
+        "endICAO": "VOBL"
+    },
+    {
+        "fnum": "IX563",
+        "startICAO": "VEBS",
+        "endICAO": "VOBL"
+    },
+    {
+        "fnum": "IX1612",
+        "startICAO": "VEBS",
+        "endICAO": "VOMM"
+    },
+    {
+        "fnum": "AI32",
+        "startICAO": "VAAH",
+        "endICAO": "EDDF"
+    },
+    {
+        "fnum": "AIH33",
+        "startICAO": "VAAH",
+        "endICAO": "EGLL"
+    },
+    {
+        "fnum": "AIH35 ",
+        "startICAO": "EGLL",
+        "endICAO": "KEWR"
+    },
+    {
+        "fnum": "AIH39 ",
+        "startICAO": "VIAR",
+        "endICAO": "EGLL"
+    },
+    {
+        "fnum": "AIH39 ",
+        "startICAO": "EGLL",
+        "endICAO": "CYYZ"
+    },
+    {
+        "fnum": "AIH41",
+        "startICAO": "VHHH",
+        "endICAO": "VABB"
+    },
+    {
+        "fnum": "AIH43",
+        "startICAO": "VECC",
+        "endICAO": "VHHH"
+    },
+    {
+        "fnum": "AIH70",
+        "startICAO": "VIDP",
+        "endICAO": "HECA"
+    },
+    {
+        "fnum": "AIH47",
+        "startICAO": "VABB",
+        "endICAO": "HKJK"
+    }
 ];
+
+
 
 const URLBASE = "https://1ved.cloud/api/v2";
 const UPDATE_INTERVAL = 60000;
@@ -3303,14 +4466,14 @@ var Stadia_AlidadeSmoothDark = L.tileLayer(
             '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         ext: "png",
     },
-).addTo(map);
+);
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
     setZoom: 7,
     maxZoom: 18,
-});
+}).addTo(map);
 
 var Thunderforest_TransportDark = L.tileLayer(
     "https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}",
@@ -3349,16 +4512,35 @@ var baseMaps = {
     CycIOSM: CyclOSM,
 };
 
-var codesharesLayer = L.layerGroup();
+const group1 = [
+    "EY", "GA", "SQ", "MS", "KE", 
+    "BW", "HU", "AY", "CI", "ET", 
+    "FR", "DL"
+  ];
+  
+const group2 = [
+    "D7", "LO", "QZ", "AK", "FD", 
+    "XJ", "KT", "TK", "OD", "Z2", 
+    "ID", "ZS", "SL", "JT", "I5", 
+    "TR", "NH", "BR", "UL", "OU", 
+    "LX", "U2", "AZ"
+  ];
 
-L.control.layers(baseMaps, { Codeshares: codesharesLayer }).addTo(map);
+var codesharesA = L.layerGroup();
+var codesharesB = L.layerGroup();
+
+function getRouteType(fnum) {
+    if (group1.some(prefix => fnum.startsWith(prefix))) return "codeshareA";
+    if (group2.some(prefix => fnum.startsWith(prefix))) return "codeshareB";
+    return "INVA";
+}
+L.control.layers(baseMaps, { "Codeshares A": codesharesA, "Codeshares B": codesharesB }).addTo(map);
 
 const flightMarkers = {};
 
 const inactivityTime = 15 * 60000;
 let inactivityTimeout;
 let isPaused = false;
-
 function showPopup() {
     const popupOverlay = document.createElement("div");
     popupOverlay.className = "popup-overlay active";
@@ -3600,7 +4782,7 @@ async function fetchAndDisplayFlights() {
                 }
             } catch (routeError) {
                 console.error(
-                    `Error fetching route for flight ${flightId}:`,
+                    `Error fetching route for flight ${callsign}:`,
                     routeError,
                 );
             }
@@ -3611,6 +4793,7 @@ async function fetchAndDisplayFlights() {
         console.error("Error fetching flights:", error);
     }
 }
+
 
 fetchAndDisplayFlights();
 setInterval(fetchAndDisplayFlights, UPDATE_INTERVAL);
@@ -3661,98 +4844,99 @@ function calculateBezierCurve(start, end, numPoints = 100) {
     });
 }
 
+
+airports.forEach((airport) => {
+    const marker = L.marker(airport.coordinates, {
+        icon: airportIcon,
+        icao: airport.icao,
+    }).addTo(map).bindPopup(
+        `<div class="flight-popup">${airport.name}<br>(${airport.icao})</div>
+        <style>
+             .flight-popup {
+                  background-color: rgba(223, 223, 223, 0.741);
+                  font-weight: bold;
+                  padding-left: 15px;
+                  padding-right: 15px;
+                  padding-top: 5px;
+                  padding-bottom: 3px;
+                  border-radius: 5px;
+                  box-shadow: none;
+                  border: none;
+             }
+             .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
+                  background: transparent;
+             }
+             .leaflet-popup-content {
+                  margin: 0;
+             }
+        </style>`
+    );
+
+    // Store the marker in the airport object
+    airport.markerStart = marker;
+    
+    // Add event listeners
+    marker.on("mouseover", (event) => handleHover(event, true));
+    marker.on("mouseout", (event) => handleHover(event, false));
+    marker.on("click", handleClick);
+});
 function addRoute(route) {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
     if (!startAirport || !endAirport) {
         console.warn(`Route data incomplete: ${JSON.stringify(route)}`);
-        return;
+        return null;
     }
-    const markerStart = L.marker(startAirport.coordinates, {
-        icon: airportIcon,
-        icao: startAirport.icao,
-    }).addTo(map).bindPopup(`
-                <div class="flight-popup">${startAirport.name}<br>(${startAirport.icao})</div>
-                <style>
-                     .flight-popup {
-                          background-color: rgba(223, 223, 223, 0.741);
-                          font-weight: bold;
-                          padding-left: 15px;
-                          padding-right: 15px;
-                          padding-top: 5px;
-                          padding-bottom: 3px;
-                          border-radius: 5px;
-                          box-shadow: none;
-                          border: none;
-                     }
-                     .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                          background: transparent;
-                     }
-                     .leaflet-popup-content {
-                          margin: 0;
-                     }
-                </style>
-          `);
-    const markerEnd = L.marker(endAirport.coordinates, {
-        icon: airportIcon,
-        icao: endAirport.icao,
-    }).addTo(map).bindPopup(`
-                <div class="flight-popup">${endAirport.name}<br>(${endAirport.icao})</div>
-                <style>
-                     .flight-popup {
-                          background-color: rgba(223, 223, 223, 0.741);
-                          font-weight: bold;
-                          padding: 5px;
-                          padding-left: 15px;
-                          padding-right: 15px;
-                          padding-top: 5px;
-                          padding-bottom: 3px;
-                          border-radius: 5px;
-                          box-shadow: none;
-                          border: none;
-                     }
-                     .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                          background: transparent;
-                     }
-                     .leaflet-popup-content {
-                          margin: 0;
-                     }
-                </style>
-          `);
+
     const curvePoints = calculateBezierCurve(
         startAirport.coordinates,
         endAirport.coordinates,
     );
-    const polyline = L.polyline(curvePoints, { color: "blue", weight: 1 }).addTo(
-        map,
-    );
-    return { markerStart, markerEnd, polyline, route };
+
+    const type = getRouteType(route.fnum);
+    let polyline;
+    if (type === 'codeshareB') {
+        polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+        polyline.addTo(codesharesB);
+    } else if (type === 'codeshareA') {
+        polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+        polyline.addTo(codesharesA);
+    } else {
+        polyline = L.polyline(curvePoints, { color: "blue", weight: 1 }).addTo(map);
+    }
+    
+    return { polyline, route, type };
 }
 
-const elements = routes.map(addRoute);
+const elements = routes.map(addRoute).filter(Boolean);
 
 function handleHover(event, isHover, isCodeshare = false) {
     if (highlightedRoutes.length === 0) {
         const hoveredIcao = event.target.options.icao;
-        elements.forEach((e) =>
-            e.route.startICAO === hoveredIcao || e.route.endICAO === hoveredIcao
-                ? e.polyline.setStyle({
-                      color: isHover ? "red" : "blue",
-                      weight: isHover ? 2.7 : 1,
-                  })
-                : e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 }),
-        );
+        elements.forEach((e) => {
+            if (!e.polyline) return; // Fixing TypeError issue
+
+            if (e.route.startICAO === hoveredIcao || e.route.endICAO === hoveredIcao) {
+                e.polyline.setStyle({
+                    color: e.type === "INVA" ? (isHover ? "red" : "blue") : "goldenrod",
+                    weight: isHover ? 2.7 : 1,
+                    opacity: 1
+                });
+            } else {
+                e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 });
+            }
+        });
+
         if (isCodeshare) {
-            codesharesLayer.eachLayer((layer) => {
-                const route = layer.options.route;
-                if (
-                    route.startICAO === hoveredIcao ||
-                    route.endICAO === hoveredIcao
-                ) {
-                    layer.setStyle({ weight: isHover ? 2.7 : 1, opacity: 1 });
-                } else {
-                    layer.setStyle({ opacity: isHover ? 0.2 : 1 });
-                }
+            [codesharesA, codesharesB].forEach((layerGroup) => {
+                layerGroup.eachLayer((layer) => {
+                    const hoveredIcao = event.target.options.icao;
+                    if (layer.options.startICAO === hoveredIcao || layer.options.endICAO === hoveredIcao) {
+                        layer.setStyle({ opacity: 1 });
+                    } else {
+                        layer.setStyle({ opacity: 0.2 });
+                    }
+                });
             });
         }
     }
@@ -3760,73 +4944,42 @@ function handleHover(event, isHover, isCodeshare = false) {
 
 function handleClick(event) {
     const clickedIcao = event.target.options.icao;
-    highlightedRoutes.forEach((e) =>
-        e.polyline.setStyle({ color: "blue", weight: 1 }),
-    );
+    highlightedRoutes.forEach((e) => {
+        e.polyline.setStyle({
+            color: e.type === 'INVA' ? "blue" : "goldenrod",
+            weight: 1
+        });
+    });
+
     highlightedRoutes.length = 0;
+
     elements.forEach((e) => {
-        if (
-            e.route.startICAO === clickedIcao ||
-            e.route.endICAO === clickedIcao
-        ) {
-            e.polyline.setStyle({ color: "red", weight: 2.7 });
+        if ((e.route.startICAO === clickedIcao || e.route.endICAO === clickedIcao)) {
+            if (e.type === 'INVA'){
+                e.polyline.setStyle({ color: "red", weight: 2.7 });
+            }
             highlightedRoutes.push(e);
         } else {
             e.polyline.setStyle({ opacity: 0.2 });
         }
     });
-    codesharesLayer.eachLayer((layer) => {
-        const route = layer.options.route;
-        if (route.startICAO === clickedIcao || route.endICAO === clickedIcao) {
-            layer.setStyle({ weight: 2.7, opacity: 1 });
-            highlightedRoutes.push(layer);
-        } else {
-            layer.setStyle({ opacity: 0.2 });
-        }
-    });
 }
 
 function resetHighlight() {
-    highlightedRoutes.forEach((e) =>
-        e.polyline.setStyle({ color: "blue", weight: 1 }),
-    );
+    highlightedRoutes.forEach((e) => {
+        if(e.type === 'INVA'){
+            e.polyline.setStyle({ color: "blue", weight: 1 });
+        }
+    });
     highlightedRoutes.length = 0;
+
     elements.forEach((e) => e.polyline.setStyle({ opacity: 1 }));
-    codesharesLayer.eachLayer((layer) => {
-        layer.setStyle({ weight: 1, opacity: 1 });
+
+    [codesharesA, codesharesB].forEach((layerGroup) => {
+        layerGroup.eachLayer((layer) => layer.setStyle({ opacity: 1, weight: 1}));
     });
 }
-
-elements.forEach((e) => {
-    e.markerStart.on("mouseover", (event) => handleHover(event, true));
-    e.markerStart.on("mouseout", (event) => handleHover(event, false));
-    e.markerEnd.on("mouseover", (event) => handleHover(event, true));
-    e.markerEnd.on("mouseout", (event) => handleHover(event, false));
-    e.markerStart.on("click", handleClick);
-    e.markerEnd.on("click", handleClick);
-});
-
-codeshares.forEach((route) => {
-    const startAirport = getAirportByICAO(route.startICAO);
-    const endAirport = getAirportByICAO(route.endICAO);
-    if (startAirport && endAirport) {
-        const curvePoints = calculateBezierCurve(
-            startAirport.coordinates,
-            endAirport.coordinates,
-        );
-        const polyline = L.polyline(curvePoints, {
-            color: "goldenrod",
-            weight: 1,
-            opacity: 1,
-        });
-        polyline.on("mouseover", (event) => handleHover(event, true, true));
-        polyline.on("mouseout", (event) => handleHover(event, false, true));
-        polyline.on("click", handleClick);
-        polyline.addTo(codesharesLayer);
-    }
-});
 
 map.on("click", resetHighlight);
 map.on("popupclose", resetHighlight);
 map.setZoom(5);
-resetInactivityTimer();
