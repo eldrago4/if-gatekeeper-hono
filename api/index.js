@@ -152,6 +152,69 @@ app.get('/api/inva/routes', async (c) => {
   }
 });
 
+
+app.post('/api/submit-routes', async (c) => {
+  const { routes, csvRows } = await c.req.json();
+
+  try {
+      const existingRoutes = await inva_client.query(
+          "SELECT starticao, endicao FROM routes WHERE (starticao, endicao) IN (" +
+          routes.map(() => "(?, ?)").join(", ") +
+          ") OR (endicao, starticao) IN (" +
+          routes.map(() => "(?, ?)").join(", ") +
+          ")",
+          routes.flatMap(({ startICAO, endICAO }) => [startICAO, endICAO, startICAO, endICAO])
+      );
+
+      if (existingRoutes.rows.length > 0) {
+          return c.json({ error: "One or more routes already exist in the database." }, 400);
+      }
+
+      const uniqueICAOs = [...new Set(routes.flatMap(({ startICAO, endICAO }) => [startICAO, endICAO]))];
+
+      const existingICAOs = await inva_client.query(
+          "SELECT icao FROM airports WHERE icao = ANY($1)",
+          [uniqueICAOs]
+      );
+
+      const missingICAOs = uniqueICAOs.filter(icao => !existingICAOs.rows.some(row => row.icao === icao));
+
+      if (missingICAOs.length > 0) {
+          await inva_client.query(
+              "INSERT INTO airports (icao) VALUES " +
+              missingICAOs.map(() => "(?)").join(", "),
+              missingICAOs
+          );
+      }
+
+      await inva_client.query(
+          "INSERT INTO routes (fnum, starticao, endicao) VALUES " +
+          routes.map(() => "(?, ?, ?)").join(", "),
+          routes.flatMap(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO])
+      );
+
+      const jsonMessage = "# 🎉 New Route Added\n```json\n" + JSON.stringify(routes, null, 4) + "\n```";
+
+      const csvContent = csvRows.map(e => e.join(";")).join("\n");
+      const csvBlob = new Blob([csvContent], { type: 'text/csv' });
+      const formData = new FormData();
+      formData.append("content", jsonMessage);
+      formData.append("file", csvBlob, "routes.csv");
+
+      await fetch(process.env.ROUTES_CHNL, {
+          method: "POST",
+          body: formData
+      });
+
+      return c.json({ message: "Routes submitted successfully!" });
+
+  } catch (error) {
+      console.error("Error submitting routes:", error);
+      return c.json({ error: "An error occurred. Check the console for details." }, 500);
+  }
+});
+
+
 app.get('/api/airport-gates/:icao', async (c) => {
   const icao = c.req.param('icao');
   const aircraft = c.req.query('aircraft');

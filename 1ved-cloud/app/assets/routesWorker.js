@@ -1,27 +1,27 @@
-import pkg from 'pg';
-const { Client } = pkg;
-import dotenv from 'dotenv';
+// import pkg from 'pg';
+// const { Client } = pkg;
+// import dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
-const inva_client = new Client({
-  connectionString: process.env.NEON_INVA_ROUTES,
-  ssl: { rejectUnauthorized: false }
-});
+// const inva_client = new Client({
+//   connectionString: process.env.NEON_INVA_ROUTES,
+//   ssl: { rejectUnauthorized: false }
+// });
 
-inva_client.connect(async (err) => {
-  if (err) {
-    console.error('Neon connection error:', err.stack);
-    setTimeout(() => {
-      inva_client.connect(async (err) => {
-        if (err) console.error('Retry connection error:', err.stack);
-        else console.log('Connected to inva_routes database.');
-      });
-    }, 1000);
-  } else {
-    console.log('Connected to the database successfully.');
-  }
-});
+// inva_client.connect(async (err) => {
+//   if (err) {
+//     console.error('Neon connection error:', err.stack);
+//     setTimeout(() => {
+//       inva_client.connect(async (err) => {
+//         if (err) console.error('Retry connection error:', err.stack);
+//         else console.log('Connected to inva_routes database.');
+//       });
+//     }, 1000);
+//   } else {
+//     console.log('Connected to the database successfully.');
+//   }
+// });
 
 
 function addRow() {
@@ -126,60 +126,24 @@ async function submitForm() {
     }
 
     try {
-        const existingRoutes = await inva_client.query(
-            "SELECT starticao, endicao FROM routes WHERE (starticao, endicao) IN (" +
-            routes.map(() => "(?, ?)").join(", ") +
-            ") OR (endicao, starticao) IN (" +
-            routes.map(() => "(?, ?)").join(", ") +
-            ")",
-            routes.flatMap(({ startICAO, endICAO }) => [startICAO, endICAO, startICAO, endICAO])
-        );
-
-        if (existingRoutes.rows.length > 0) {
-            alert("One or more routes already exist in the database.");
-            return;
-        }
-        const uniqueICAOs = [...new Set(routes.flatMap(({ startICAO, endICAO }) => [startICAO, endICAO]))];
-
-        const existingICAOs = await inva_client.query(
-            "SELECT icao FROM airports WHERE icao = ANY($1)",
-            [uniqueICAOs]
-        );
-
-        const missingICAOs = uniqueICAOs.filter(icao => !existingICAOs.rows.some(row => row.icao === icao));
-
-        if (missingICAOs.length > 0) {
-            await inva_client.query(
-                "INSERT INTO airports (icao) VALUES " +
-                missingICAOs.map(() => "(?)").join(", "),
-                missingICAOs
-            );
-        }
-
-        // Insert new routes into routes table
-        await inva_client.query(
-            "INSERT INTO routes (fnum, starticao, endicao) VALUES " +
-            routes.map(() => "(?, ?, ?)").join(", "),
-            routes.flatMap(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO])
-        );
-
-        const jsonMessage = "# 🎉 New Route Added\n```json\n" + JSON.stringify(routes, null, 4) + "\n```";
-
-        const csvContent = csvRows.map(e => e.join(";")).join("\n");
-        const csvBlob = new Blob([csvContent], { type: 'text/csv' });
-        const formData = new FormData();
-        formData.append("content", jsonMessage);
-        formData.append("file", csvBlob, "routes.csv");
-
-
-        await fetch(process.env.ROUTES_CHNL, {
-            method: "POST",
-            body: formData
+        const response = await fetch('http://localhost:3000/submit-routes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ routes, csvRows })
         });
 
-        alert("Routes submitted successfully!");
+        const data = await response.json();
+
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert(data.message);
+        }
     } catch (error) {
         console.error("Error submitting routes:", error);
         alert("An error occurred. Check the console for details.");
     }
 }
+
