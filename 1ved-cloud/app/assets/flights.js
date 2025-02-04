@@ -470,7 +470,7 @@ function addRoute(route) {
     const endAirport = getAirportByICAO(route.endICAO);
     if (!startAirport || !endAirport) {
         console.warn(`Route data incomplete: ${JSON.stringify(route)}`);
-        return;
+        return null;
     }
 
     const curvePoints = calculateBezierCurve(
@@ -491,7 +491,7 @@ function addRoute(route) {
     return { polyline, route, type };
 }
 
-const elements = routes.map(addRoute);
+const elements = routes.map(addRoute).filter(Boolean);
 
 function handleHover(event, isHover, isCodeshare = false) {
     if (highlightedRoutes.length === 0) {
@@ -550,9 +550,9 @@ function handleClick(event) {
             if (e.type === 'INVA') {
                 e.polyline.setStyle({ color: "red", weight: 2.7 });
             }
-            else{
-                return;
-            }
+            // else{
+            //     return;
+            // }
             highlightedRoutes.push(e);
         } else {
             e.polyline.setStyle({ opacity: 0.2 });
@@ -583,35 +583,35 @@ function resetHighlight() {
     // });
 }
 
-codeshares.forEach((route) => {
-    const startAirport = getAirportByICAO(route.startICAO);
-    const endAirport = getAirportByICAO(route.endICAO);
-    if (startAirport && endAirport) {
-        const curvePoints = calculateBezierCurve(
-            startAirport.coordinates,
-            endAirport.coordinates,
-        );
-        const polyline = L.polyline(curvePoints, {
-            color: "goldenrod",
-            weight: 1,
-            opacity: 1,
-        });
-        polyline.on("mouseover", (event) => handleHover(event, true, true));
-        polyline.on("mouseout", (event) => handleHover(event, false, true));
-        polyline.on("click", handleClick);
-        polyline.addTo(codesharesLayer);
-    }
-});
+// codeshares.forEach((route) => {
+//     const startAirport = getAirportByICAO(route.startICAO);
+//     const endAirport = getAirportByICAO(route.endICAO);
+//     if (startAirport && endAirport) {
+//         const curvePoints = calculateBezierCurve(
+//             startAirport.coordinates,
+//             endAirport.coordinates,
+//         );
+//         const polyline = L.polyline(curvePoints, {
+//             color: "goldenrod",
+//             weight: 1,
+//             opacity: 1,
+//         });
+//         polyline.on("mouseover", (event) => handleHover(event, true, true));
+//         polyline.on("mouseout", (event) => handleHover(event, false, true));
+//         polyline.on("click", handleClick);
+//         polyline.addTo(codesharesLayer);
+//     }
+// });
 
-elements.forEach((element) => {
-    if (element.type === 'codeshareA' || element.type === 'codeshareB') {
-        const airport = getAirportByICAO(element.route.startICAO);
-        if (airport && airport.markerStart) {
-            airport.markerStart.on("mouseover", (event) => handleHover(event, true, true));
-            airport.markerStart.on("mouseout", (event) => handleHover(event, false, true));
-        }
-    }
-});
+// elements.forEach((element) => {
+//     if (element.type === 'codeshareA' || element.type === 'codeshareB') {
+//         const airport = getAirportByICAO(element.route.startICAO);
+//         if (airport && airport.markerStart) {
+//             airport.markerStart.on("mouseover", (event) => handleHover(event, true, true));
+//             airport.markerStart.on("mouseout", (event) => handleHover(event, false, true));
+//         }
+//     }
+// });
 
 map.on("click", resetHighlight);
 map.on("popupclose", resetHighlight);
