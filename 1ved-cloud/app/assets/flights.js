@@ -538,8 +538,10 @@ function handleClick(event) {
     highlightedRoutes.length = 0;
 
     elements.forEach((e) => {
-        if (e.route.startICAO === clickedIcao || e.route.endICAO === clickedIcao) {
-            e.polyline.setStyle({ color: "red", weight: 2.7 });
+        if ((e.route.startICAO === clickedIcao || e.route.endICAO === clickedIcao)) {
+            if (e.type === 'INVA'){
+                e.polyline.setStyle({ color: "red", weight: 2.7 });
+            }
             highlightedRoutes.push(e);
         } else {
             e.polyline.setStyle({ opacity: 0.2 });
@@ -549,7 +551,9 @@ function handleClick(event) {
 
 function resetHighlight() {
     highlightedRoutes.forEach((e) => {
-        e.polyline.setStyle({ color: "blue", weight: 1 });
+        if(e.type === 'INVA'){
+            e.polyline.setStyle({ color: "blue", weight: 1 });
+        }
     });
     highlightedRoutes.length = 0;
 
