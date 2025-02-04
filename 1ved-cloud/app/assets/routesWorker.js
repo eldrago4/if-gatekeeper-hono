@@ -1,29 +1,3 @@
-// import pkg from 'pg';
-// const { Client } = pkg;
-// import dotenv from 'dotenv';
-
-// dotenv.config();
-
-// const inva_client = new Client({
-//   connectionString: process.env.NEON_INVA_ROUTES,
-//   ssl: { rejectUnauthorized: false }
-// });
-
-// inva_client.connect(async (err) => {
-//   if (err) {
-//     console.error('Neon connection error:', err.stack);
-//     setTimeout(() => {
-//       inva_client.connect(async (err) => {
-//         if (err) console.error('Retry connection error:', err.stack);
-//         else console.log('Connected to inva_routes database.');
-//       });
-//     }, 1000);
-//   } else {
-//     console.log('Connected to the database successfully.');
-//   }
-// });
-
-
 function addRow() {
     const container = document.getElementById('routeContainer');
     const newRow = document.createElement('div');
@@ -126,7 +100,7 @@ async function submitForm() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/submit-routes', {
+        const response = await fetch('https://1ved.cloud/api/submit-routes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
