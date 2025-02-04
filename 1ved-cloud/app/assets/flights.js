@@ -485,7 +485,7 @@ function addRoute(route) {
         polyline.addTo(codesharesB);
     } else if (type === 'codeshareA'){
         const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
-        polyline..addTo(codesharesA);
+        polyline.addTo(codesharesA);
     }
     else{
         const polyline = L.polyline(curvePoints, { color: "blue", weight: 1 });
