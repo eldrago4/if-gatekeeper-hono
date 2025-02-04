@@ -1,0 +1,83 @@
+body {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 16px;
+    letter-spacing: 0.8px;
+    word-spacing: 0.4px;
+    color: #000000;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    background-color: #f2f2f2;
+    padding: 40px;
+  }
+  .container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+  }
+  h1 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 24px;
+    letter-spacing: 0.8px;
+    word-spacing: 0.4px;
+    color: #000000;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    margin-bottom: 10px;
+    border-bottom: 4px ridge #a1a1a1;
+  }
+  select,
+  input {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  label.fieldNames {
+    word-spacing: 2em;
+  }
+  .dropdown {
+    background: #eaeaea;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  button {
+    padding: 8px 12px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  button.delete {
+    background: #dc3545;
+  }
+  button:hover {
+    opacity: 0.85;
+  }
+  
