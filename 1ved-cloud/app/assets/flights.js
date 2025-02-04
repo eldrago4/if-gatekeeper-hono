@@ -464,7 +464,6 @@ airports.forEach((airport) => {
     marker.on("mouseout", (event) => handleHover(event, false));
     marker.on("click", handleClick);
 });
-
 function addRoute(route) {
     const startAirport = getAirportByICAO(route.startICAO);
     const endAirport = getAirportByICAO(route.endICAO);
@@ -480,17 +479,16 @@ function addRoute(route) {
 
     const type = getRouteType(route.fnum);
     let polyline;
-    if (type === 'codeshareB'){
-        const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+    if (type === 'codeshareB') {
+        polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
         polyline.addTo(codesharesB);
-    } else if (type === 'codeshareA'){
-        const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+    } else if (type === 'codeshareA') {
+        polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
         polyline.addTo(codesharesA);
+    } else {
+        polyline = L.polyline(curvePoints, { color: "blue", weight: 1 }).addTo(map);
     }
-    else{
-        const polyline = L.polyline(curvePoints, { color: "blue", weight: 1 });
-        polyline.addTo(map);
-    }
+    
     return { polyline, route, type };
 }
 
@@ -499,38 +497,30 @@ const elements = routes.map(addRoute).filter(Boolean);
 function handleHover(event, isHover, isCodeshare = false) {
     if (highlightedRoutes.length === 0) {
         const hoveredIcao = event.target.options.icao;
-        elements.forEach((e) =>
-            e.route.startICAO === hoveredIcao || e.route.endICAO === hoveredIcao && e.type === 'INVA'
-                ? e.polyline.setStyle({
-                      color: isHover ? "red" : "blue",
-                      weight: isHover ? 2.7 : 1,
-                  })
-                : e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 })
-        );
+        elements.forEach((e) => {
+            if (!e.polyline) return; // Fixing TypeError issue
+
+            if (e.route.startICAO === hoveredIcao || e.route.endICAO === hoveredIcao) {
+                e.polyline.setStyle({
+                    color: e.type === "INVA" ? (isHover ? "red" : "blue") : "goldenrod",
+                    weight: isHover ? 2.7 : 1,
+                    opacity: 1
+                });
+            } else {
+                e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 });
+            }
+        });
+
         if (isCodeshare) {
-            codesharesA.eachLayer((layer) => {
-                const route = layer.options.route;
-                const hoveredIcao = event.target.options.icao;
-                if (
-                    route.startICAO === hoveredIcao ||
-                    route.endICAO === hoveredIcao
-                ) {
-                    layer.setStyle({ opacity: 1 });
-                } else {
-                    layer.setStyle({ opacity:0.2});
-                }
-            });
-            codesharesB.eachLayer((layer) => {
-                const route = layer.options.route;
-                const hoveredIcao = event.target.options.icao;
-                if (
-                    route.startICAO === hoveredIcao ||
-                    route.endICAO === hoveredIcao
-                ) {
-                    layer.setStyle({ opacity: 1 });
-                } else {
-                    layer.setStyle({ opacity:0.2 });
-                }
+            [codesharesA, codesharesB].forEach((layerGroup) => {
+                layerGroup.eachLayer((layer) => {
+                    const hoveredIcao = event.target.options.icao;
+                    if (layer.options.startICAO === hoveredIcao || layer.options.endICAO === hoveredIcao) {
+                        layer.setStyle({ opacity: 1 });
+                    } else {
+                        layer.setStyle({ opacity: 0.2 });
+                    }
+                });
             });
         }
     }
@@ -539,84 +529,37 @@ function handleHover(event, isHover, isCodeshare = false) {
 function handleClick(event) {
     const clickedIcao = event.target.options.icao;
     highlightedRoutes.forEach((e) => {
-        if (e.type === 'INVA'){
-        e.polyline.setStyle({ color: "blue", weight: 1 })
-        }
-        else{e.polyline.setStyle({ color: "goldenrod", weight: 1 })}
+        e.polyline.setStyle({
+            color: e.type === 'INVA' ? "blue" : "goldenrod",
+            weight: 1
+        });
     });
+
     highlightedRoutes.length = 0;
+
     elements.forEach((e) => {
-        if (
-            e.route.startICAO === clickedIcao ||
-            e.route.endICAO === clickedIcao
-        ) {
-            if (e.type === 'INVA') {
-                e.polyline.setStyle({ color: "red", weight: 2.7 });
-            }
-            // else{
-            //     return;
-            // }
+        if (e.route.startICAO === clickedIcao || e.route.endICAO === clickedIcao) {
+            e.polyline.setStyle({ color: "red", weight: 2.7 });
             highlightedRoutes.push(e);
         } else {
             e.polyline.setStyle({ opacity: 0.2 });
         }
     });
-    // codesharesLayer.eachLayer((layer) => {
-    //     const route = layer.options.route;
-    //     if (route.startICAO === clickedIcao || route.endICAO === clickedIcao) {
-    //         layer.setStyle({ weight: 2.7, opacity: 1 });
-    //         highlightedRoutes.push(layer);
-    //     } else {
-    //         layer.setStyle({ opacity: 0.2 });
-    //     }
-    // });
 }
 
 function resetHighlight() {
     highlightedRoutes.forEach((e) => {
-            if (e.type === 'INVA') {
-                e.polyline.setStyle({ color: "blue", weight: 1 })
-            }
-    }
-    );
+        e.polyline.setStyle({ color: "blue", weight: 1 });
+    });
     highlightedRoutes.length = 0;
+
     elements.forEach((e) => e.polyline.setStyle({ opacity: 1 }));
-    // codesharesLayer.eachLayer((layer) => {
-    //     layer.setStyle({ weight: 1, opacity: 1 });
-    // });
+
+    [codesharesA, codesharesB].forEach((layerGroup) => {
+        layerGroup.eachLayer((layer) => layer.setStyle({ opacity: 1 }));
+    });
 }
-
-// codeshares.forEach((route) => {
-//     const startAirport = getAirportByICAO(route.startICAO);
-//     const endAirport = getAirportByICAO(route.endICAO);
-//     if (startAirport && endAirport) {
-//         const curvePoints = calculateBezierCurve(
-//             startAirport.coordinates,
-//             endAirport.coordinates,
-//         );
-//         const polyline = L.polyline(curvePoints, {
-//             color: "goldenrod",
-//             weight: 1,
-//             opacity: 1,
-//         });
-//         polyline.on("mouseover", (event) => handleHover(event, true, true));
-//         polyline.on("mouseout", (event) => handleHover(event, false, true));
-//         polyline.on("click", handleClick);
-//         polyline.addTo(codesharesLayer);
-//     }
-// });
-
-// elements.forEach((element) => {
-//     if (element.type === 'codeshareA' || element.type === 'codeshareB') {
-//         const airport = getAirportByICAO(element.route.startICAO);
-//         if (airport && airport.markerStart) {
-//             airport.markerStart.on("mouseover", (event) => handleHover(event, true, true));
-//             airport.markerStart.on("mouseout", (event) => handleHover(event, false, true));
-//         }
-//     }
-// });
 
 map.on("click", resetHighlight);
 map.on("popupclose", resetHighlight);
 map.setZoom(5);
-resetInactivityTimer();
