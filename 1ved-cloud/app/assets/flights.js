@@ -481,12 +481,15 @@ function addRoute(route) {
     const type = getRouteType(route.fnum);
     let polyline;
     if (type === 'codeshareB'){
-        const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 }).addTo(codesharesB);
+        const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+        polyline.addTo(codesharesB);
     } else if (type === 'codeshareA'){
-        const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 }).addTo(codesharesA);
+        const polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+        polyline..addTo(codesharesA);
     }
     else{
-        const polyline = L.polyline(curvePoints, { color: "blue", weight: 1 }).addTo(map);
+        const polyline = L.polyline(curvePoints, { color: "blue", weight: 1 });
+        polyline.addTo(map);
     }
     return { polyline, route, type };
 }
