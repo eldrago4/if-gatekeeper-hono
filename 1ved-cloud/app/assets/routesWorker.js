@@ -78,7 +78,6 @@ async function submitForm() {
     let routes = [];
     let csvRows = [["flight_number", "departure_icao", "arrival_icao", "aircraft_names", "flight_time_hours", "flight_time_minutes"]];
 
-    // Validate all fields
     for (let row of rows) {
         const inputs = row.getElementsByTagName('input');
         const select = row.getElementsByTagName('select')[0];
@@ -108,16 +107,20 @@ async function submitForm() {
             body: JSON.stringify({ routes, csvRows })
         });
 
-        const data = await response.json();
+        if (response.ok) {
+            const data = await response.json(); 
 
-        if (data.error) {
-            alert(data.error);
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert(data.message);
+            }
         } else {
-            alert(data.message);
+            alert(`Error: ${response.status} - ${response.statusText}`);
         }
     } catch (error) {
         console.error("Error submitting routes:", error);
-        alert("An error occurred. Check the console for details.");
+        alert(error);
     }
 }
 
