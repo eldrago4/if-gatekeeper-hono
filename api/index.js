@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { airports, routes } from "./data.js";
-import { Pool } from "pg"; 
+import pkg from "pg";
+const { Pool } = pkg;
 import { serveStatic } from "hono/serve-static";
 import { readFile } from "fs/promises";
 import { fileURLToPath } from "url";
