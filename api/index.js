@@ -33,7 +33,17 @@ const inva_client = new Client({
     rejectUnauthorized: false,
   },
 });
-
+async function connectDB() {
+  try {
+    await client.connect();
+    console.log("Connected to main database.");
+    await inva_client.connect();
+    console.log("Connected to inva_routes database.");
+  } catch (err) {
+    console.error("Error connecting to databases:", err);
+  }
+}
+connectDB();
 const aircraftClasses = [
   { name: "B748", class: "F" },
   { name: "A380-800", class: "F" },
@@ -121,25 +131,6 @@ app.post("/api/submit-routes", async (c) => {
   const { routes, csvRows } = await c.req.json();
 
   try {
-    inva_client.connect(async (err) => {
-      if (err) {
-        console.error("neon connection ", err.stack);
-
-        setTimeout(() => {
-          inva_client.connect(async (err) => {
-            if (err) {
-              console.error("neon connection err", err.stack);
-            } else {
-              console.log(
-                "Connected to the inva_routes database successfully."
-              );
-            }
-          });
-        }, 1000); // Retry after 5 seconds
-      } else {
-        console.log("routes db success");
-      }
-    });
     const existingRoutes = await inva_client.query(
       "SELECT starticao, endicao FROM routes WHERE (starticao, endicao) IN (" +
         routes.map(() => "(?, ?)").join(", ") +
@@ -224,23 +215,6 @@ app.get("/api/airport-gates/:icao", async (c) => {
   if (!icao) {
     return c.json({ error: "ICAO code is required" }, 400);
   }
-  client.connect(async (err) => {
-    if (err) {
-      console.error("neon connection err", err.stack);
-
-      setTimeout(() => {
-        client.connect(async (err) => {
-          if (err) {
-            console.error("neon connection err", err.stack);
-          } else {
-            console.log("gates database success");
-          }
-        });
-      }, 1500); // Retry after 5 seconds
-    } else {
-      console.log("gates connected");
-    }
-  });
   let query = `SELECT * FROM ${icao}`;
   if (aircraft) {
     const aircraftClass = getAircraftClass(aircraft);
