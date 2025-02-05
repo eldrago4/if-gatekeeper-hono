@@ -535,4 +535,4 @@ const handler = handle(app);
 // export const PATCH = handler;
 // export const PUT = handler;
 // export const OPTIONS = handler;
-export default app;
+export default handler;
