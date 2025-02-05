@@ -1,10 +1,4 @@
 {
-  "routes": [
-    {
-      "src": "/api/submit-routes",
-      "methods": ["POST"]
-    }
-  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
