@@ -202,8 +202,7 @@ app.get(
     } catch (err) {
       return c.json({ error: err.message }, 500);
     }
-  },
-  injectSpeedInsights()
+  }
 );
 app.get("/api/fpldirection", async (c) => {
   try {
