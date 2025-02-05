@@ -17,7 +17,7 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
   max: 10, 
   idleTimeoutMillis: 30000, 
-  connectionTimeoutMillis: 30000, 
+  connectionTimeoutMillis: 5000,  
 });
 
 const inva_pool = new Pool({
@@ -25,7 +25,7 @@ const inva_pool = new Pool({
   ssl: { rejectUnauthorized: false },
   max: 10,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 10000,
+  connectionTimeoutMillis: 5000,  
 });
 
 const app = new Hono();
@@ -118,8 +118,9 @@ app.post("/api/submit-routes", async (c) => {
   const client = await inva_pool.connect();
 
   try {
-    await client.query("BEGIN"); 
-    // Already exists?
+    await client.query("BEGIN");
+    
+    // Check for existing routes
     const existingRoutes = await client.query(
       `SELECT starticao, endicao FROM routes 
        WHERE (starticao, endicao) IN (${routes.map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`).join(", ")})
@@ -138,7 +139,7 @@ app.post("/api/submit-routes", async (c) => {
       routes.flatMap(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO])
     );
 
-    await client.query("COMMIT"); 
+    await client.query("COMMIT");
     return c.json({ message: "Routes submitted successfully!" });
   } catch (error) {
     await client.query("ROLLBACK");
@@ -172,7 +173,6 @@ app.get("/api/airport-gates/:icao", async (c) => {
       query += ` WHERE class = ANY($1)`;
       values.push(validClasses);
     }
-
 
     const result = await client.query({
       text: query,
