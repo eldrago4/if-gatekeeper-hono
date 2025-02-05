@@ -1,49 +1,34 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import { airports } from "./data.js";
-import { routes } from "./data.js";
-
-import pkg from "pg";
-const { Client } = pkg;
-
-// import { readFile } from 'fs/promises';
-// import path from 'path';
-
+import { airports, routes } from "./data.js";
+import { Pool } from "pg"; 
 import { serveStatic } from "hono/serve-static";
 import { readFile } from "fs/promises";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import dotenv from "dotenv";
 
-import { injectSpeedInsights } from "@vercel/speed-insights";
+dotenv.config();
+
+
+const pool = new Pool({
+  connectionString: process.env.neon,
+  ssl: { rejectUnauthorized: false },
+  max: 10, 
+  idleTimeoutMillis: 30000, 
+  connectionTimeoutMillis: 30000, 
+});
+
+const inva_pool = new Pool({
+  connectionString: process.env.NEON_INVA_ROUTES,
+  ssl: { rejectUnauthorized: false },
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000,
+});
 
 const app = new Hono();
 
-import dotenv, { config } from "dotenv";
-dotenv.config();
-
-const client = new Client({
-  connectionString: process.env.neon,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
-const inva_client = new Client({
-  connectionString: process.env.NEON_INVA_ROUTES,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
-async function connectDB() {
-  try {
-    await client.connect();
-    console.log("Connected to main database.");
-    await inva_client.connect();
-    console.log("Connected to inva_routes database.");
-  } catch (err) {
-    console.error("Error connecting to databases:", err);
-  }
-}
-connectDB();
 const aircraftClasses = [
   { name: "B748", class: "F" },
   { name: "A380-800", class: "F" },
@@ -129,114 +114,79 @@ app.get("/api/inva/routes", async (c) => {
 
 app.post("/api/submit-routes", async (c) => {
   const { routes, csvRows } = await c.req.json();
+  const client = await inva_pool.connect();
 
   try {
-    const existingRoutes = await inva_client.query(
-      "SELECT starticao, endicao FROM routes WHERE (starticao, endicao) IN (" +
-        routes.map(() => "(?, ?)").join(", ") +
-        ") OR (endicao, starticao) IN (" +
-        routes.map(() => "(?, ?)").join(", ") +
-        ")",
-      routes.flatMap(({ startICAO, endICAO }) => [
-        startICAO,
-        endICAO,
-        startICAO,
-        endICAO,
-      ])
+    await client.query("BEGIN"); 
+    // Already exists?
+    const existingRoutes = await client.query(
+      `SELECT starticao, endicao FROM routes 
+       WHERE (starticao, endicao) IN (${routes.map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`).join(", ")})
+       OR (endicao, starticao) IN (${routes.map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`).join(", ")})`,
+      routes.flatMap(({ startICAO, endICAO }) => [startICAO, endICAO])
     );
 
     if (existingRoutes.rows.length > 0) {
-      return c.json(
-        { error: "One or more routes already exist in the database." },
-        400
-      );
+      await client.query("ROLLBACK");
+      return c.json({ error: "One or more routes already exist in the database." }, 400);
     }
 
-    const uniqueICAOs = [
-      ...new Set(
-        routes.flatMap(({ startICAO, endICAO }) => [startICAO, endICAO])
-      ),
-    ];
-
-    const existingICAOs = await inva_client.query(
-      "SELECT icao FROM airports WHERE icao = ANY($1)",
-      [uniqueICAOs]
-    );
-
-    const missingICAOs = uniqueICAOs.filter(
-      (icao) => !existingICAOs.rows.some((row) => row.icao === icao)
-    );
-
-    if (missingICAOs.length > 0) {
-      await inva_client.query(
-        "INSERT INTO airports (icao) VALUES " +
-          missingICAOs.map(() => "(?)").join(", "),
-        missingICAOs
-      );
-    }
-
-    await inva_client.query(
-      "INSERT INTO routes (fnum, starticao, endicao) VALUES " +
-        routes.map(() => "(?, ?, ?)").join(", "),
+    // Insert new routes
+    await client.query(
+      `INSERT INTO routes (fnum, starticao, endicao) VALUES ${routes.map((_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`).join(", ")}`,
       routes.flatMap(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO])
     );
 
-    const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(
-      routes,
-      null,
-      4
-    )}\n\`\`\``;
-
-    const csvContent = csvRows.map((e) => e.join(";")).join("\n");
-    const csvBlob = new Blob([csvContent], { type: "text/csv" });
-    const formData = new FormData();
-    formData.append("content", jsonMessage);
-    formData.append("file", csvBlob, "routes.csv");
-
-    await fetch(process.env.ROUTES_CHNL, {
-      method: "POST",
-      body: formData,
-    });
-
+    await client.query("COMMIT"); 
     return c.json({ message: "Routes submitted successfully!" });
   } catch (error) {
+    await client.query("ROLLBACK");
     console.error("Error submitting routes:", error);
-    return c.json(
-      { error: "An error occurred. Check the console for details." },
-      500
-    );
+    return c.json({ error: "Error." }, 500);
+  } finally {
+    client.release();
   }
 });
 
 app.get("/api/airport-gates/:icao", async (c) => {
   const icao = c.req.param("icao");
   const aircraft = c.req.query("aircraft");
+  const client = await pool.connect();
 
   if (!icao) {
     return c.json({ error: "ICAO code is required" }, 400);
   }
-  let query = `SELECT * FROM ${icao}`;
-  if (aircraft) {
-    const aircraftClass = getAircraftClass(aircraft);
-    if (!aircraftClass) {
-      return c.json({ error: "Invalid aircraft type" }, 400);
-    }
-    const classIndex = gateClasses.indexOf(aircraftClass);
-    const validClasses = gateClasses
-      .slice(classIndex)
-      .map((cls) => `'${cls}'`)
-      .join(", ");
-    query += ` WHERE class IN (${validClasses})`;
-  }
 
   try {
-    const res = await client.query(query);
-    return c.json(res.rows);
+    let query = `SELECT * FROM ${icao}`;
+    const values = [];
+
+    if (aircraft) {
+      const aircraftClass = getAircraftClass(aircraft);
+      if (!aircraftClass) {
+        return c.json({ error: "Invalid aircraft type" }, 400);
+      }
+      const classIndex = gateClasses.indexOf(aircraftClass);
+      const validClasses = gateClasses.slice(classIndex);
+      query += ` WHERE class = ANY($1)`;
+      values.push(validClasses);
+    }
+
+
+    const result = await client.query({
+      text: query,
+      values: values,
+      statement_timeout: 5000, 
+    });
+
+    return c.json(result.rows);
   } catch (err) {
-    return c.json({ error: err.message }, 500);
+    console.error("Database query error:", err);
+    return c.json({ error: "Database error. Try again later." }, 500);
+  } finally {
+    client.release();
   }
 });
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
