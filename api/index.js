@@ -522,6 +522,17 @@ app.get('/api/simbrief', async (c) => {
     }
 });
 
+app.onError(async (err, c) => {
+  try {
+    const html = await readFile(join(__dirname, 'err.html'), 'utf-8');
+    console.error(`${err}`);
+    return c.html(html);
+  } catch (readErr) {
+    console.error('Error reading error page~', readErr);
+    return c.text('Internal Server Error', 500);
+  }
+}); 
+
 const handler = handle(app);
 
 export const GET = handler;
