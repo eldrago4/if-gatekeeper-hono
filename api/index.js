@@ -178,7 +178,7 @@ app.post('/api/submit-routes', async (c) => {
     // Send notification
     (async () => {
       try {
-        const jsonMessage = """# 🎉 New Route Added\n```json\n${JSON.stringify(routes, null, 4)}\n```""";
+        const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
         const csvContent = csvRows.map(e => e.join(";")).join("\n");
         const formData = new FormData();
         formData.append("content", jsonMessage);
