@@ -30,11 +30,11 @@ function addRow() {
         <input type="number" placeholder="Minutes" min="0" max="59">
         <select>
             <!-- Airbus -->
-            <option>Airbus 320</option>
-            <option>Airbus A220-300</option>
             <option>Airbus A318</option>
             <option>Airbus A319</option>
+            <option>Airbus 320</option>
             <option>Airbus A321</option>
+            <option>Airbus A220-300</option>
             <option>Airbus A330-300</option>
             <option>Airbus A330-900</option>
             <option>Airbus A359</option>
@@ -57,26 +57,33 @@ function addRow() {
             <option>Boeing 787-8</option>
             <option>Boeing 787-9</option>
             <option>Boeing 787-10</option>
+            
+            <!-- ERJ -->
+            <option>ERJ-175</option>
+            <option>ERJ-190</option>
+            <option>E190</option>
+            <option>E195</option>
 
             <!-- Bombardier -->
             <option>Bombardier Dash 8 Q-400</option>
+
+            <!-- CRJ -->
             <option>CRJ-700</option>
             <option>CRJ-900</option>
             <option>CRJ-1000</option>
 
-            <!-- Embraer -->
-            <option>E190</option>
-            <option>E195</option>
-            <option>ERJ-175</option>
-            <option>ERJ-190</option>
-
-            <!-- McDonnell Douglas -->
+            <!-- DC -->
             <option>DC-10</option>
             <option>DC-10F</option>
+            <!-- MD -->
             <option>MD-11</option>
             <option>MD-11F</option>
 
-            <!-- Miscellaneous -->
+
+
+
+
+            <!-- TBM -->
             <option>TBM-930</option>
 
         </select>
