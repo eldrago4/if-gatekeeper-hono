@@ -111,7 +111,7 @@ async function submitForm() {
         const aircraft = select.value;
 
         if (!fnum || !startICAO || !endICAO || !hours || !minutes || !aircraft) {
-            showAlert("All fields must be filled in all rows.",error);
+            showAlert("All fields must be filled in all rows.","error");
             return;
         }
         routes.push({ fno, startICAO, endICAO });
@@ -131,17 +131,17 @@ async function submitForm() {
             const data = await response.json(); 
 
             if (data.error) {
-                showAlert(data.error,error);
+                showAlert(data.error,"error");
             } else {
                 showAlert(data.message);
             }
         } else {
             const errData = await response.json();
-            showAlert(`Error: ${response.status} - ${errData.error || response.statusText}`,error);
+            showAlert(`Error: ${response.status} - ${errData.error || response.statusText}`,"error");
         }
     } catch (error) {
         console.error("Error submitting routes:", error);
-        showAlert(error,error);
+        showAlert(error,"error");
     }
 }
 
