@@ -33,41 +33,22 @@ const inva_client = new Client({
     rejectUnauthorized: false
   }
 });
-inva_client.connect(async (err) => {
-  if (err) {
-    console.error('neon connection ', err.stack);
 
-    setTimeout(() => {
-      inva_client.connect(async (err) => {
-        if (err) {
-          console.error('neon connection err', err.stack);
-        } else {
-          console.log('Connected to the inva_routes database successfully.');
-        }
-      });
-    }, 1000); 
-  } else {
-    console.log('Connected to the database successfully.');
+const connectDb = async (client) => {
+  try {
+    await client.connect();
+    console.log(`Connected to the ${client.database} database successfully.`);
+  } catch (err) {
+    console.error(`Error connecting to the ${client.database} database:`, err.stack);
+    throw new Error("Database connection failed");
   }
-});
+};
 
-client.connect(async (err) => {
-  if (err) {
-    console.error('neon connection err', err.stack);
+await Promise.all([
+  connectDb(client),
+  connectDb(inva_client),
+]);
 
-    setTimeout(() => {
-      client.connect(async (err) => {
-        if (err) {
-          console.error('neon connection err', err.stack);
-        } else {
-          console.log('Connected to the gates database successfully.');
-        }
-      });
-    }, 1500); 
-  } else {
-    console.log('Connected to the database successfully.');
-  }
-});
 
 const aircraftClasses = [
   { name: 'B748', class: 'F' },
@@ -156,58 +137,62 @@ app.get('/api/inva/routes', async (c) => {
 app.post('/api/submit-routes', async (c) => {
   const { routes, csvRows } = await c.req.json();
 
+  const startICAOs = routes.map(r => r.startICAO);
+  const endICAOs = routes.map(r => r.endICAO);
+  const uniqueICAOs = [...new Set([...startICAOs, ...endICAOs])];
+
   try {
-      const startICAOs = routes.map(r => r.startICAO);
-      const endICAOs = routes.map(r => r.endICAO);
-      const uniqueICAOs = [...new Set([...startICAOs, ...endICAOs])];
+    const [existingRoutes, existingICAOs] = await Promise.all([
+      inva_client.query(
+        `SELECT starticao, endicao FROM routes 
+         WHERE (starticao, endicao) IN (SELECT * FROM UNNEST($1::text[], $2::text[]))
+         OR (endicao, starticao) IN (SELECT * FROM UNNEST($1::text[], $2::text[]))`,
+        [startICAOs, endICAOs]
+      ),
+      inva_client.query("SELECT icao FROM airports WHERE icao = ANY($1)", [uniqueICAOs])
+    ]);
 
-      const [existingRoutes, existingICAOs] = await Promise.all([
-          inva_client.query(
-              `SELECT starticao, endicao FROM routes 
-               WHERE (starticao, endicao) IN (SELECT * FROM UNNEST($1::text[], $2::text[]))
-               OR (endicao, starticao) IN (SELECT * FROM UNNEST($1::text[], $2::text[]))`,
-              [startICAOs, endICAOs]
-          ),
-          inva_client.query("SELECT icao FROM airports WHERE icao = ANY($1)", [uniqueICAOs])
-      ]);
+    if (existingRoutes.rowCount > 0) {
+      return c.json({ error: "One or more routes already exist in the database." }, 400);
+    }
 
-      if (existingRoutes.rowCount > 0) {
-          return c.json({ error: "One or more routes already exist in the database." }, 400);
-      }
+    //  don't exist in the airports table
+    const existingICAOsSet = new Set(existingICAOs.rows.map(row => row.icao));
+    const missingICAOs = uniqueICAOs.filter(icao => !existingICAOsSet.has(icao));
 
-      const existingICAOsSet = new Set(existingICAOs.rows.map(row => row.icao));
-      const missingICAOs = uniqueICAOs.filter(icao => !existingICAOsSet.has(icao));
-
-      if (missingICAOs.length > 0) {
-          await inva_client.query(
-              `INSERT INTO airports (icao) SELECT * FROM UNNEST($1::text[]) ON CONFLICT DO NOTHING`,
-              [missingICAOs]
-          );
-      }
-
-      const routeValues = routes.map(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO]);
+    if (missingICAOs.length > 0) {
+      // Insert missing 
       await inva_client.query(
-          `INSERT INTO routes (fnum, starticao, endicao) SELECT * FROM UNNEST($1::text[], $2::text[], $3::text[])`,
-          [routes.map(r => r.fno), startICAOs, endICAOs]
+        `INSERT INTO airports (icao) SELECT * FROM UNNEST($1::text[]) ON CONFLICT DO NOTHING`,
+        [missingICAOs]
       );
+    }
 
-      (async () => {
-          const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
-          const csvContent = csvRows.map(e => e.join(";")).join("\n");
-          const formData = new FormData();
-          formData.append("content", jsonMessage);
-          formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
+    // Insert the new routes 
+    const routeValues = routes.map(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO]);
+    await inva_client.query(
+      `INSERT INTO routes (fnum, starticao, endicao) SELECT * FROM UNNEST($1::text[], $2::text[], $3::text[])`,
+      [routes.map(r => r.fno), startICAOs, endICAOs]
+    );
 
-          await fetch(process.env.ROUTES_CHNL, { method: "POST", body: formData });
-      })();
+    // Send notification
+    (async () => {
+      const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
+      const csvContent = csvRows.map(e => e.join(";")).join("\n");
+      const formData = new FormData();
+      formData.append("content", jsonMessage);
+      formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
 
-      return c.json({ message: "Routes submitted successfully!" });
+      await fetch(process.env.ROUTES_CHNL, { method: "POST", body: formData });
+    })();
 
+    return c.json({ message: "Routes submitted successfully!" });
   } catch (error) {
-      console.error("Error submitting routes:", error);
-      return c.json({ error: "An error occurred.", details: error.message }, 500);
+    console.error("Error submitting routes:", error);
+    return c.json({ error: "An error occurred.", details: error.message }, 500);
   }
 });
+
 
 
 
