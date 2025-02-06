@@ -177,16 +177,28 @@ app.post('/api/submit-routes', async (c) => {
 
     // Send notification
     (async () => {
-      const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
-      const csvContent = csvRows.map(e => e.join(";")).join("\n");
-      const formData = new FormData();
-      formData.append("content", jsonMessage);
-      formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
+      try {
+        const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
+        const csvContent = csvRows.map(e => e.join(";")).join("\n");
+        const formData = new FormData();
+        formData.append("content", jsonMessage);
+        formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
 
-      await fetch(process.env.ROUTES_CHNL, { method: "POST", body: formData });
+        const webhookResponse = await fetch(process.env.ROUTES_CHNL, {
+          method: "POST",
+          body: formData
+        });
+
+        if (!webhookResponse.ok) {
+          const errorText = await webhookResponse.text();
+          console.error("Error sending Discord webhook:", errorText);
+        }
+      } catch (webhookError) {
+        console.error("Error sending Discord webhook:", webhookError);
+      }
     })();
 
-    return c.json({ message: "Routes submitted successfully!" });
+    return c.json({ message: "Routes added successfully!" });
   } catch (error) {
     console.error("Error submitting routes:", error);
     return c.json({ error: "An error occurred.", details: error.message }, 500);

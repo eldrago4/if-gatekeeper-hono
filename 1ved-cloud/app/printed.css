@@ -80,4 +80,45 @@ body {
   button:hover {
     opacity: 0.85;
   }
-  
+#alert-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 300px;
+}
+
+.alert {
+  position: relative;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* Error alerts in red */
+.alert.error {
+  background-color: #ff3a24; /* Red */
+}
+
+.alert.success {
+  background-color: #2ecc71; /* Green */
+}
+
+.alert .progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  animation: progressBar 3s linear forwards;
+}
+
+@keyframes progressBar {
+  from { width: 100%; }
+  to   { width: 0%; }
+}

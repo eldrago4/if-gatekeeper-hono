@@ -1,3 +1,23 @@
+function showAlert(message, type = 'success', duration = 3000) {
+    const container = document.getElementById('alert-container');
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert', type);
+    alertDiv.textContent = message;
+    
+    const progress = document.createElement('div');
+    progress.classList.add('progress');
+
+    progress.style.animationDuration = duration + 'ms';
+    alertDiv.appendChild(progress);
+  
+    container.appendChild(alertDiv);
+  
+    setTimeout(() => {
+      alertDiv.remove();
+    }, duration);
+  }
+  
+
 function addRow() {
     const container = document.getElementById('routeContainer');
     const newRow = document.createElement('div');
@@ -91,7 +111,7 @@ async function submitForm() {
         const aircraft = select.value;
 
         if (!fnum || !startICAO || !endICAO || !hours || !minutes || !aircraft) {
-            alert("All fields must be filled in all rows.");
+            showAlert("All fields must be filled in all rows.",error);
             return;
         }
         routes.push({ fno, startICAO, endICAO });
@@ -111,16 +131,17 @@ async function submitForm() {
             const data = await response.json(); 
 
             if (data.error) {
-                alert(data.error);
+                showAlert(data.error,error);
             } else {
-                alert(data.message);
+                showAlert(data.message);
             }
         } else {
-            alert(`Error: ${response.status} - ${response.statusText}`);
+            const errData = await response.json();
+            showAlert(`Error: ${response.status} - ${errData.error || response.statusText}`,error);
         }
     } catch (error) {
         console.error("Error submitting routes:", error);
-        alert(error);
+        showAlert(error,error);
     }
 }
 
