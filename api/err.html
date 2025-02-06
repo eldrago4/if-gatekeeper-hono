@@ -19,7 +19,27 @@
     <script defer src=""></script>
 </head>
 <body>
+    <div class="container">
+        <!-- Main 404 image -->
+        <img src="/1ved-cloud/public/error.png" alt="404 Page Not Found" class="background-image" />
 
+        <!-- Interactive EFB buttons -->
+        <button class="button" onclick="action1()"></button>
+        <button class="button2" onclick="action2()"></button>
+    </div>
+    <script>
+        function action1() {
+            window.location.href = '/';
+        }
+        function action2() {
+
+            if(document.referrer) {
+            window.history.back();
+            } else {
+            window.location.href = '/';
+            }
+        }
+    </script>
 
     
     <footer>
