@@ -157,46 +157,49 @@ app.post('/api/submit-routes', async (c) => {
   const { routes, csvRows } = await c.req.json();
 
   try {
-      // route alr exists?
-      const existingRoutes = await inva_client.query(
-          "SELECT starticao, endicao FROM routes WHERE (starticao, endicao) IN (SELECT * FROM unnest($1::text[], $2::text[])) OR (endicao, starticao) IN (SELECT * FROM unnest($1::text[], $2::text[]))",
-          [routes.map(r => r.startICAO), routes.map(r => r.endICAO)]
-      );
+      const startICAOs = routes.map(r => r.startICAO);
+      const endICAOs = routes.map(r => r.endICAO);
+      const uniqueICAOs = [...new Set([...startICAOs, ...endICAOs])];
 
-      if (existingRoutes.rows.length > 0) {
+      const [existingRoutes, existingICAOs] = await Promise.all([
+          inva_client.query(
+              `SELECT starticao, endicao FROM routes 
+               WHERE (starticao, endicao) IN (SELECT * FROM UNNEST($1::text[], $2::text[]))
+               OR (endicao, starticao) IN (SELECT * FROM UNNEST($1::text[], $2::text[]))`,
+              [startICAOs, endICAOs]
+          ),
+          inva_client.query("SELECT icao FROM airports WHERE icao = ANY($1)", [uniqueICAOs])
+      ]);
+
+      if (existingRoutes.rowCount > 0) {
           return c.json({ error: "One or more routes already exist in the database." }, 400);
       }
 
-      
-      const uniqueICAOs = [...new Set(routes.flatMap(({ startICAO, endICAO }) => [startICAO, endICAO]))];
+      const existingICAOsSet = new Set(existingICAOs.rows.map(row => row.icao));
+      const missingICAOs = uniqueICAOs.filter(icao => !existingICAOsSet.has(icao));
 
-      // new airport?
-      const existingICAOs = await inva_client.query(
-          "SELECT icao FROM airports WHERE icao = ANY($1)",
-          [uniqueICAOs]
-      );
-
-      const missingICAOs = uniqueICAOs.filter(icao => !existingICAOs.rows.some(row => row.icao === icao));
-
-      // add new airports
       if (missingICAOs.length > 0) {
-          const placeholders = missingICAOs.map((_, i) => `($${i + 1})`).join(", ");
-          await inva_client.query(`INSERT INTO airports (icao) VALUES ${placeholders}`, missingICAOs);
+          await inva_client.query(
+              `INSERT INTO airports (icao) SELECT * FROM UNNEST($1::text[]) ON CONFLICT DO NOTHING`,
+              [missingICAOs]
+          );
       }
 
-      // add new routes
-      const values = routes.flatMap(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO]);
-      const placeholders = routes.map((_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`).join(", ");
-      await inva_client.query(`INSERT INTO routes (fnum, starticao, endicao) VALUES ${placeholders}`, values);
+      const routeValues = routes.map(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO]);
+      await inva_client.query(
+          `INSERT INTO routes (fnum, starticao, endicao) SELECT * FROM UNNEST($1::text[], $2::text[], $3::text[])`,
+          [routes.map(r => r.fno), startICAOs, endICAOs]
+      );
 
-      // discord
-      const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
-      const csvContent = csvRows.map(e => e.join(";")).join("\n");
-      const formData = new FormData();
-      formData.append("content", jsonMessage);
-      formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
+      (async () => {
+          const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
+          const csvContent = csvRows.map(e => e.join(";")).join("\n");
+          const formData = new FormData();
+          formData.append("content", jsonMessage);
+          formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
 
-      await fetch(process.env.ROUTES_CHNL, { method: "POST", body: formData });
+          await fetch(process.env.ROUTES_CHNL, { method: "POST", body: formData });
+      })();
 
       return c.json({ message: "Routes submitted successfully!" });
 
@@ -205,6 +208,7 @@ app.post('/api/submit-routes', async (c) => {
       return c.json({ error: "An error occurred.", details: error.message }, 500);
   }
 });
+
 
 
 
