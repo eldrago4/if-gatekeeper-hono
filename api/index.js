@@ -45,7 +45,7 @@ inva_client.connect(async (err) => {
           console.log('Connected to the inva_routes database successfully.');
         }
       });
-    }, 1000); // Retry after 5 seconds
+    }, 1000); 
   } else {
     console.log('Connected to the database successfully.');
   }
@@ -63,7 +63,7 @@ client.connect(async (err) => {
           console.log('Connected to the gates database successfully.');
         }
       });
-    }, 1500); // Retry after 5 seconds
+    }, 1500); 
   } else {
     console.log('Connected to the database successfully.');
   }
@@ -210,7 +210,7 @@ app.post('/api/submit-routes', async (c) => {
 
   } catch (error) {
       console.error("Error submitting routes:", error);
-      return c.json({ error: "An error occurred. Check the console for details." }, 500);
+      return c.json({ error: "An error occurred.", error }, 500);
   }
 });
 
