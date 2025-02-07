@@ -1,49 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="You ran into an error.">
-    <meta name="author" content="eldrago">
-    <title>Error!</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="/1ved-cloud/app/error.css">
-
-
-
-    <!-- Scripts -->
-    <script defer src=""></script>
-</head>
-<body>
-    <div class="container">
-        <!-- Main 404 image -->
-        <img src="/1ved-cloud/public/error.png" alt="404 Page Not Found" class="background-image" />
-
-        <!-- Interactive EFB buttons -->
-        <button class="button" onclick="action1()"></button>
-        <button class="button2" onclick="action2()"></button>
+      body {
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+    
+      .bg-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    
+      .background {
+        max-width: 100vw;
+        max-height: 100vh;
+        width: auto;
+        height: auto;
+        display: block;
+      }
+    
+      /* The EFB container serves as the LED display.
+         We remove any background and use a dual box-shadow:
+          • An inset glow for the inner light
+          • An outset glow for the outer rim
+         Both shadows are animated together for a uniform, soft, and pulsating effect.
+      */
+      .efb-container {
+        position: absolute;
+        overflow: hidden;
+        transform: rotate(-8.5deg);
+        z-index: 3;
+        pointer-events: none; 
+        border-radius: 4px;
+        box-shadow: 
+          inset 0 0 20px 10px rgba(0,160,255,0.15),
+          0 0 15px 5px rgba(0,160,255,0.2);
+      }
+    
+      .efb-content {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: cyan;
+        font-size: 1.2em;
+        font-family: 'Courier New', monospace;
+        text-shadow: 0 0 5px cyan;
+      }
+    
+      .btn {
+        position: absolute;
+        background-image: url('/1ved-cloud/public/btn.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        border: none;
+        cursor: pointer;
+        pointer-events: auto;
+        transform: rotate(-9deg);
+        filter: brightness(1);
+        transition: filter 0.3s ease-in-out;
+        z-index: 1;
+      }
+    </style>
+    
+    <div class="bg-container">
+      <img class="background" src="/1ved-cloud/public/error.png" />
+      
+      <div class="efb-container">
+        <div class="efb-content">Error</div>
+      </div>
+    
+      <!-- Buttons: positioned relative to the background -->
+      <div class="btn btn-5" tabindex="0" role="button"></div>
+      <div class="btn btn-6" tabindex="0" role="button"></div>
     </div>
-    <script>
-        function action1() {
-            window.location.href = '/';
-        }
-        function action2() {
-
-            if(document.referrer) {
-            window.history.back();
-            } else {
-            window.location.href = '/';
-            }
-        }
-    </script>
-
     
-    <footer>
-        <p>&copy; 2025 eldrago. All rights reserved.</p>
-    </footer>
-</body>
+    <script>
+      function scaleAndPositionElements() {
+        const bg = document.querySelector('.background');
+        const efbContainer = document.querySelector('.efb-container');
+        const btn5 = document.querySelector('.btn-5');
+        const btn6 = document.querySelector('.btn-6');
+    
+        if (!bg.complete) {
+          bg.onload = scaleAndPositionElements;
+          return;
+        }
+    
+        const bgRect = bg.getBoundingClientRect();
+        const bgWidth = bgRect.width;
+        const bgHeight = bgRect.height;
+    
+        
+        const refBgWidth = 1456.2;
+        const refBgHeight = 616.533;
+    
+        
+        const efbRefX = 203;
+        const efbRefY = 32;
+        const efbRefWidth = 975;
+        const efbRefHeight = 530;
+    
+        
+        const scaleX = bgWidth / refBgWidth;
+        const scaleY = bgHeight / refBgHeight;
+    
+       
+        const efbWidth = efbRefWidth * scaleX;
+        const efbHeight = efbRefHeight * scaleY;
+        const efbLeft = bgRect.left + efbRefX * scaleX;
+        const efbTop = bgRect.top + efbRefY * scaleY;
+    
+        
+        efbContainer.style.width = `${efbWidth}px`;
+        efbContainer.style.height = `${efbHeight}px`;
+        efbContainer.style.left = `${efbLeft}px`;
+        efbContainer.style.top = `${efbTop}px`;
+    
+       
+        const btn5RefX = 1283;
+        const btn5RefY = 425;
+        const btn6RefX = 1310;
+        const btn6RefY = 490;
+        const refBtnWidth = 60;
+        const refBtnHeight = 20;
+    
+        const btnWidth = (refBtnWidth / refBgWidth) * bgWidth;
+        const btnHeight = (refBtnHeight / refBgHeight) * bgHeight;
+        btn5.style.width = `${btnWidth}px`;
+        btn5.style.height = `${btnHeight}px`;
+        btn6.style.width = `${btnWidth}px`;
+        btn6.style.height = `${btnHeight}px`;
+    
+        btn5.style.left = `${bgRect.left + btn5RefX * scaleX}px`;
+        btn5.style.top = `${bgRect.top + btn5RefY * scaleY}px`;
+        btn6.style.left = `${bgRect.left + btn6RefX * scaleX}px`;
+        btn6.style.top = `${bgRect.top + btn6RefY * scaleY}px`;
+      }
+    
+      
+      function animateEFBDisplay() {
+        gsap.to(".efb-container", {
+          boxShadow: "inset 0 0 50px 20px rgba(0,160,255,0.25), 0 0 20px 10px rgba(0,160,255,0.3)",
+          duration: 0.3,
+          repeat: 2,
+          yoyo: true,
+          ease: "power1.inOut"
+        });
+      }
+    
+      function animateEFBText() {
+        gsap.fromTo(
+          ".efb-content",
+          { opacity: 0.8 },
+          {
+            opacity: 1,
+            duration: 0.1,
+            repeat: 20,
+            yoyo: true,
+            ease: "power1.inOut"
+          }
+        );
+      }
+    
+      function animateButtonPress(button) {
+        gsap.to(button, {
+          scale: 0.9,
+          duration: 0.1,
+          yoyo: true,
+          repeat: 1,
+          ease: "power1.inOut"
+        });
+      }
+    
+      function updateButtonGlow() {
+        const efbRect = document.querySelector('.efb-container').getBoundingClientRect();
+        document.querySelectorAll('.btn').forEach(button => {
+          const btnRect = button.getBoundingClientRect();
+          const distance = Math.hypot(btnRect.left - efbRect.left, btnRect.top - efbRect.top);
+          if (distance < 100) {
+            gsap.to(button, { filter: "brightness(1.5)", duration: 0.5, ease: "power1.out" });
+          } else {
+            gsap.to(button, { filter: "brightness(1)", duration: 0.5, ease: "power1.out" });
+          }
+        });
+      }
+    
+      // Attach a click animation to each button
+      document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('mousedown', () => animateButtonPress(button));
+      });
+      document.querySelector('.btn.btn-5').addEventListener('click', () => {
+        window.history.back();
+      });
+    
+      document.querySelector('.btn.btn-6').addEventListener('click', () => {
+        window.location.href = 'https://1ved.cloud/';
+      });
+      window.addEventListener('resize', () => {
+        scaleAndPositionElements();
+        updateButtonGlow();
+      });
+    
+      window.addEventListener('load', () => {
+        scaleAndPositionElements();
+        animateEFBDisplay();
+        animateEFBText();
+        updateButtonGlow();
+      });
+    </script>
+    
+ </body>
 </html>

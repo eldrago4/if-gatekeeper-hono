@@ -522,6 +522,10 @@ app.get('/api/simbrief', async (c) => {
     }
 });
 
+app.notFound((c) => {
+  throw new Error('Not Found');
+});
+
 app.onError(async (err, c) => {
   try {
     const html = await readFile(join(__dirname, 'err.html'), 'utf-8');
