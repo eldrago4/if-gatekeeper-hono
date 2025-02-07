@@ -4896,13 +4896,13 @@ function addRoute(route) {
     const type = getRouteType(route.fnum);
     let polyline;
     if (type === 'codeshareB') {
-        polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+        polyline = L.polyline(curvePoints, { color: "#c26b00", weight: 1, opacity: 0.5 });
         polyline.addTo(codesharesB);
     } else if (type === 'codeshareA') {
-        polyline = L.polyline(curvePoints, { color: "goldenrod", weight: 1 });
+        polyline = L.polyline(curvePoints, { color: "#c26b00", weight: 1 ,opacity: 0.5});
         polyline.addTo(codesharesA);
     } else {
-        polyline = L.polyline(curvePoints, { color: "blue", weight: 1 }).addTo(map);
+        polyline = L.polyline(curvePoints, { color: "blue", weight: 1, opacity: 0.5}).addTo(map);
     }
     
     return { polyline, route, type };
@@ -4920,10 +4920,10 @@ function handleHover(event, isHover, isCodeshare = false) {
                 e.polyline.setStyle({
                     color: e.type === "INVA" ? (isHover ? "red" : "blue") : "goldenrod",
                     weight: isHover ? 2.7 : 1,
-                    opacity: 1
+                    opacity: 0.5
                 });
             } else {
-                e.polyline.setStyle({ opacity: isHover ? 0.2 : 1 });
+                e.polyline.setStyle({ opacity: isHover ? 0.2 : 0.5 });
             }
         });
 
@@ -4932,7 +4932,7 @@ function handleHover(event, isHover, isCodeshare = false) {
                 layerGroup.eachLayer((layer) => {
                     const hoveredIcao = event.target.options.icao;
                     if (layer.options.startICAO === hoveredIcao || layer.options.endICAO === hoveredIcao) {
-                        layer.setStyle({ opacity: 1 });
+                        layer.setStyle({ opacity: 0.5 });
                     } else {
                         layer.setStyle({ opacity: 0.2 });
                     }
@@ -4968,15 +4968,15 @@ function handleClick(event) {
 function resetHighlight() {
     highlightedRoutes.forEach((e) => {
         if(e.type === 'INVA'){
-            e.polyline.setStyle({ color: "blue", weight: 1 });
+            e.polyline.setStyle({ color: "blue", weight: 1, opacity: 0.5 });
         }
     });
     highlightedRoutes.length = 0;
 
-    elements.forEach((e) => e.polyline.setStyle({ opacity: 1 }));
+    elements.forEach((e) => e.polyline.setStyle({ opacity: 0.5 }));
 
     [codesharesA, codesharesB].forEach((layerGroup) => {
-        layerGroup.eachLayer((layer) => layer.setStyle({ opacity: 1, weight: 1}));
+        layerGroup.eachLayer((layer) => layer.setStyle({ opacity: 0.5, weight: 1}));
     });
 }
 
