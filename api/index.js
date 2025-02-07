@@ -20,6 +20,7 @@ const app = new Hono();
 
 import dotenv, { config } from 'dotenv';
 dotenv.config();
+const staffsvval = process.env.staffsv;
 
 const client = new Client({
   connectionString: process.env.neon,
@@ -183,8 +184,7 @@ app.post('/api/submit-routes', async (c) => {
         const formData = new FormData();
         formData.append("content", jsonMessage);
         formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
-        const staffsvvalue = process.env.staffsv;
-        const webhookResponse = await fetch(`${staffsvvalue}`, {
+        const webhookResponse = await fetch(staffsvval, {
           method: "POST",
           body: formData
         });
@@ -251,6 +251,10 @@ app.get('/api', async (c) => {
 },
 injectSpeedInsights()
 );
+app.get('/api/varcheck', async(c) => { 
+  return c.json({staffsvvar: staffsvval}, 200);
+});
+
 app.get('/api/fpldirection', async (c) => {
   try {
     const html = await readFile(join(__dirname, 'revpath.html'), 'utf-8');
