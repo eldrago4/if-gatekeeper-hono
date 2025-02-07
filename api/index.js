@@ -183,8 +183,8 @@ app.post('/api/submit-routes', async (c) => {
         const formData = new FormData();
         formData.append("content", jsonMessage);
         formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
-        const staffsv = process.env.ROUTES_CHNL;
-        const webhookResponse = await fetch(`${staffsv}`, {
+        const staffsvvalue = process.env.staffsv;
+        const webhookResponse = await fetch(`${staffsvvalue}`, {
           method: "POST",
           body: formData
         });
