@@ -183,8 +183,8 @@ app.post('/api/submit-routes', async (c) => {
         const formData = new FormData();
         formData.append("content", jsonMessage);
         formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
-
-        const webhookResponse = await fetch('https://discord.com/api/webhooks/1336951951811678248/lhbQX3Ibjb7qDry_UofhnY1A7azn6aQkfJ1I0S-V-RM4kmW8fSxaWBbt7YDh5ORUjYXU', {
+        const staffsv = process.env.ROUTES_CHNL;
+        const webhookResponse = await fetch( staffsv, {
           method: "POST",
           body: formData
         });
