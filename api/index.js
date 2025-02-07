@@ -528,7 +528,7 @@ app.notFound((c) => {
 
 app.onError(async (err, c) => {
   try {
-    const html = await readFile(join(__dirname, 'err.html'), 'utf-8');
+    const html = await readFile(join(__dirname, '404.html'), 'utf-8');
     console.error(`${err}`);
     return c.html(html);
   } catch (readErr) {
