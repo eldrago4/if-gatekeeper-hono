@@ -34,7 +34,18 @@
         justify-content: center;
         align-items: center;
       }
-      
+      .bg-container::before {
+        content: "";
+        position: absolute;
+        top: -50px;
+        left: -50px;
+        right: -50px;
+        bottom: -50px;
+        background: #1E1E1F;
+        filter: blur(30px);
+        z-index: -1;
+        border-radius: inherit;
+      }
       .background {
         max-width: 100vw;
         max-height: 100vh;
@@ -216,21 +227,22 @@
         });
       }
     
-      // Attach a click animation to each button
       document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('mousedown', () => animateButtonPress(button));
       });
     
-      // Navigation actions:
-      // btn5 goes back to the previous page
       document.querySelector('.btn.btn-5').addEventListener('click', () => {
+      setTimeout(() => {
         window.history.back();
-      });
+      }, 500);
+    });
     
-      // btn6 navigates to https://1ved.cloud/
-      document.querySelector('.btn.btn-6').addEventListener('click', () => {
+    document.querySelector('.btn.btn-6').addEventListener('click', () => {
+      setTimeout(() => {
         window.location.href = 'https://1ved.cloud/';
-      });
+      }, 500);
+    });
+
     
       window.addEventListener('resize', () => {
         scaleAndPositionElements();
