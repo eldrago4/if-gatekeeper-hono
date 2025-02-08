@@ -118,6 +118,30 @@ const getAircraftClass = (aircraftName) => {
   return aircraft ? aircraft.class : null;
 };
 
+async function sendDiscordWebhook(routes, csvRows) {
+  try {
+    const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
+    const csvContent = csvRows.map(e => e.join(";")).join("\n");
+    const formData = new FormData();
+    formData.append("content", jsonMessage);
+    formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
+    
+    console.log("Sending webhook to:", staffsvval);
+    
+    const webhookResponse = await fetch(staffsvval, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!webhookResponse.ok) {
+      const errorText = await webhookResponse.text();
+      console.error("Error sending Discord webhook:", errorText);
+    }
+  } catch (webhookError) {
+    console.error("Error sending Discord webhook:", webhookError);
+  }
+}
+
 app.get('/api/inva/airports', async (c) => {
   try {
     return c.json(airports);
@@ -177,30 +201,9 @@ app.post('/api/submit-routes', async (c) => {
     );
 
     // Send notification
-    (async () => {
-      try {
-        const jsonMessage = `# 🎉 New Route Added\n\`\`\`json\n${JSON.stringify(routes, null, 4)}\n\`\`\``;
-        const csvContent = csvRows.map(e => e.join(";")).join("\n");
-        const formData = new FormData();
-        formData.append("content", jsonMessage);
-        formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
-        const webhookResponse = await fetch(staffsvval, {
-          method: "POST",
-          body: formData
-        });
-
-        if (!webhookResponse.ok) {
-          const errorText = await webhookResponse.text();
-          console.error("Error sending Discord webhook:", errorText);
-        }
-      } catch (webhookError) {
-        console.error("Error sending Discord webhook:", webhookError);
-      }
-    })();
-
-    return c.json({ message: `Routes added successfully! ` });
+    await sendDiscordWebhook(routes, csvRows);
+    return c.json({ message: `Routes added successfully!` });
   } catch (error) {
-    console.error("Error submitting routes:", error);
     return c.json({ error: "An error occurred.", details: error.message }, 500);
   }
 });
