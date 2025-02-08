@@ -184,7 +184,7 @@ app.post('/api/submit-routes', async (c) => {
         const formData = new FormData();
         formData.append("content", jsonMessage);
         formData.append("file", new Blob([csvContent], { type: "text/csv" }), "routes.csv");
-        const webhookResponse = await fetch(staffsv, {
+        const webhookResponse = await fetch(staffsvval, {
           method: "POST",
           body: formData
         });
@@ -198,7 +198,7 @@ app.post('/api/submit-routes', async (c) => {
       }
     })();
 
-    return c.json({ message: `Routes added successfully! ${staffsvval}` });
+    return c.json({ message: `Routes added successfully! ` });
   } catch (error) {
     console.error("Error submitting routes:", error);
     return c.json({ error: "An error occurred.", details: error.message }, 500);
