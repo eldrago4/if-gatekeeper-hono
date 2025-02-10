@@ -528,11 +528,17 @@ app.get('/api/simbrief', async (c) => {
 
 app.get('/api/packey', async (c) => {
   const requestOrigin = c.req.headers.get("origin");
-  if (!requestOrigin || !requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud") {
+
+  if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud")) {
     return c.json({ error: "Unauthorized" }, 403);
   }
+
+  c.header("Access-Control-Allow-Origin", requestOrigin);
+  c.header("Access-Control-Allow-Methods", "GET");
+  c.header("Access-Control-Allow-Headers", "Content-Type");
   return c.json({ packerKey: process.env.packerKey });
 });
+
 
 
 app.notFound((c) => {
