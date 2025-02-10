@@ -17,7 +17,7 @@ import { dirname, join } from 'path';
 
 const app = new Hono();
 
-import dotenv, { config } from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 const staffsvval = process.env.staffsv;
 
@@ -524,13 +524,13 @@ app.get('/api/simbrief', async (c) => {
 });
 
 app.options('/api/packey', (c) => { // CORS Preflight
-  const requestOrigin = c.req.header("origin"); 
+  const requestOrigin = c.req.header("origin");
 
-  if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud"))) {
+  if (requestOrigin && !requestOrigin.endsWith("1ved.cloud")) {
     return c.json({ error: "Unauthorized" }, 403);
   }
 
-  c.header("Access-Control-Allow-Origin", requestOrigin);
+  c.header("Access-Control-Allow-Origin", requestOrigin || "*"); 
   c.header("Access-Control-Allow-Methods", "GET, OPTIONS");
   c.header("Access-Control-Allow-Headers", "Content-Type");
 
@@ -541,11 +541,11 @@ app.get('/api/packey', async (c) => {
   try {
     const requestOrigin = c.req.header("origin");
 
-    if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud"))) { 
+    if (requestOrigin && !requestOrigin.endsWith("1ved.cloud")) { 
       throw new Error("Unauthorized");
     }
 
-    c.header("Access-Control-Allow-Origin", requestOrigin);
+    c.header("Access-Control-Allow-Origin", requestOrigin || "*"); 
     c.header("Access-Control-Allow-Methods", "GET, OPTIONS");
     c.header("Access-Control-Allow-Headers", "Content-Type");
 
