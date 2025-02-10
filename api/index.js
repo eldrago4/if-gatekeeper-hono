@@ -18,7 +18,7 @@ import { injectSpeedInsights } from "@vercel/speed-insights"
 
 const app = new Hono();
 
-import dotenv, { config } from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 
 const client = new Client({
