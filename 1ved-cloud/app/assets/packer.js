@@ -1,8 +1,7 @@
 
-import { CompactEncrypt, compactDecrypt } from 'jose';
+import { CompactEncrypt, compactDecrypt } from 'https://cdn.jsdelivr.net/npm/jose@5.9.6/+esm';
 import { createSecretKey } from 'crypto';
-import airports from './aegi.js';
-import routes from './rwef.js';
+
 import dotenv from 'dotenv';
 dotenv.config();
 const secretString = process.env.packerKey;
