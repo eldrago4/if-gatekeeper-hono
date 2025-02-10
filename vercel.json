@@ -6,7 +6,7 @@
     },
     {
       "source": "/if/(.*)",
-      "destination": "/if"
+      "destination": "/api"
     }
   ],
   "redirects": [

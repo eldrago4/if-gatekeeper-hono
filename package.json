@@ -1,21 +1,18 @@
 {
+  "name": "if-gatekeeper-hono",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vercel dev",
-    "deploy": "vercel"
-  },
-  "dependencies": {
-    "@vercel/speed-insights": "^1.0.12",
-    "dotenv": "^16.4.7",
-    "hono": "^4.4.2",
-    "jose": "^5.9.6",
-    "next": "^14.2.5",
-    "pg": "^8.13.1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "react": "^18.3.1",
-    "vercel": "^32.7.2",
-    "vue": "^3.4.34",
-    "vue-router": "^4.4.0"
+    "vite": "^6.1.0"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "jose": "^5.9.6"
   }
 }

@@ -1,10 +1,8 @@
 
-import { CompactEncrypt, compactDecrypt } from 'https://cdn.jsdelivr.net/npm/jose@5.9.6/+esm';
+import { CompactEncrypt, compactDecrypt } from 'jose';
 import { createSecretKey } from 'crypto';
-
-import dotenv from 'dotenv';
-dotenv.config();
-const secretString = process.env.packerKey;
+const response = await fetch('https://1ved.cloud/api/packey');
+const secretString = response.packerKey;
 const secretKey = createSecretKey(Buffer.from(secretString, 'utf8'));
 
 export async function encryptData(data) {
