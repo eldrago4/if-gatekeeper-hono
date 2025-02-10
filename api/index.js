@@ -526,6 +526,16 @@ app.get('/api/simbrief', async (c) => {
     }
 });
 
+app.get('/api/packey', async (c) => {
+  const allowedOrigin = "https://1ved.cloud";
+  const requestOrigin = c.req.headers.get("origin");
+  if (requestOrigin !== allowedOrigin) {
+    return c.json({ error: "Unauthorized" }, 403);
+  }
+  return c.json({ packerKey: process.env.packerKey });
+});
+
+
 app.notFound((c) => {
   throw new Error('Not Found');
 });
