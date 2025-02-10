@@ -1,6 +1,6 @@
-import ax from './aegi.js';
-import rx from './rwef.js';
-import { decryptData } from './packer.js';
+import ax from '../1ved-cloud/app/assets/aegi.js';
+import rx from '../1ved-cloud/app/assets/rwef.js';
+import { decryptData } from '../1ved-cloud/app/assets/packer.js';
 
 
 const URLBASE = "https://1ved.cloud/api/v2";

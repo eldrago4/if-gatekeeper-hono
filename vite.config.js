@@ -1,11 +1,21 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig({
+  root: 'api', 
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, './api/leaflet.html'),
+        leaflet: path.resolve(__dirname, 'api/leaflet.html'),
+      },
+      output: {
+        entryFileNames: '[name].[hash].js',
+        chunkFileNames: '[name].[hash].js',
+        assetFileNames: '[name].[hash].[ext]',
       },
     },
   },
