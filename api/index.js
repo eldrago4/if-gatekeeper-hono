@@ -14,7 +14,6 @@ import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-import { injectSpeedInsights } from "@vercel/speed-insights"
 
 const app = new Hono();
 
@@ -251,9 +250,7 @@ app.get('/api', async (c) => {
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
-},
-injectSpeedInsights()
-);
+});
 
 app.get('/api/fpldirection', async (c) => {
   try {
@@ -527,17 +524,36 @@ app.get('/api/simbrief', async (c) => {
 });
 
 app.get('/api/packey', async (c) => {
-  const requestOrigin = c.req.headers.get("origin");
+  try {
+    const requestOrigin = c.req.headers.get("origin");
 
-  if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud")) {
-    return c.json({ error: "Unauthorized" }, 403);
+    if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud")) {
+      throw new Error("Unauthorized");
+    }
+
+    c.header("Access-Control-Allow-Origin", requestOrigin);
+    c.header("Access-Control-Allow-Methods", "GET");
+    c.header("Access-Control-Allow-Headers", "Content-Type");
+
+    const packerKey = process.env.packerKey;
+    if (!packerKey) {
+      throw new Error("Missing Packer Key");
+    }
+
+    return c.json({ packerKey });
+  } catch (err) {
+    console.error("Error in /api/packey:", err.message);
+
+    if (err.message === "Unauthorized") {
+      return c.json({ error: "Unauthorized" }, 403);
+    } else if (err.message === "Missing Packer Key") {
+      return c.json({ error: "Server misconfiguration: packerKey is missing" }, 500);
+    }
+
+    return c.json({ error: "An unexpected error occurred" }, 500);
   }
-
-  c.header("Access-Control-Allow-Origin", requestOrigin);
-  c.header("Access-Control-Allow-Methods", "GET");
-  c.header("Access-Control-Allow-Headers", "Content-Type");
-  return c.json({ packerKey: process.env.packerKey });
 });
+
 
 
 
