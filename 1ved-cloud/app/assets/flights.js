@@ -128,8 +128,13 @@ window.addEventListener("mousemove", resetInactivityTimer);
 window.addEventListener("keydown", resetInactivityTimer);
 window.addEventListener("click", resetInactivityTimer);
 
-const airports = await decryptData(ax);
-const routes = await decryptData(rx);
+let airports, routes;
+async function initializeMarkers() {
+    airports = await decryptData(ax);
+    routes = await decryptData(rx);
+}
+initializeMarkers();
+
 
 function interpolatePosition(startPos, endPos, factor) {
     return [
