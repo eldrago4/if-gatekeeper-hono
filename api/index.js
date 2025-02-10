@@ -527,9 +527,8 @@ app.get('/api/simbrief', async (c) => {
 });
 
 app.get('/api/packey', async (c) => {
-  const allowedOrigin = "https://1ved.cloud";
   const requestOrigin = c.req.headers.get("origin");
-  if (requestOrigin !== allowedOrigin) {
+  if (!requestOrigin || !requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud") {
     return c.json({ error: "Unauthorized" }, 403);
   }
   return c.json({ packerKey: process.env.packerKey });
