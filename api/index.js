@@ -523,10 +523,10 @@ app.get('/api/simbrief', async (c) => {
     }
 });
 
-app.options('/api/packey', (c) => { 
+app.options('/api/packey', (c) => { // CORS Preflight
   const requestOrigin = c.req.header("origin"); 
 
-  if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud")) {
+  if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud"))) {
     return c.json({ error: "Unauthorized" }, 403);
   }
 
@@ -539,8 +539,9 @@ app.options('/api/packey', (c) => {
 
 app.get('/api/packey', async (c) => {
   try {
-    const requestOrigin = c.req.header("origin"); 
-    if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud")) {
+    const requestOrigin = c.req.header("origin");
+
+    if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud"))) { 
       throw new Error("Unauthorized");
     }
 
@@ -566,11 +567,6 @@ app.get('/api/packey', async (c) => {
     return c.json({ error: "An unexpected error occurred" }, 500);
   }
 });
-
-
-
-
-
 
 app.notFound((c) => {
   throw new Error('Not Found');
