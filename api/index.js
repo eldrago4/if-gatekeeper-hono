@@ -523,6 +523,18 @@ app.get('/api/simbrief', async (c) => {
     }
 });
 
+app.options('/api/packey', (c) => { //cors preflight
+  const requestOrigin = c.req.headers.get("origin");
+  if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud")) {
+    return c.json({ error: "Unauthorized" }, 403);
+  }
+  c.header("Access-Control-Allow-Origin", requestOrigin);
+  c.header("Access-Control-Allow-Methods", "GET, OPTIONS");
+  c.header("Access-Control-Allow-Headers", "Content-Type");
+  return new Response(null, { status: 204 });
+});
+
+
 app.get('/api/packey', async (c) => {
   try {
     const requestOrigin = c.req.headers.get("origin");
@@ -532,7 +544,7 @@ app.get('/api/packey', async (c) => {
     }
 
     c.header("Access-Control-Allow-Origin", requestOrigin);
-    c.header("Access-Control-Allow-Methods", "GET");
+    c.header("Access-Control-Allow-Methods", "GET, OPTIONS");
     c.header("Access-Control-Allow-Headers", "Content-Type");
 
     const packerKey = process.env.packerKey;
@@ -553,6 +565,7 @@ app.get('/api/packey', async (c) => {
     return c.json({ error: "An unexpected error occurred" }, 500);
   }
 });
+
 
 
 
