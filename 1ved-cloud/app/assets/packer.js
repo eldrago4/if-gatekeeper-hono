@@ -1,5 +1,11 @@
 async function getSecretKey() {
-  const response = await fetch('https://1ved.cloud/api/packey');
+  const response = await fetch('https://1ved.cloud/api/packey', {
+    method: "GET",
+    mode: "cors", 
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 
   const { packerKey } = await response.json();
   const encoder = new TextEncoder();
@@ -13,6 +19,7 @@ async function getSecretKey() {
       ["encrypt", "decrypt"]
   );
 }
+
 
 export async function encryptData(data) {
   const secretKey = await getSecretKey();
