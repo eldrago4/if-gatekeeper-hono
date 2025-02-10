@@ -1,5 +1,5 @@
 async function getSecretKey() {
-  const response = await fetch('https://1ved.cloud/api/packey', {
+  const response = await fetch('/api/packey', { //relative
     method: "GET",
     mode: "cors", 
     headers: {
