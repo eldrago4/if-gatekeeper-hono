@@ -1,28 +1,45 @@
+async function getSecretKey() {
+  const response = await fetch('https://1ved.cloud/api/packey');
 
-import { CompactEncrypt, compactDecrypt } from 'jose';
-import { createSecretKey } from 'crypto';
-const response = await fetch('https://1ved.cloud/api/packey');
-const secretString = response.packerKey;
-const secretKey = createSecretKey(Buffer.from(secretString, 'utf8'));
+  const { packerKey } = await response.json();
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(packerKey);
+
+  return crypto.subtle.importKey(
+      "raw",
+      keyData,
+      { name: "AES-GCM" },
+      false,
+      ["encrypt", "decrypt"]
+  );
+}
 
 export async function encryptData(data) {
-    const encoder = new TextEncoder();
-    const jwe = await new CompactEncrypt(encoder.encode(JSON.stringify(data)))
-      .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
-      .encrypt(secretKey);
-    return jwe;
-  }
-  
-export async function decryptData(jwe) {
-    const { plaintext } = await compactDecrypt(jwe, secretKey);
-    return JSON.parse(new TextDecoder().decode(plaintext));
+  const secretKey = await getSecretKey();
+  const encoder = new TextEncoder();
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const encrypted = await crypto.subtle.encrypt(
+      { name: "AES-GCM", iv },
+      secretKey,
+      encoder.encode(JSON.stringify(data))
+  );
+
+  return { iv: Array.from(iv), encrypted: Array.from(new Uint8Array(encrypted)) };
+}
+
+export async function decryptData({ iv, encrypted }) {
+  const secretKey = await getSecretKey();
+  const decrypted = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: new Uint8Array(iv) },
+      secretKey,
+      new Uint8Array(encrypted)
+  );
+
+  return JSON.parse(new TextDecoder().decode(decrypted));
 }
 
 export async function updateData(encryptedData, newData) {
-    const dataArray = await decryptData(encryptedData);
-    const updatedArray = dataArray.concat(newData);
-    const newEncryptedData = await encryptData(updatedArray);
-    return newEncryptedData;
+  const dataArray = await decryptData(encryptedData);
+  const updatedArray = dataArray.concat(newData);
+  return encryptData(updatedArray);
 }
-
-
