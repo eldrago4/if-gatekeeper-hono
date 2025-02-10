@@ -14,7 +14,6 @@ import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-import { injectSpeedInsights } from "@vercel/speed-insights"
 
 const app = new Hono();
 
@@ -248,9 +247,7 @@ app.get('/api', async (c) => {
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
-},
-injectSpeedInsights()
-);
+});
 app.get('/api/fpldirection', async (c) => {
   try {
     const html = await readFile(join(__dirname, 'revpath.html'), 'utf-8');
