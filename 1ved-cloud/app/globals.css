@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 20, 20, 20; 
+    --background-end-rgb: 40, 40, 40;   
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+}
+
+
+#map {
+  height: 500px;
+  width: 800px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--foreground-rgb);
+}
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+
+/* .custom-popup .leaflet-popup-content-wrapper {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px 10px 0 10px; /* Remove default rounded corners */
+}  */
+
+/* .custom-popup .leaflet-popup-tip {
+  background-color: red;
+  border: none; /* Remove default border */
+}
+#map {
+      height: 500px;
+      width: 800px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid #000; /* Optional: to visualize the container */
+    }
+
+    /* Popup overlay */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
+      z-index: 99999;
+      font-family: Arial, sans-serif; /* Set font to Arial */
+    }
+
+    /* Popup container */
+    .popup {
+      background-color: #333;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Popup message text */
+    .popup h2 {
+      margin-top: 0;
+      color: #ffab40;
+    }
+
+    /* Button styling */
+    .popup button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      background-color: #ba0000;
+      color: #e29015;
+      font-size: 1rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .popup button:hover {
+      background-color: #930000;
+    }
+
+    /* Show popup */
+    .popup-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+
+.test {
+  font-weight: bold;
+}

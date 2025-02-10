@@ -13,10 +13,12 @@
 node_modules/
 vercel.json
 packages.json
+tabnine.json
 
 # env
 .env
 .env.production
+data.js
 
 # logs
 logs/
@@ -30,3 +32,4 @@ lerna-debug.log*
 # misc
 .DS_Store
 .vercel
+data.js
