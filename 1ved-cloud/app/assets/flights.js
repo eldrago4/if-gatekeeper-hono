@@ -1179,6 +1179,96 @@ const airports = [
         icao: "TBPB",
         coordinates: [13.074722, 59.492222],
     },
+    {
+        "name": "Kazakhstan,Almaty Intl",
+        "icao": "UAAA",
+        "coordinates": [43.355528831481934, 77.04397583007812]
+    },
+    {
+        "name": "Birsa Munda/Ranchi",
+        "icao": "VERC",
+        "coordinates": [23.314781188964844, 85.32175827026367]
+    },
+    {
+        "name": "Chandigarh Intl",
+        "icao": "VICG",
+        "coordinates": [30.673439025878906, 76.7886848449707]
+    },
+    {
+        "name": "Kai Tak [X]",
+        "icao": "VHHX",
+        "coordinates": [22.314586639404297, 114.20441818237305]
+    },
+    {
+        "name": "Bagdogra",
+        "icao": "VEBD",
+        "coordinates": [26.681406021118164, 88.32808685302734]
+    },
+    {
+        "name": "Warsaw Chopin Airport",
+        "icao": "EPWA",
+        "coordinates": [52.16511821746826, 20.967005729675293]
+    },
+    {
+        "name": "Rhodos Diagoras",
+        "icao": "LGRP",
+        "coordinates": [36.40537452697754, 28.086181640625]
+    },
+    {
+        "name": "Belgrade Nikola Tesla Airport",
+        "icao": "LYBE",
+        "coordinates": [44.818458557128906, 20.30918312072754]
+    },
+    {
+        "name": "Cairns",
+        "icao": "YBCS",
+        "coordinates": [-16.87889289855957, 145.74948120117188]
+    },
+    {
+        "name": "Macau Intl",
+        "icao": "VMMC",
+        "coordinates": [22.149389266967773, 113.59138488769531]
+    },
+    {
+        "name": "Velana Intl/Male",
+        "icao": "VRMM",
+        "coordinates": [4.191808223724365, 73.52914428710938]
+    },
+    {
+        "name": "Raipur",
+        "icao": "VERP",
+        "coordinates": [21.18116569519043, 81.74007415771484]
+    },
+    {
+        "name": "Dibrugarh",
+        "icao": "VEMN",
+        "coordinates": [27.483577728271484, 95.01735305786133]
+    },
+    {
+        "name": "Blaise Diagne Intl",
+        "icao": "GOBD",
+        "coordinates": [14.670984745025635, -17.07281494140625]
+    },
+    {
+        "name": "Arturo Merino Benitez Intl",
+        "icao": "SCEL",
+        "coordinates": [-33.39101314544678, -70.79428672790527]
+    },
+    {
+        "name": "Kota Kinabalu Intl",
+        "icao": "WBKK",
+        "coordinates": [5.933912038803101, 116.0498161315918]
+    },
+    {
+        "name": "Dehradun",
+        "icao": "VIDN",
+        "coordinates": [30.190122604370117, 78.18196105957031]
+    },
+    {
+        "name": "Don Mueang Intl",
+        "icao": "VTBD",
+        "coordinates": [13.912503242492676, 100.60673713684082]
+    }
 ];
 
 const routes = [
@@ -1959,7 +2049,7 @@ const routes = [
     },
     {
         "fnum": "AI184",
-        "startICAO": "KSF0",
+        "startICAO": "KSFO",
         "endICAO": "VIDP"
     },
     {
@@ -2034,7 +2124,7 @@ const routes = [
     },
     {
         "fnum": "AI176",
-        "startICAO": "KSF0",
+        "startICAO": "KSFO",
         "endICAO": "VOBL"
     },
     {
