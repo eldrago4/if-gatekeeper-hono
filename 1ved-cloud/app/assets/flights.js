@@ -4638,8 +4638,10 @@ async function fetchAndDisplayFlights() {
       const sessionId = await getSessionId();
       if (!sessionId) return;
       
-      const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
-      const filteredFlights = await flightsResponse.json();
+        const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
+        const flightsData = await flightsResponse.json(); 
+        const filteredFlights = flightsData.result;
+
       // const filteredFlights = flightsData.result.filter((flight) => {
       //   const callsign = flight.callsign;
       //   return (
