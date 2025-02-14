@@ -522,6 +522,8 @@ app.get('/api/simbrief', async (c) => {
         return c.json({ error: `Error fetching flight plan: ${error.message}` }, 500);
     }
 });
+app.get('/if/testpack', async (c) => {
+  return c.text('Works!');
 
 app.options('/api/packey', (c) => { // CORS Preflight
   const requestOrigin = c.req.header("origin");
@@ -535,6 +537,12 @@ app.options('/api/packey', (c) => { // CORS Preflight
   c.header("Access-Control-Allow-Headers", "Content-Type");
 
   return new Response(null, { status: 204 });
+});
+app.get('/api/testpack', async (c) => {
+  const req = await fetch(`/api/packey`);
+  const response = await req.json();
+  return c.json(response);
+});
 app.get('/api/packey', async (c) => {
   const requestOrigin = c.req.headers.get("origin");
 
