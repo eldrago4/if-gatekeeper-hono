@@ -527,8 +527,8 @@ app.get('/api/if/testpack', (c) => {
 });
 app.get('/api/testpack', async (c) => {
   const req = await fetch(`https://dash.1ved.cloud/api/packey`);
-  const response = req.json();
-  return c.json(response);
+  const response = await req.json();
+  return c.json(respo);
 });
 
 app.options('/api/packey', (c) => { // CORS Preflight
