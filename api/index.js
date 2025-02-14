@@ -1,7 +1,5 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
-import { airports } from './data.js';
-import { routes } from './data.js';
 
 import pkg from 'pg';
 const { Client } = pkg;
@@ -522,7 +520,7 @@ app.get('/api/simbrief', async (c) => {
         return c.json({ error: `Error fetching flight plan: ${error.message}` }, 500);
     }
 });
-app.get('/api/if/testpack', (c) => {
+app.get('/if/testpack', (c) => {
   return c.text('Works!');
 });
 app.get('/api/testpack', async (c) => {
