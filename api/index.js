@@ -528,6 +528,7 @@ app.get('/api/if/testpack', (c) => {
 app.get('/api/testpack', async (c) => {
   const req = await fetch(`https://dash.1ved.cloud/api/packey`);
   const response = await req.json();
+  const respo = response;
   return c.json(respo);
 });
 
