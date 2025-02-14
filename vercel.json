@@ -3,6 +3,10 @@
     {
       "source": "/if/(.*)",
       "destination": "/api/if/$1"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
     }
   ],
   "redirects": [
