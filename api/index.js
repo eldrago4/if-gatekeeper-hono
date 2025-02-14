@@ -539,7 +539,7 @@ app.options('/api/packey', (c) => { // CORS Preflight
   return new Response(null, { status: 204 });
 });
 app.get('/api/testpack', async (c) => {
-  const req = await fetch(`/api/packey`);
+  const req = await fetch(`https://dash.1ved.cloud/api/packey`);
   const response = await req.json();
   return c.json(response);
 });
