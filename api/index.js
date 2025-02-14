@@ -525,6 +525,11 @@ app.get('/api/simbrief', async (c) => {
 app.get('/if/testpack', (c) => {
   return c.text('Works!');
 });
+app.get('/api/testpack', async (c) => {
+  const req = await fetch(`https://dash.1ved.cloud/api/packey`);
+  const response = req.json();
+  return c.json(response);
+});
 
 app.options('/api/packey', (c) => { // CORS Preflight
   const requestOrigin = c.req.header("origin");
