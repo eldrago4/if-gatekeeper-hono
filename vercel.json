@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/if/(.*)",
+      "destination": "/api/if/$1"
+    }
+  ],
   "redirects": [
     {
       "source": "/",

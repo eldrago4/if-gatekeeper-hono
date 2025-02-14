@@ -522,7 +522,7 @@ app.get('/api/simbrief', async (c) => {
         return c.json({ error: `Error fetching flight plan: ${error.message}` }, 500);
     }
 });
-app.get('/if/testpack', (c) => {
+app.get('/api/if/testpack', (c) => {
   return c.text('Works!');
 });
 app.get('/api/testpack', async (c) => {
