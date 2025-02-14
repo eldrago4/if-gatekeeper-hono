@@ -522,8 +522,9 @@ app.get('/api/simbrief', async (c) => {
         return c.json({ error: `Error fetching flight plan: ${error.message}` }, 500);
     }
 });
-app.get('/if/testpack', async (c) => {
+app.get('/if/testpack', (c) => {
   return c.text('Works!');
+});
 
 app.options('/api/packey', (c) => { // CORS Preflight
   const requestOrigin = c.req.header("origin");
@@ -537,24 +538,6 @@ app.options('/api/packey', (c) => { // CORS Preflight
   c.header("Access-Control-Allow-Headers", "Content-Type");
 
   return new Response(null, { status: 204 });
-});
-app.get('/api/testpack', async (c) => {
-  const req = await fetch(`https://dash.1ved.cloud/api/packey`);
-  const response = await req.json();
-  return c.json(response);
-});
-app.get('/api/packey', async (c) => {
-  const requestOrigin = c.req.headers.get("origin");
-
-  if (!requestOrigin || (!requestOrigin.endsWith("1ved.cloud") && requestOrigin !== "https://1ved.cloud")) {
-    return c.json({ error: "Unauthorized" }, 403);
-  }
-
-  c.header("Access-Control-Allow-Origin", requestOrigin);
-  c.header("Access-Control-Allow-Methods", "GET");
-  c.header("Access-Control-Allow-Headers", "Content-Type");
-
-  return c.json({ packerKey: process.env.packerKey });
 });
 
 app.get('/api/packey', async (c) => {
@@ -576,18 +559,12 @@ app.get('/api/packey', async (c) => {
 
     return c.json({ packerKey });
   } catch (err) {
-    console.error("Error in /api/packey:", err.message);
-
-    if (err.message === "Unauthorized") {
-      return c.json({ error: "Unauthorized" }, 403);
-    } else if (err.message === "Missing Packer Key") {
-      return c.json({ error: "Server misconfiguration: packerKey is missing" }, 500);
-    }
-
-    return c.json({ error: "An unexpected error occurred" }, 500);
+      if (err.message === "Unauthorized") {
+        return c.json({ error: "Unauthorized" }, 403);
+      }
+      return c.json({ error: "An unexpected error occurred" }, 500);
   }
 });
-
 
 app.notFound((c) => {
   throw new Error('Not Found');
