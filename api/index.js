@@ -523,12 +523,20 @@ app.get('/api/simbrief', async (c) => {
 app.get('/if/testpack', (c) => {
   return c.text('Works!');
 });
+
 app.get('/api/testpack', async (c) => {
   const req = await fetch(`https://dash.1ved.cloud/api/packey`);
-  const response = await req.json();
-  const respo = response;
-  return c.json(respo);
+  const textResponse = await req.text(); 
+  console.log("Raw Response:", textResponse); 
+  
+  try {
+    const jsonResponse = JSON.parse(textResponse); 
+    return c.json(jsonResponse);
+  } catch (err) {
+    return c.json({ error: "Response is not JSON", raw: textResponse });
+  }
 });
+
 
 app.options('/api/packey', (c) => { // CORS Preflight
   const requestOrigin = c.req.header("origin");
