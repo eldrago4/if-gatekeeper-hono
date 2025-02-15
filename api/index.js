@@ -525,17 +525,23 @@ app.get('/if/testpack', (c) => {
 });
 
 app.get('/api/testpack', async (c) => {
-  const req = await fetch(`https://dash.1ved.cloud/api/packey`);
-  const textResponse = await req.text(); 
-  console.log("Raw Response:", textResponse); 
-  
+  const req = await fetch(`https://dash.1ved.cloud/api/packey`, {
+    headers: {
+      "x-api-key": process.env.INTERNAL_API_KEY
+    }
+  });
+
+  const textResponse = await req.text();
+  console.log("Raw Response:", textResponse);
+
   try {
-    const jsonResponse = JSON.parse(textResponse); 
+    const jsonResponse = JSON.parse(textResponse);
     return c.json(jsonResponse);
   } catch (err) {
     return c.json({ error: "Response is not JSON", raw: textResponse });
   }
 });
+
 
 
 app.options('/api/packey', (c) => { // CORS Preflight
