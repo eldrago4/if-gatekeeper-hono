@@ -547,7 +547,7 @@ app.get('/api/testpack', async (c) => {
 app.options('/api/packey', (c) => { // CORS Preflight
   const apihead = c.req.header("x-api-key");
   
-  if (apihead === process.env.INTERNAL_API_KEY) {
+  if (apihead !== process.env.INTERNAL_API_KEY) {
     return c.json({error:"Forbidden - Missing API Key"}, 403);
   }
 
@@ -562,7 +562,7 @@ app.get('/api/packey', async (c) => {
   try {
     const apihead = c.req.header("x-api-key");
     
-    if (apihead === process.env.INTERNAL_API_KEY) {
+    if (apihead !== process.env.INTERNAL_API_KEY) {
       return c.json({error:"Forbidden - Missing API Key"}, 403);
     }
   
