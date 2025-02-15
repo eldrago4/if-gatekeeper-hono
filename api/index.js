@@ -545,30 +545,31 @@ app.get('/api/testpack', async (c) => {
 
 
 app.options('/api/packey', (c) => { // CORS Preflight
-  const requestOrigin = c.req.header("origin");
-
-  if (requestOrigin && !requestOrigin.endsWith("1ved.cloud")) {
-    return c.json({ error: "Unauthorized" }, 403);
+  const apihead = c.req.header("x-api-key");
+  
+  if (apihead === process.env.INTERNAL_API_KEY) {
+    return c.json({error:"Forbidden - Missing API Key"}, 403);
   }
 
-  c.header("Access-Control-Allow-Origin", requestOrigin || "*"); 
+  c.header("Access-Control-Allow-Origin", "*"); 
   c.header("Access-Control-Allow-Methods", "GET, OPTIONS");
-  c.header("Access-Control-Allow-Headers", "Content-Type");
-
+  c.header("Access-Control-Allow-Headers", "Content-Type, x-api-key"); 
+  c.header("Access-Control-Allow-Credentials", "true");
   return new Response(null, { status: 204 });
 });
 
 app.get('/api/packey', async (c) => {
   try {
-    const requestOrigin = c.req.header("origin");
-
-    if (requestOrigin && !requestOrigin.endsWith("1ved.cloud")) { 
-      throw new Error("Unauthorized");
+    const apihead = c.req.header("x-api-key");
+    
+    if (apihead === process.env.INTERNAL_API_KEY) {
+      return c.json({error:"Forbidden - Missing API Key"}, 403);
     }
-
-    c.header("Access-Control-Allow-Origin", requestOrigin || "*"); 
+  
+    c.header("Access-Control-Allow-Origin", "*"); 
     c.header("Access-Control-Allow-Methods", "GET, OPTIONS");
-    c.header("Access-Control-Allow-Headers", "Content-Type");
+    c.header("Access-Control-Allow-Headers", "Content-Type, x-api-key"); 
+    c.header("Access-Control-Allow-Credentials", "true");
 
     const packerKey = process.env.packerKey;
     if (!packerKey) {
