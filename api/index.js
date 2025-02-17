@@ -1,7 +1,5 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
-import { airports } from './data.js';
-import { routes } from './data.js';
 
 import pkg from 'pg';
 const { Client } = pkg;
@@ -158,7 +156,6 @@ app.get('/api/inva/routes', async (c) => {
   }
 });
 
-
 app.post('/api/submit-routes', async (c) => {
   const { routes, csvRows } = await c.req.json();
 
@@ -177,31 +174,29 @@ app.post('/api/submit-routes', async (c) => {
       inva_client.query("SELECT icao FROM airports WHERE icao = ANY($1)", [uniqueICAOs])
     ]);
 
-    if (existingRoutes.rowCount > 0) {
-      return c.json({ error: "One or more routes already exist in the database." }, 400);
-    }
+    const existingRoutesSet = new Set(existingRoutes.rows.map(row => `${row.starticao}-${row.endicao}`));
+    const newRoutes = routes.filter(({ startICAO, endICAO }) => 
+      !existingRoutesSet.has(`${startICAO}-${endICAO}`) && !existingRoutesSet.has(`${endICAO}-${startICAO}`)
+    );
 
-    //  don't exist in the airports table
     const existingICAOsSet = new Set(existingICAOs.rows.map(row => row.icao));
     const missingICAOs = uniqueICAOs.filter(icao => !existingICAOsSet.has(icao));
 
     if (missingICAOs.length > 0) {
-      // Insert missing 
       await inva_client.query(
         `INSERT INTO airports (icao) SELECT * FROM UNNEST($1::text[]) ON CONFLICT DO NOTHING`,
         [missingICAOs]
       );
     }
 
-    // Insert the new routes 
-    const routeValues = routes.map(({ fno, startICAO, endICAO }) => [fno, startICAO, endICAO]);
-    await inva_client.query(
-      `INSERT INTO routes (fnum, starticao, endicao) SELECT * FROM UNNEST($1::text[], $2::text[], $3::text[])`,
-      [routes.map(r => r.fno), startICAOs, endICAOs]
-    );
+    if (newRoutes.length > 0) {
+      await inva_client.query(
+        `INSERT INTO routes (fnum, starticao, endicao) SELECT * FROM UNNEST($1::text[], $2::text[], $3::text[])`,
+        [newRoutes.map(r => r.fno), newRoutes.map(r => r.startICAO), newRoutes.map(r => r.endICAO)]
+      );
+    }
 
-    // Send notification
-    await sendDiscordWebhook(routes, csvRows);
+    await sendDiscordWebhook(newRoutes, csvRows);
     return c.json({ message: `Routes added successfully!` });
   } catch (error) {
     return c.json({ error: "An error occurred.", details: error.message }, 500);
