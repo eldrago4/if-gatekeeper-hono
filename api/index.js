@@ -196,7 +196,7 @@ app.post('/api/submit-routes', async (c) => {
       );
     }
 
-    await sendDiscordWebhook(newRoutes, csvRows);
+    await sendDiscordWebhook(routes, csvRows); 
     return c.json({ message: `Routes added successfully!` });
   } catch (error) {
     return c.json({ error: "An error occurred.", details: error.message }, 500);
