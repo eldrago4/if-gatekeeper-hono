@@ -275,7 +275,7 @@ app.get('/api/v2/sessions', async (c) => {
       return c.json({ error: 'Error fetching sessions from Infinite Flight API' }, 500);
     }
 
-    const expertServer = data.result.filter(server => server.name === 'Expert (24.4)');
+    const expertServer = data.result.filter(server => server.name.includes('Expert'));
 
     if (expertServer.length === 0) {
       return c.json({ error: 'No Expert server found' }, 404);
