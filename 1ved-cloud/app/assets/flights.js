@@ -4709,7 +4709,7 @@ async function getSessionId() {
         const sessionsResponse = await fetch(`${URLBASE}/sessions`);
         const sessionsData = await sessionsResponse.json();
         const expertSession = sessionsData.result.find(
-        (session) => session.name === "Expert (legacy 24.4)"
+        (session) => session.name === "Expert"
         );
         if (!expertSession) {
         console.error("Expert Server session not found");
