@@ -184,7 +184,7 @@ const RouteFinder = () => {
   const result = sorted.filter(route => {
     const totalMinutes = route.flight_time_hours * 60 + route.flight_time_minutes;
     const minMinutes = (parseInt(filters.minTime) || 0) * 60;
-    const maxMinutes = ((parseInt(filters.maxTime) || Infinity) * 60) + 59;
+    const maxMinutes = ((parseInt(filters.maxTime) || Infinity) * 60);
 
     const aircraftFilter = filters.aircraft === '' ||
       route.aircraft_names.toLowerCase().includes(filters.aircraft.toLowerCase());
@@ -301,19 +301,53 @@ const RouteFinder = () => {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '1000px', margin: '0 auto' }}>
-      <h1>🧭 Route Finder</h1>
-
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h1 style={{ margin: 0, whiteSpace: 'nowrap' }}>
+          Indian Virtual Route Finder
+        </h1>
+        <img
+          src="/1ved-cloud/app/assets/F56EF170-44FF-42E6-99D1-3FC23496F4F2.png"
+          alt="Banner"
+          style={{
+            flex: 1,      // Preserve original height
+            height: 'auto',
+            maxHeight: '6px',
+            width: '100%',          // Stretch to fill available horizontal space
+            maxWidth: '100%',       // Prevent overflow
+            // objectFit: 'contain',   // Ensure good scaling behavior
+            alignSelf: 'center'     // Vertically align with heading
+          }}
+        />
+      </div>
       {/* First row: Inputs */}
-<div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
-  {["flightNumber", "departureIcao", "arrivalIcao", "minTime", "maxTime"].map(field => (
-    <div key={field} style={{ flex: '1 1 150px', position: 'relative' }}>
+      {/* First row: Flight Number, Departure ICAO, Arrival ICAO */}
+      <div
+  style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '12px',
+    marginTop: '15px',
+    marginBottom: '12px',
+  }}
+>
+  {["flightNumber", "departureIcao", "arrivalIcao"].map(field => (
+    <div
+      key={field}
+      style={{
+        flex: '1 1 calc(33.333% - 8px)', // 3 per row with 12px gap
+        minWidth: '160px',               // Ensure they don't shrink too small
+        position: 'relative',
+        boxSizing: 'border-box',
+      }}
+    >
       <input
         type="text"
         placeholder={
-          field === 'flightNumber' ? 'Flight Number' :
-          field === 'departureIcao' ? 'Departure ICAO' :
-          field === 'arrivalIcao' ? 'Arrival ICAO' :
-          field === 'minTime' ? 'Min Time (hrs)' : 'Max Time (hrs)'
+          field === 'flightNumber'
+            ? 'Flight Number'
+            : field === 'departureIcao'
+              ? 'Departure ICAO'
+              : 'Arrival ICAO'
         }
         value={filters[field]}
         onFocus={() => setFocusedField(field)}
@@ -321,7 +355,7 @@ const RouteFinder = () => {
         onChange={e =>
           setFilters(prev => ({
             ...prev,
-            [field]: field.includes('Time') ? e.target.value.replace(/\D/g, '') : e.target.value
+            [field]: e.target.value,
           }))
         }
         style={{
@@ -331,27 +365,75 @@ const RouteFinder = () => {
           border: '1px solid #444',
           backgroundColor: '#111',
           color: '#fff',
+          boxSizing: 'border-box',
         }}
       />
-      {(field === "departureIcao" || field === "arrivalIcao") && focusedField === field && (
-        <span
-          onClick={() => setShowMapFor(field)}
-          style={{
-            position: 'absolute',
-            top: '100%',
-            left: '0',
-            color: '#0af',
-            fontSize: '14px',
-            cursor: 'pointer',
-            marginTop: '4px',
-          }}
-        >
-          Pick airport
-        </span>
-      )}
+      {(field === 'departureIcao' || field === 'arrivalIcao') &&
+        focusedField === field && (
+          <span
+            onClick={() => setShowMapFor(field)}
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: '0',
+              color: '#0af',
+              fontSize: '14px',
+              cursor: 'pointer',
+              marginTop: '4px',
+            }}
+          >
+            Pick airport
+          </span>
+        )}
     </div>
   ))}
 </div>
+
+      {/* Second row: Min Time, Max Time */}
+<div style={{
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+  gap: '12px',
+  marginBottom: '16px'
+  }}>
+  {["minTime", "maxTime"].map(field => (
+    <div
+      key={field}
+      style={{
+        flex: '1 1 45%',
+        maxWidth: 'calc(50% - 6px)',
+        minWidth: '140px',
+        boxSizing: 'border-box'
+      }}
+    >
+      <input
+        type="text"
+        placeholder={field === 'minTime' ? 'Min Time (hrs)' : 'Max Time (hrs)'}
+        value={filters[field]}
+        onChange={e =>
+          setFilters(prev => ({
+            ...prev,
+            [field]: e.target.value.replace(/\D/g, '') // numbers only
+          }))
+        }
+        style={{
+          width: '100%',
+          padding: '10px',
+          borderRadius: '6px',
+          border: '1px solid #444',
+          backgroundColor: '#111',
+          color: '#fff',
+          boxSizing: 'border-box'
+        }}
+      />
+    </div>
+  ))}
+</div>
+
+
+
+
 
 {/* Second row: Aircraft and Rank */}
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
@@ -500,7 +582,7 @@ const RouteFinder = () => {
 
 function App() {
   return (
-    <div style={{ backgroundColor: '#111', color: '#fff', minHeight: '100vh', padding: '20px', fontFamily: 'sans-serif' }}>
+    <div>
       <RouteFinder />
     </div>
   );
