@@ -152,7 +152,7 @@ const RouteFinder = () => {
 
 
   useEffect(() => {
-    fetch('1ved-cloud/app/assets/routes.csv')
+    fetch('/1ved-cloud/app/assets/routes.csv')
       .then(response => response.text())
       .then(csvText => {
         Papa.parse(csvText, {
