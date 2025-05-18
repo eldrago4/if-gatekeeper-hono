@@ -301,43 +301,40 @@ const RouteFinder = () => {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '1000px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <h1 style={{ margin: 0, whiteSpace: 'nowrap' }}>
-          Indian Virtual Route Finder
-        </h1>
-        <img
-          src="/1ved-cloud/app/assets/F56EF170-44FF-42E6-99D1-3FC23496F4F2.png"
-          alt="Banner"
-          style={{
-            flex: 1,      // Preserve original height
-            height: 'auto',
-            maxHeight: '6px',
-            width: '100%',          // Stretch to fill available horizontal space
-            maxWidth: '100%',       // Prevent overflow
-            // objectFit: 'contain',   // Ensure good scaling behavior
-            alignSelf: 'center'     // Vertically align with heading
-          }}
-        />
-      </div>
-      {/* First row: Inputs */}
-      {/* First row: Flight Number, Departure ICAO, Arrival ICAO */}
-      <div
-  style={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '12px',
-    marginTop: '15px',
-    marginBottom: '12px',
-  }}
->
+{/* Top Title and Banner */}
+<div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+  <h1 style={{ margin: 0, whiteSpace: 'nowrap', flex: '0 1 auto' }}>
+    Indian Virtual Route Finder
+  </h1>
+  <img
+    src="/1ved-cloud/app/assets/F56EF170-44FF-42E6-99D1-3FC23496F4F2.png"
+    alt="Banner"
+    style={{
+      height: 'auto',
+      maxHeight: '6px',
+      width: '100%',
+      maxWidth: '100%',
+      flex: 1,
+      alignSelf: 'center'
+    }}
+  />
+</div>
+
+{/* ROW 1: FLIGHT NUMBER + DEP + ARR aligned to full row */}
+<div style={{
+  display: 'flex',
+  gap: '12px',
+  flexWrap: 'wrap',
+  marginTop: '18px',
+  marginBottom: '10px'
+}}>
   {["flightNumber", "departureIcao", "arrivalIcao"].map(field => (
     <div
       key={field}
       style={{
-        flex: '1 1 calc(33.333% - 8px)', // 3 per row with 12px gap
-        minWidth: '160px',               // Ensure they don't shrink too small
-        position: 'relative',
-        boxSizing: 'border-box',
+        flex: '1 1 0', // Stretch to share row equally
+        minWidth: '200px',
+        position: 'relative'
       }}
     >
       <input
@@ -365,7 +362,7 @@ const RouteFinder = () => {
           border: '1px solid #444',
           backgroundColor: '#111',
           color: '#fff',
-          boxSizing: 'border-box',
+          boxSizing: 'border-box'
         }}
       />
       {(field === 'departureIcao' || field === 'arrivalIcao') &&
@@ -377,9 +374,9 @@ const RouteFinder = () => {
               top: '100%',
               left: '0',
               color: '#0af',
-              fontSize: '14px',
+              fontSize: '13px',
               cursor: 'pointer',
-              marginTop: '4px',
+              marginTop: '4px'
             }}
           >
             Pick airport
@@ -389,22 +386,19 @@ const RouteFinder = () => {
   ))}
 </div>
 
-      {/* Second row: Min Time, Max Time */}
+{/* ROW 2: TIME FILTERS */}
 <div style={{
   display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'space-between',
   gap: '12px',
-  marginBottom: '16px'
-  }}>
+  flexWrap: 'wrap',
+  marginBottom: '12px'
+}}>
   {["minTime", "maxTime"].map(field => (
     <div
       key={field}
       style={{
-        flex: '1 1 45%',
-        maxWidth: 'calc(50% - 6px)',
-        minWidth: '140px',
-        boxSizing: 'border-box'
+        flex: '1 1 180px',
+        minWidth: '160px'
       }}
     >
       <input
@@ -431,22 +425,24 @@ const RouteFinder = () => {
   ))}
 </div>
 
-
-
-
-
-{/* Second row: Aircraft and Rank */}
-<div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
+{/* ROW 3: AIRCRAFT + RANK */}
+<div style={{
+  display: 'flex',
+  gap: '12px',
+  flexWrap: 'wrap',
+  marginBottom: '20px'
+}}>
   <select
     value={filters.aircraft}
     onChange={e => setFilters({ ...filters, aircraft: e.target.value })}
     style={{
       flex: '1 1 180px',
+      minWidth: '160px',
       padding: '10px',
       borderRadius: '6px',
       border: '1px solid #444',
       backgroundColor: '#111',
-      color: '#fff',
+      color: '#fff'
     }}
   >
     <option value=''>Select Aircraft</option>
@@ -460,19 +456,23 @@ const RouteFinder = () => {
     onChange={e => setFilters({ ...filters, rank: e.target.value })}
     style={{
       flex: '1 1 180px',
+      minWidth: '160px',
       padding: '10px',
       borderRadius: '6px',
       border: '1px solid #444',
       backgroundColor: '#111',
-      color: '#fff',
+      color: '#fff'
     }}
   >
     <option value=''>Select Rank</option>
     {rankHierarchy.map((rank, idx) => (
-      <option key={idx} value={rank}>{rank.charAt(0).toUpperCase() + rank.slice(1)}</option>
+      <option key={idx} value={rank}>
+        {rank.charAt(0).toUpperCase() + rank.slice(1)}
+      </option>
     ))}
   </select>
 </div>
+
 
 
       <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
@@ -510,11 +510,11 @@ const RouteFinder = () => {
 
             return (
               <tr key={index}>
-                <td>{flight_number}</td>
-                <td>{departure_icao}</td>
-                <td>{arrival_icao}</td>
-                <td>{aircraft_names}</td>
-                <td>{formatTime(flight_time_hours, flight_time_minutes)}</td>
+                <td data-label="Flight No.">{flight_number}</td>
+                <td data-label="From">{departure_icao}</td>
+                <td data-label="To">{arrival_icao}</td>
+                <td data-label="Aircraft">{aircraft_names}</td>
+                <td data-label="Duration">{formatTime(flight_time_hours, flight_time_minutes)}</td>
                 <td>
                   <a href={fileLink} target="_blank" rel="noopener noreferrer">
                     <button style={buttonStyle}>File</button>
