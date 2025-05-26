@@ -4798,7 +4798,7 @@ async function fetchAndDisplayFlights() {
                 direction: "top",
                 className: "callsign-label",
                 opacity: 0.9,
-                offset: [0, -7],
+                offset: [0, -4],
               });
               const style = document.createElement("style");
               style.textContent = `
