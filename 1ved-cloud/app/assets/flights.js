@@ -4781,15 +4781,15 @@ async function fetchAndDisplayFlights() {
               const animateDuration = previousPosition === newPosition ? 5000 : ANIMATION_DURATION
               smoothMoveMarker(marker, previousPosition, newPosition, animateDuration);
               flightMarkers[flightId].endPos = newPosition;
-              marker._icon.innerHTML = <img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 15px; height: 15px;"/>;
+              marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 15px; height: 15px;"/>`;
             };
-
+    
             const createMarker = () => {
               const marker = L.marker(newPosition, {
                 icon: L.divIcon({
                   className: "rotated-aircraft-icon",
-                  html: <img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 15px; height: 15px;" />,
-                  iconSize: [15, 15],
+                  html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 15px; height: 15px;" />`,
+                  iconSize: [5, 5],
                   iconAnchor: [7.5, 7.5],
                 }),
               });
@@ -4808,7 +4808,7 @@ async function fetchAndDisplayFlights() {
                   border: none;
                   border-radius: 5px;
                   padding: 1px;
-                  font-size: 10px;
+                  font-size: 7px;
                   text-align: center;
                   pointer-events: none;
                   white-space: nowrap;
