@@ -4781,14 +4781,14 @@ async function fetchAndDisplayFlights() {
               const animateDuration = previousPosition === newPosition ? 5000 : ANIMATION_DURATION
               smoothMoveMarker(marker, previousPosition, newPosition, animateDuration);
               flightMarkers[flightId].endPos = newPosition;
-              marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 15px; height: 15px;"/>`;
+              marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 20px; height: 20px;"/>`;
             };
     
             const createMarker = () => {
               const marker = L.marker(newPosition, {
                 icon: L.divIcon({
                   className: "rotated-aircraft-icon",
-                  html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 15px; height: 15px;" />`,
+                  html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 20px; height: 20px;" />`,
                   iconSize: [5, 5],
                   iconAnchor: [7.5, 7.5],
                 }),
@@ -4798,7 +4798,7 @@ async function fetchAndDisplayFlights() {
                 direction: "top",
                 className: "callsign-label",
                 opacity: 0.9,
-                offset: [0, -11],
+                offset: [0, -7],
               });
               const style = document.createElement("style");
               style.textContent = `
