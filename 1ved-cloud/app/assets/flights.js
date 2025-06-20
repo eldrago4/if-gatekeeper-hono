@@ -4877,8 +4877,10 @@ async function fetchAndDisplayFlights() {
                 <div class="flight-popup">
                 <b>${callsign}</b><br>
                 <b>Route:</b> ${dep} - ${arrv}<br>
-                ${altitude < 10000 ? Math.ceil(altitude) + " ft" : "FL" + Math.ceil(altitude / 100)} |
-                ${Math.ceil(speed)} kts | ETA: ${eta}
+                 <span style="font-size: 9px;">
+                    ${altitude < 10000 ? Math.ceil(altitude) + " ft" : "FL" + Math.ceil(altitude / 100)} |
+                    ${Math.ceil(speed)}kts | ETA: ${eta}
+                </span>
                 </div>
                 <style>
                 .flight-popup {
