@@ -4606,15 +4606,15 @@ const group1 = [
     "EY", "GA", "SQ", "MS", "KE", 
     "BW", "HU", "AY", "CI", "ET", 
     "FR", "DL"
-  ];
-  
+];
+
 const group2 = [
     "D7", "LO", "QZ", "AK", "FD", 
     "XJ", "KT", "TK", "OD", "Z2", 
     "ID", "ZS", "SL", "JT", "I5", 
     "TR", "NH", "BR", "UL", "OU", 
     "LX", "U2", "AZ"
-  ];
+];
 
 var codesharesA = L.layerGroup();
 var codesharesB = L.layerGroup();
@@ -4635,12 +4635,12 @@ function showPopup() {
     const popupOverlay = document.createElement("div");
     popupOverlay.className = "popup-overlay active";
     popupOverlay.innerHTML = `
-          <div class="popup">
+        <div class="popup">
                 <h2>Session Timeout</h2>
                 <p>Are you still here?</p>
                 <button id="resumeButton">Resume</button>
-          </div>
-     `;
+        </div>
+    `;
     document.body.appendChild(popupOverlay);
 
     document.getElementById("resumeButton").addEventListener("click", () => {
@@ -4722,52 +4722,105 @@ async function getSessionId() {
         return null;
     }
 }
+
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const toRad = deg => deg * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function calculateETA(flight, flightPlan) {
+    const currentLat = flight.latitude;
+    const currentLon = flight.longitude;
+    const speedKts = flight.speed;
+    const speedKmH = speedKts * 1.852;
+
+    const waypoints = flightPlan.flightPlanItems
+        .filter(item => item.location && item.location.latitude && item.location.longitude)
+        .map(item => [item.location.latitude, item.location.longitude]);
+
+    if (waypoints.length < 2 || speedKmH === 0) return null;
+
+    let closestIdx = 0;
+    let minDist = Infinity;
+
+    for (let i = 0; i < waypoints.length; i++) {
+        const dist = calculateDistance(currentLat, currentLon, waypoints[i][0], waypoints[i][1]);
+        if (dist < minDist) {
+            minDist = dist;
+            closestIdx = i;
+        }
+    }
+
+    let remainingDistance = 0;
+    for (let i = closestIdx; i < waypoints.length - 1; i++) {
+        remainingDistance += calculateDistance(
+            waypoints[i][0], waypoints[i][1],
+            waypoints[i + 1][0], waypoints[i + 1][1]
+        );
+    }
+
+    const hours = remainingDistance / speedKmH;
+    const totalMinutes = Math.round(hours * 60);
+    const h = String(Math.floor(totalMinutes / 60)).padStart(2, '0');
+    const m = String(totalMinutes % 60).padStart(2, '0');
+    return `${h}${m}`;
+}
+
+
+
 async function fetchAndDisplayFlights() {
     if (isPaused) return;
     try {
-      const sessionId = await getSessionId();
-      if (!sessionId) return;
-      
+    const sessionId = await getSessionId();
+    if (!sessionId) return;
+    
         const flightsResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights`);
         const flightsData = await flightsResponse.json(); 
         const filteredFlights = flightsData.result;
 
-      // const filteredFlights = flightsData.result.filter((flight) => {
-      //   const callsign = flight.callsign;
-      //   return (
-      //     callsign.endsWith("IN") ||
-      //     callsign.endsWith("IN Heavy") ||
-      //     callsign.endsWith("IN Super")
-      //   );
-      // });
+    // const filteredFlights = flightsData.result.filter((flight) => {
+    //   const callsign = flight.callsign;
+    //   return (
+    //     callsign.endsWith("IN") ||
+    //     callsign.endsWith("IN Heavy") ||
+    //     callsign.endsWith("IN Super")
+    //   );
+    // });
     
-      const removeStaleMarkers = () => {
+    const removeStaleMarkers = () => {
         for (const flightId in flightMarkers) {
-          if (!filteredFlights.some((flight) => flight.flightId === flightId)) {
+        if (!filteredFlights.some((flight) => flight.flightId === flightId)) {
             map.removeLayer(flightMarkers[flightId].marker);
             delete flightMarkers[flightId];
-          }
         }
-      };
+        }
+    };
     
-      const processFlight = async (flight) => {
+    const processFlight = async (flight) => {
         const { flightId, heading, latitude, longitude, altitude, speed, callsign } = flight;
         const newPosition = [latitude, longitude];
         const previousPosition = flightMarkers[flightId]?.endPos || newPosition;
         try {
-          const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route`);
-          if (!routeResponse.ok) return;
-          const routeData = await routeResponse.json();
-          const route = routeData.result;
-          if (route.length > 1) {
+        const routeResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/route`);
+        if (!routeResponse.ok) return;
+        const routeData = await routeResponse.json();
+        const route = routeData.result;
+        if (route.length > 1) {
             let flightPlan;
             if (globalFlightPlanCache[flightId]) {
-              flightPlan = globalFlightPlanCache[flightId];
+            flightPlan = globalFlightPlanCache[flightId];
             } else {
-              const flightPlanResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/flightplan`);
-              const flightPlanData = await flightPlanResponse.json();
-              flightPlan = flightPlanData.result;
-              globalFlightPlanCache[flightId] = flightPlan;
+            const flightPlanResponse = await fetch(`${URLBASE}/sessions/${sessionId}/flights/${flightId}/flightplan`);
+            const flightPlanData = await flightPlanResponse.json();
+            flightPlan = flightPlanData.result;
+            globalFlightPlanCache[flightId] = flightPlan;
             }
             
             const firstWaypoint = flightPlan.flightPlanItems[0];
@@ -4776,105 +4829,116 @@ async function fetchAndDisplayFlights() {
             const arrv = isICAO(lastWaypoint.identifier) ? lastWaypoint.identifier : "N/A";
             const depLatLng = [firstWaypoint.location.latitude, firstWaypoint.location.longitude];
             const arrvLatLng = [lastWaypoint.location.latitude, lastWaypoint.location.longitude];
-            
+            const eta = calculateETA(flight, flightPlan) ?? "N/A";
+
             const updateMarker = (marker) => {
-              const animateDuration = previousPosition === newPosition ? 5000 : ANIMATION_DURATION
-              smoothMoveMarker(marker, previousPosition, newPosition, animateDuration);
-              flightMarkers[flightId].endPos = newPosition;
-              marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 20px; height: 20px;"/>`;
+            const animateDuration = previousPosition === newPosition ? 5000 : ANIMATION_DURATION
+            smoothMoveMarker(marker, previousPosition, newPosition, animateDuration);
+            flightMarkers[flightId].endPos = newPosition;
+            marker._icon.innerHTML = `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 20px; height: 20px;"/>`;
             };
     
             const createMarker = () => {
-              const marker = L.marker(newPosition, {
+            const marker = L.marker(newPosition, {
                 icon: L.divIcon({
-                  className: "rotated-aircraft-icon",
-                  html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 20px; height: 20px;" />`,
-                  iconSize: [5, 5],
-                  iconAnchor: [7.5, 7.5],
+                className: "rotated-aircraft-icon",
+                html: `<img src="/1ved-cloud/app/assets/aircraft-icon.svg" style="transform: rotate(${heading % 360}deg); width: 20px; height: 20px;" />`,
+                iconSize: [5, 5],
+                iconAnchor: [7.5, 7.5],
                 }),
-              });
-              marker.bindTooltip(callsign, {
+            });
+            marker.bindTooltip(callsign, {
                 permanent: true,
                 direction: "top",
                 className: "callsign-label",
                 opacity: 0.9,
                 offset: [0, -4],
-              });
-              const style = document.createElement("style");
-              style.textContent = `
+            });
+            const style = document.createElement("style");
+            style.textContent = `
                 .callsign-label {
-                  background-color: rgba(0, 0, 0, 0.45);
-                  color: rgb(255,223,0);
-                  border: none;
-                  border-radius: 5px;
-                  padding: 1px;
-                  font-size: 7px;
-                  text-align: center;
-                  pointer-events: none;
-                  white-space: nowrap;
-                  font-weight: bold;
+                background-color: rgba(0, 0, 0, 0.45);
+                color: rgb(255,223,0);
+                border: none;
+                border-radius: 5px;
+                padding: 1px;
+                font-size: 7px;
+                text-align: center;
+                pointer-events: none;
+                white-space: nowrap;
+                font-weight: bold;
                 }
                 .callsign-label::before {
-                  display: none;
+                display: none;
                 }
-              `;
-              document.head.appendChild(style);
-              marker.bindPopup(`
+            `;
+            document.head.appendChild(style);
+            marker.bindPopup(`
                 <div class="flight-popup">
-                  <b>${callsign}</b><br>
-                  <b>Route:</b> ${dep} - ${arrv}<br>
-                  ${altitude < 10000 ? Math.ceil(altitude) + " ft" : "FL" + Math.ceil(altitude / 100)} |
-                  ${Math.ceil(speed)} kts
+                <b>${callsign}</b><br>
+                <b>Route:</b> ${dep} - ${arrv}<br>
+                ${altitude < 10000 ? Math.ceil(altitude) + " ft" : "FL" + Math.ceil(altitude / 100)} |
+                ${Math.ceil(speed)} kts | ETA: ${eta}
                 </div>
                 <style>
-                  .flight-popup {
+                .flight-popup {
                     background-color: rgba(223, 223, 223, 0.741);
                     padding: 5px;
                     margin: 0;
                     border-radius: 5px;
                     box-shadow: none;
                     border: none;
-                  }
-                  .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                    background: transparent;
-                  }
-                  .leaflet-popup-content {
-                    margin: 0;
-                  }
-                </style>
-              `);
-              let dashedLine = null;
-              marker.on("popupopen", () => {
-                dashedLine = L.polyline([depLatLng, arrvLatLng], {
-                  color: "black",
-                  weight: 1,
-                  dashArray: "4, 8",
-                }).addTo(map);
-              });
-              marker.on("popupclose", () => {
-                if (dashedLine) {
-                  map.removeLayer(dashedLine);
                 }
-              });
-              flightMarkers[flightId] = { marker, endPos: newPosition };
-              map.addLayer(marker);
+                .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
+                    background: transparent;
+                }
+                .leaflet-popup-content {
+                    margin: 0;
+                }
+                </style>
+            `);
+                let fplPolyline = null;
+                marker.on("popupopen", () => {
+                const waypoints = flightPlan.flightPlanItems
+                    .filter(item => item.location && item.location.latitude && item.location.longitude)
+                    .map(item => [item.location.latitude, item.location.longitude]);
+
+                if (waypoints.length > 1) {
+                    fplPolyline = L.polyline(waypoints, {
+                    color: "#b7e3e1ff",
+                    weight: 0.8,
+                    opacity: 0.7,
+                    smoothFactor: 1
+                    }).addTo(map);
+                }
+                });
+
+                marker.on("popupclose", () => {
+                if (fplPolyline) {
+                    map.removeLayer(fplPolyline);
+                    fplPolyline = null;
+                }
+                });
+
+            flightMarkers[flightId] = { marker, endPos: newPosition };
+            map.addLayer(marker);
             };
     
             if (flightMarkers[flightId]) {
-              updateMarker(flightMarkers[flightId].marker);
+            updateMarker(flightMarkers[flightId].marker);
             } else {
-              createMarker();
+            createMarker();
             }
-          }
-        } catch (routeError) {
-          console.error(`Error fetching route for flight ${callsign}:`, routeError);
         }
-      };
+        } catch (routeError) {
+        console.error(`Error fetching route for flight ${callsign}:`, routeError);
+        }
+    };
     
-      await Promise.all(filteredFlights.map(processFlight));
-      removeStaleMarkers();
+    await Promise.all(filteredFlights.map(processFlight));
+    removeStaleMarkers();
     } catch (error) {
-      console.error("Error fetching flights:", error);
+    console.error("Error fetching flights:", error);
     }
 }
 
@@ -4936,23 +5000,23 @@ airports.forEach((airport) => {
     }).addTo(map).bindPopup(
         `<div class="flight-popup">${airport.name}<br>(${airport.icao})</div>
         <style>
-             .flight-popup {
-                  background-color: rgba(223, 223, 223, 0.741);
-                  font-weight: bold;
-                  padding-left: 15px;
-                  padding-right: 15px;
-                  padding-top: 5px;
-                  padding-bottom: 3px;
-                  border-radius: 5px;
-                  box-shadow: none;
-                  border: none;
-             }
-             .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
-                  background: transparent;
-             }
-             .leaflet-popup-content {
-                  margin: 0;
-             }
+            .flight-popup {
+                background-color: rgba(223, 223, 223, 0.741);
+                font-weight: bold;
+                padding-left: 15px;
+                padding-right: 15px;
+                padding-top: 5px;
+                padding-bottom: 3px;
+                border-radius: 5px;
+                box-shadow: none;
+                border: none;
+            }
+            .leaflet-popup-content-wrapper, .leaflet-popup-tip-container {
+                background: transparent;
+            }
+            .leaflet-popup-content {
+                margin: 0;
+            }
         </style>`
     );
 
