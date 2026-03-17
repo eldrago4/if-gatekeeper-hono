@@ -530,6 +530,276 @@ app.get('/api/simbrief', async (c) => {
     }
 });
 
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AgriMitra — AI Crop Yield Prediction API
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── Initialise AgriMitra tables (idempotent) ────────────────────────────────
+(async () => {
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS agrimitra_farmers (
+        id          SERIAL PRIMARY KEY,
+        name        TEXT NOT NULL,
+        phone       TEXT UNIQUE NOT NULL,
+        village     TEXT,
+        district    TEXT,
+        language    TEXT DEFAULT 'mr',
+        created_at  TIMESTAMPTZ DEFAULT NOW()
+      );
+      CREATE TABLE IF NOT EXISTS agrimitra_fields (
+        id                SERIAL PRIMARY KEY,
+        farmer_id         INTEGER REFERENCES agrimitra_farmers(id) ON DELETE CASCADE,
+        polygon_geo_json  TEXT,
+        area_hectares     FLOAT,
+        label             TEXT,
+        created_at        TIMESTAMPTZ DEFAULT NOW()
+      );
+      CREATE TABLE IF NOT EXISTS agrimitra_predictions (
+        id                    SERIAL PRIMARY KEY,
+        field_id              INTEGER REFERENCES agrimitra_fields(id) ON DELETE SET NULL,
+        crop_type             TEXT,
+        predicted_yield       FLOAT,
+        uncertainty_band      FLOAT,
+        fertilizer_advisory   TEXT,
+        irrigation_advisory   TEXT,
+        market_advisory       TEXT,
+        model_version         TEXT DEFAULT 'heuristic_v1.0',
+        inference_latency_ms  INTEGER DEFAULT 0,
+        is_offline            BOOLEAN DEFAULT FALSE,
+        created_at            TIMESTAMPTZ DEFAULT NOW()
+      );
+    `);
+    console.log('AgriMitra tables ready.');
+  } catch (err) {
+    console.error('AgriMitra table init error:', err.message);
+  }
+})();
+
+// ── Advisory helpers ────────────────────────────────────────────────────────
+function amFertilizerAdvisory(cropType, iot) {
+  const n = iot?.soilN ?? 100;
+  const p = iot?.soilP ?? 50;
+  switch (cropType) {
+    case 'Rice':
+      return n < 80
+        ? 'Apply 60 kg/ha Urea in 2 splits (basal + tillering)'
+        : p < 30 ? 'Apply 40 kg/ha SSP at basal dose'
+                 : 'Apply 50 kg/ha Urea at top-dressing stage';
+    case 'Wheat':
+      return n < 80 ? 'Apply 60 kg/ha Urea split in 3 doses' : 'Apply 40 kg/ha Urea at CRI stage';
+    case 'Soybean':   return 'Apply rhizobium seed treatment + 20 kg/ha starter N';
+    case 'Sugarcane': return 'Apply 120 kg/ha Urea in 3 splits (0, 60, 120 days)';
+    default:          return 'Follow state agriculture department guidelines';
+  }
+}
+
+function amIrrigationAdvisory(iot) {
+  const m = iot?.moisture ?? 35;
+  if (m < 20) return 'Soil moisture critically low (' + m.toFixed(0) + '%). Irrigate 30-40 mm immediately.';
+  if (m < 30) return 'Soil moisture low (' + m.toFixed(0) + '%). Schedule irrigation within 48 hours.';
+  return 'Soil moisture adequate (' + m.toFixed(0) + '%). Next irrigation in 7-10 days.';
+}
+
+function amMarketAdvisory(cropType, plantingDate, yieldPred) {
+  const maturity = { Rice: 120, Wheat: 135, Soybean: 95, Sugarcane: 365 };
+  const msp      = { Rice: 2183, Wheat: 2275, Soybean: 4600, Sugarcane: 315 };
+  const days     = maturity[cropType] ?? 120;
+  const price    = msp[cropType] ?? 2000;
+  const plant    = plantingDate ? new Date(plantingDate) : new Date();
+  const harvest  = new Date(plant.getTime() + days * 86_400_000);
+  const s        = new Date(harvest.getTime() + 15 * 86_400_000);
+  const e        = new Date(harvest.getTime() + 40 * 86_400_000);
+  const fmt = d => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  return 'Best selling window: ' + fmt(s) + ' - ' + fmt(e) + ' ' + e.getFullYear() +
+    '. MSP: Rs.' + price + '/quintal. Est. revenue: Rs.' +
+    Math.round(yieldPred * price).toLocaleString('en-IN') +
+    '. Contact nearest APMC mandi 1 week before harvest.';
+}
+
+function amPredictYield(cropType, iot) {
+  const base = { Rice: 18.4, Wheat: 18.4, Soybean: 12.0, Sugarcane: 650.0 }[cropType] ?? 15.0;
+  if (!iot) return base;
+  const n  = iot.soilN    ?? 100;
+  const p  = iot.soilP    ?? 50;
+  const m  = iot.moisture ?? 35;
+  const ph = iot.ph       ?? 6.5;
+  const sf =
+    Math.min(1, n / 120) * 0.4 +
+    Math.min(1, p / 60)  * 0.3 +
+    (m >= 25 && m <= 60     ? 1.0 : 0.7) * 0.2 +
+    (ph >= 6.0 && ph <= 7.5 ? 1.0 : 0.8) * 0.1;
+  return parseFloat((base * sf * (0.93 + Math.random() * 0.14)).toFixed(2));
+}
+
+const cropMae = { Rice: 1.83, Wheat: 2.05, Soybean: 1.47, Sugarcane: 3.21 };
+
+// ── Maharashtra APMC Mandis ─────────────────────────────────────────────────
+const maharashtraMandis = [
+  { name: 'Kankavli APMC',        district: 'Sindhudurg', lat: 16.55, lon: 73.72, phone: '02367-232100', isOpen: true  },
+  { name: 'Sindhudurg APMC',      district: 'Sindhudurg', lat: 16.35, lon: 73.73, phone: '02362-228850', isOpen: true  },
+  { name: 'Kolhapur APMC',        district: 'Kolhapur',   lat: 16.70, lon: 74.23, phone: '0231-2690456', isOpen: true  },
+  { name: 'Sangli APMC',          district: 'Sangli',     lat: 16.86, lon: 74.57, phone: '0233-2322222', isOpen: true  },
+  { name: 'Pune APMC (Gultekdi)', district: 'Pune',       lat: 18.48, lon: 73.86, phone: '020-24264685', isOpen: true  },
+  { name: 'Nashik APMC',          district: 'Nashik',     lat: 19.99, lon: 73.77, phone: '0253-2316711', isOpen: true  },
+  { name: 'Aurangabad APMC',      district: 'Aurangabad', lat: 19.87, lon: 75.34, phone: '0240-2335511', isOpen: true  },
+  { name: 'Nagpur APMC',          district: 'Nagpur',     lat: 21.14, lon: 79.09, phone: '0712-2560356', isOpen: true  },
+  { name: 'Latur APMC',           district: 'Latur',      lat: 18.40, lon: 76.57, phone: '02382-252333', isOpen: false },
+  { name: 'Solapur APMC',         district: 'Solapur',    lat: 17.68, lon: 75.90, phone: '0217-2310500', isOpen: true  },
+  { name: 'Ratnagiri APMC',       district: 'Ratnagiri',  lat: 16.99, lon: 73.30, phone: '02352-222543', isOpen: true  },
+];
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// ── POST /infer ──────────────────────────────────────────────────────────────
+app.post('/infer', async (c) => {
+  const t0 = Date.now();
+  try {
+    const { cropType = 'Rice', iotSensorData, plantingDate } = await c.req.json();
+    const yieldPred = amPredictYield(cropType, iotSensorData);
+    return c.json({
+      predictedYield:     yieldPred,
+      uncertaintyBand:    cropMae[cropType] ?? 2.0,
+      modelVersion:       'heuristic_v1.0',
+      inferenceLatencyMs: Date.now() - t0,
+      isOffline:          false,
+      cropType,
+      fertilizerAdvisory: amFertilizerAdvisory(cropType, iotSensorData),
+      irrigationAdvisory: amIrrigationAdvisory(iotSensorData),
+      marketAdvisory:     amMarketAdvisory(cropType, plantingDate, yieldPred),
+    });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// ── POST /api/predict ────────────────────────────────────────────────────────
+app.post('/api/predict', async (c) => {
+  const t0 = Date.now();
+  try {
+    const { cropType = 'Rice', iotSensorData, plantingDate, fieldId } = await c.req.json();
+    const yieldPred = amPredictYield(cropType, iotSensorData);
+    const result = {
+      predictedYield:     yieldPred,
+      uncertaintyBand:    cropMae[cropType] ?? 2.0,
+      modelVersion:       'heuristic_v1.0',
+      inferenceLatencyMs: Date.now() - t0,
+      isOffline:          false,
+      cropType,
+      fertilizerAdvisory: amFertilizerAdvisory(cropType, iotSensorData),
+      irrigationAdvisory: amIrrigationAdvisory(iotSensorData),
+      marketAdvisory:     amMarketAdvisory(cropType, plantingDate, yieldPred),
+    };
+    if (fieldId) {
+      client.query(
+        'INSERT INTO agrimitra_predictions ' +
+        '(field_id,crop_type,predicted_yield,uncertainty_band,' +
+        'fertilizer_advisory,irrigation_advisory,market_advisory,' +
+        'model_version,inference_latency_ms) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',
+        [fieldId, result.cropType, result.predictedYield, result.uncertaintyBand,
+         result.fertilizerAdvisory, result.irrigationAdvisory, result.marketAdvisory,
+         result.modelVersion, result.inferenceLatencyMs]
+      ).catch(() => {});
+    }
+    return c.json(result);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// ── POST/GET /api/farmers ────────────────────────────────────────────────────
+app.post('/api/farmers', async (c) => {
+  try {
+    const { name, phone, village = '', district = '', language = 'mr' } = await c.req.json();
+    if (!name || !phone) return c.json({ error: 'name and phone are required' }, 400);
+    const res = await client.query(
+      'INSERT INTO agrimitra_farmers (name,phone,village,district,language) ' +
+      'VALUES ($1,$2,$3,$4,$5) ' +
+      'ON CONFLICT (phone) DO UPDATE SET name=$1,village=$3,district=$4,language=$5 ' +
+      'RETURNING id,name,phone,village,district,language,created_at',
+      [name.trim(), phone.trim(), village, district, language]
+    );
+    return c.json(res.rows[0], 201);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/farmers/:id', async (c) => {
+  try {
+    const res = await client.query('SELECT * FROM agrimitra_farmers WHERE id=$1', [c.req.param('id')]);
+    if (!res.rows.length) return c.json({ error: 'Farmer not found' }, 404);
+    return c.json(res.rows[0]);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// ── POST/GET /api/fields ─────────────────────────────────────────────────────
+app.post('/api/fields', async (c) => {
+  try {
+    const { farmerId, polygonGeoJson, areaHectares, label = 'My Field' } = await c.req.json();
+    const res = await client.query(
+      'INSERT INTO agrimitra_fields (farmer_id,polygon_geo_json,area_hectares,label) ' +
+      'VALUES ($1,$2,$3,$4) RETURNING *',
+      [farmerId ?? null, polygonGeoJson, areaHectares, label]
+    );
+    return c.json(res.rows[0], 201);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/fields', async (c) => {
+  try {
+    const farmerId = c.req.query('farmerId');
+    const res = farmerId
+      ? await client.query('SELECT * FROM agrimitra_fields WHERE farmer_id=$1 ORDER BY created_at DESC', [farmerId])
+      : await client.query('SELECT * FROM agrimitra_fields ORDER BY created_at DESC LIMIT 100');
+    return c.json(res.rows);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// ── GET /api/market/msp ──────────────────────────────────────────────────────
+app.get('/api/market/msp', (c) => c.json({
+  year: 2023,
+  data: [
+    { crop: 'Rice',        variety: 'Common',   price: 2183, unit: '/qtl' },
+    { crop: 'Wheat',       variety: 'All',       price: 2275, unit: '/qtl' },
+    { crop: 'Soybean',     variety: 'Yellow',   price: 4600, unit: '/qtl' },
+    { crop: 'Sugarcane',   variety: 'FRP',       price: 315,  unit: '/qtl' },
+    { crop: 'Maize',       variety: 'All',       price: 2090, unit: '/qtl' },
+    { crop: 'Cotton',      variety: 'Medium',   price: 6620, unit: '/qtl' },
+    { crop: 'Groundnut',   variety: 'In shell', price: 6377, unit: '/qtl' },
+    { crop: 'Tur (Arhar)', variety: 'All',      price: 7000, unit: '/qtl' },
+  ],
+}));
+
+// ── GET /api/market/mandi ────────────────────────────────────────────────────
+app.get('/api/market/mandi', (c) => {
+  const lat = parseFloat(c.req.query('lat') ?? '0');
+  const lon = parseFloat(c.req.query('lon') ?? '0');
+  if (!lat || !lon) return c.json({ error: 'lat and lon are required' }, 400);
+  const withDist = maharashtraMandis
+    .map(m => ({ ...m, distanceKm: +haversineKm(lat, lon, m.lat, m.lon).toFixed(1) }))
+    .sort((a, b) => a.distanceKm - b.distanceKm);
+  return c.json({ nearest: withDist[0], all: withDist });
+});
+
+// ── GET /api/health ──────────────────────────────────────────────────────────
+app.get('/api/health', (c) => c.json({ status: 'ok', services: ['if-gatekeeper', 'agrimitra'] }));
+
+
 app.notFound((c) => {
   throw new Error('Not Found');
 });
