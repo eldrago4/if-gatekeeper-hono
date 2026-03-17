@@ -770,7 +770,7 @@ app.get('/api/fields', async (c) => {
   }
 });
 
-// ── GET /api/market/msp ──────────────────────────────────────────────────────
+// ── GET /api/market/msp  (government announced MSP 2023-24) ─────────────────
 app.get('/api/market/msp', (c) => c.json({
   year: 2023,
   data: [
@@ -785,19 +785,169 @@ app.get('/api/market/msp', (c) => c.json({
   ],
 }));
 
+// ── GET /api/market/prices  (live AGMARKNET data via data.gov.in) ─────────────
+// Query params: state, district, commodity, date (DD/MM/YYYY), limit, offset
+const DATA_GOV_KEY = process.env.DATA_GOV_KEY || '579b464db66ec23bdd0000019c2c6fd04bc94be57c33063c3c1baf4a';
+const DATA_GOV_RES = '35985678-0d79-46b4-9ed6-6f13308a1d24';
+
+app.get('/api/market/prices', async (c) => {
+  try {
+    const state     = c.req.query('state')     || 'Maharashtra';
+    const district  = c.req.query('district')  || '';
+    const commodity = c.req.query('commodity') || '';
+    const date      = c.req.query('date')      || '';
+    const limit     = c.req.query('limit')     || '20';
+    const offset    = c.req.query('offset')    || '0';
+
+    const url = new URL('https://api.data.gov.in/resource/' + DATA_GOV_RES);
+    url.searchParams.set('api-key', DATA_GOV_KEY);
+    url.searchParams.set('format',  'json');
+    url.searchParams.set('limit',   limit);
+    url.searchParams.set('offset',  offset);
+    if (state)     url.searchParams.set('filters[State]',        state);
+    if (district)  url.searchParams.set('filters[District]',     district);
+    if (commodity) url.searchParams.set('filters[Commodity]',    commodity);
+    if (date)      url.searchParams.set('filters[Arrival_Date]', date);
+
+    const resp = await fetch(url.toString(), { headers: { accept: 'application/json' } });
+    if (!resp.ok) return c.json({ error: `data.gov.in error: ${resp.status}` }, 502);
+    const body = await resp.json();
+    return c.json(body);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 // ── GET /api/market/mandi ────────────────────────────────────────────────────
-app.get('/api/market/mandi', (c) => {
+// lat + lon → nearest APMC from static list; also fetches live prices for district
+app.get('/api/market/mandi', async (c) => {
   const lat = parseFloat(c.req.query('lat') ?? '0');
   const lon = parseFloat(c.req.query('lon') ?? '0');
   if (!lat || !lon) return c.json({ error: 'lat and lon are required' }, 400);
+
   const withDist = maharashtraMandis
     .map(m => ({ ...m, distanceKm: +haversineKm(lat, lon, m.lat, m.lon).toFixed(1) }))
     .sort((a, b) => a.distanceKm - b.distanceKm);
-  return c.json({ nearest: withDist[0], all: withDist });
+
+  const nearest = withDist[0];
+
+  // Fetch today's prices for nearest district from AGMARKNET
+  let todayPrices = [];
+  try {
+    const priceUrl = new URL('https://api.data.gov.in/resource/' + DATA_GOV_RES);
+    priceUrl.searchParams.set('api-key', DATA_GOV_KEY);
+    priceUrl.searchParams.set('format', 'json');
+    priceUrl.searchParams.set('limit', '10');
+    priceUrl.searchParams.set('filters[State]', 'Maharashtra');
+    priceUrl.searchParams.set('filters[District]', nearest.district);
+    const pr = await fetch(priceUrl.toString(), { headers: { accept: 'application/json' } });
+    if (pr.ok) {
+      const pd = await pr.json();
+      todayPrices = pd.records ?? [];
+    }
+  } catch (_) {}
+
+  return c.json({ nearest: { ...nearest, todayPrices }, all: withDist });
 });
 
 // ── GET /api/health ──────────────────────────────────────────────────────────
 app.get('/api/health', (c) => c.json({ status: 'ok', services: ['if-gatekeeper', 'agrimitra'] }));
+
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Bhoonidhi ISRO Satellite Data Proxy
+// Centralises credentials so clients (mobile app, AI pipeline) never
+// need to store the NRSC username/password.
+// ═══════════════════════════════════════════════════════════════════════════
+
+const BHOONIDHI_API  = process.env.BHOONIDHI_API  || 'https://bhoonidhi.nrsc.gov.in/bhoonidhi-api';
+const BHOONIDHI_USER = process.env.BHOONIDHI_USER || 'ved4';
+const BHOONIDHI_PASS = process.env.BHOONIDHI_PASS || 'VedBapardekar@1';
+
+let _bToken = null;
+let _bTokenExpiry = 0;
+
+async function getBhooinidhiToken() {
+  if (_bToken && Date.now() < _bTokenExpiry) return _bToken;
+  const resp = await fetch(BHOONIDHI_API + '/auth/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: BHOONIDHI_USER, password: BHOONIDHI_PASS }),
+  });
+  if (!resp.ok) throw new Error('Bhoonidhi auth failed: ' + resp.status);
+  const d = await resp.json();
+  _bToken = d.accessToken ?? d.access_token ?? d.token;
+  // Refresh 5 min before expiry; default 1 hour if not specified
+  const expiresIn = d.expiresIn ?? d.expires_in ?? 3600;
+  _bTokenExpiry = Date.now() + (expiresIn - 300) * 1000;
+  return _bToken;
+}
+
+// GET /api/bhoonidhi/token — returns a short-lived token for clients that
+// need to call the Bhoonidhi API directly (e.g. AI training script)
+app.get('/api/bhoonidhi/token', async (c) => {
+  try {
+    const token = await getBhooinidhiToken();
+    return c.json({ token, expiresAt: new Date(_bTokenExpiry).toISOString() });
+  } catch (err) {
+    return c.json({ error: err.message }, 502);
+  }
+});
+
+// POST /api/bhoonidhi/search — proxies STAC search to Bhoonidhi
+// Body: { bbox, datetime, collections, limit }
+app.post('/api/bhoonidhi/search', async (c) => {
+  try {
+    const token = await getBhooinidhiToken();
+    const body  = await c.req.json();
+    const resp  = await fetch(BHOONIDHI_API + '/data/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + token,
+      },
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) {
+      const err = await resp.text();
+      return c.json({ error: 'Bhoonidhi search failed', details: err }, resp.status);
+    }
+    return c.json(await resp.json());
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// GET /api/bhoonidhi/download-url?assetUrl=<encoded> — returns a pre-auth'd
+// redirect URL so clients can download GeoTIFFs without storing credentials.
+// We proxy the redirect rather than streaming the full file (avoids Vercel limits).
+app.get('/api/bhoonidhi/download-url', async (c) => {
+  const assetUrl = c.req.query('assetUrl');
+  if (!assetUrl) return c.json({ error: 'assetUrl query param required' }, 400);
+  try {
+    const token = await getBhooinidhiToken();
+    // Return signed URL (client fetches the file directly from NRSC CDN)
+    const separator = assetUrl.includes('?') ? '&' : '?';
+    const signedUrl = assetUrl + separator + 'token=' + encodeURIComponent(token);
+    return c.json({ url: signedUrl, token });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// POST /api/bhoonidhi/collections — list available datasets
+app.get('/api/bhoonidhi/collections', async (c) => {
+  try {
+    const token = await getBhooinidhiToken();
+    const resp  = await fetch(BHOONIDHI_API + '/collections', {
+      headers: { 'Authorization': 'Bearer ' + token },
+    });
+    return c.json(await resp.json());
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
 
 
 app.notFound((c) => {
