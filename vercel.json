@@ -7,9 +7,17 @@
     {
       "source": "/if/(.*)",
       "destination": "/if"
+    },
+    {
+      "source": "/infer",
+      "destination": "/api"
     }
   ],
   "redirects": [
-    { "source": "/", "destination": "/api", "permanent": false }
+    {
+      "source": "/",
+      "destination": "/api",
+      "permanent": false
+    }
   ]
 }
