@@ -840,31 +840,32 @@ const DATA_GOV_RES = '35985678-0d79-46b4-9ed6-6f13308a1d24';
 
 app.get('/api/market/prices', async (c) => {
   try {
-    const state    = c.req.query('state')           || '';
-    const district = c.req.query('district')        || '';
-    const market   = c.req.query('market')          || '';
-    const group    = c.req.query('commodity_group') || '';
-    const commodity= c.req.query('commodity')       || '';
-    const variety  = c.req.query('variety')         || '';
-    const grade    = c.req.query('grade')           || '';
-    const date     = c.req.query('date')            || '';
-    const limit    = c.req.query('limit')           || '20';
-    const offset   = c.req.query('offset')          || '0';
+    const state    = c.req.query('state')    || '';
+    const district = c.req.query('district') || '';
+    const market   = c.req.query('market')   || '';
+    const commodity= c.req.query('commodity')|| '';
+    const variety  = c.req.query('variety')  || '';
+    const grade    = c.req.query('grade')    || '';
+    const date     = c.req.query('date')     || '';
+    const limit    = c.req.query('limit')    || '20';
+    const offset   = c.req.query('offset')   || '0';
+    // commodity_group is NOT a filter field in AGMARKNET API (no such column).
+    // Use /api/market/msp?group=<group> to get commodities in a group, then
+    // filter here by individual commodity name.
+    const ignoredGroup = c.req.query('commodity_group');
 
     const url = new URL('https://api.data.gov.in/resource/' + DATA_GOV_RES);
     url.searchParams.set('api-key', DATA_GOV_KEY);
     url.searchParams.set('format',  'json');
     url.searchParams.set('limit',   limit);
     url.searchParams.set('offset',  offset);
-    if (state)     url.searchParams.set('filters[State]',              state);
-    if (district)  url.searchParams.set('filters[District]',           district);
-    if (market)    url.searchParams.set('filters[Market]',             market);
-    if (group)     url.searchParams.set('filters[Commodity Group]',    group);
-    if (commodity) url.searchParams.set('filters[Commodity]',          commodity);
-    if (variety)   url.searchParams.set('filters[Variety]',            variety);
-    if (grade)     url.searchParams.set('filters[Grade]',              grade);
-    if (date)      url.searchParams.set('filters[Arrival_Date]',       date);
-    // Sort by most recent arrival date first
+    if (state)     url.searchParams.set('filters[State]',        state);
+    if (district)  url.searchParams.set('filters[District]',     district);
+    if (market)    url.searchParams.set('filters[Market]',       market);
+    if (commodity) url.searchParams.set('filters[Commodity]',    commodity);
+    if (variety)   url.searchParams.set('filters[Variety]',      variety);
+    if (grade)     url.searchParams.set('filters[Grade]',        grade);
+    if (date)      url.searchParams.set('filters[Arrival_Date]', date);
     url.searchParams.set('sort[Arrival_Date]', 'desc');
 
     const resp = await fetch(url.toString(), { headers: { accept: 'application/json' } });
@@ -907,6 +908,7 @@ app.get('/api/market/mandi', async (c) => {
     priceUrl.searchParams.set('limit', '10');
     priceUrl.searchParams.set('filters[State]', 'Maharashtra');
     priceUrl.searchParams.set('filters[District]', nearest.district);
+    priceUrl.searchParams.set('sort[Arrival_Date]', 'desc');
     const pr = await fetch(priceUrl.toString(), { headers: { accept: 'application/json' } });
     if (pr.ok) {
       const pd = await pr.json();
