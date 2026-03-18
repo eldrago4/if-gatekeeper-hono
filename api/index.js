@@ -946,6 +946,18 @@ app.get('/api/market/mandi', async (c) => {
 // ── GET /api/health ──────────────────────────────────────────────────────────
 app.get('/api/health', (c) => c.json({ status: 'ok', services: ['if-gatekeeper', 'agrimitra'] }));
 
+// GET /api/outbound-ip — reveals what IP this serverless function uses for outbound calls
+// This is the IP that NRSC/Bhoonidhi needs to whitelist.
+app.get('/api/outbound-ip', async (c) => {
+  try {
+    const r = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(8000) });
+    const d = await r.json();
+    return c.json({ outbound_ip: d.ip, note: 'This IP must be whitelisted by NRSC for Bhoonidhi access' });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 
 
 // ═══════════════════════════════════════════════════════════════════════════
