@@ -838,6 +838,34 @@ app.get('/api/market/msp', (c) => {
 const DATA_GOV_KEY = process.env.DATA_GOV_KEY || '579b464db66ec23bdd0000019c2c6fd04bc94be57c33063c3c1baf4a';
 const DATA_GOV_RES = '35985678-0d79-46b4-9ed6-6f13308a1d24';
 
+// In-memory cache for AGMARKNET responses (TTL: 10 min)
+const _agCache = new Map();
+const AG_CACHE_TTL = 10 * 60 * 1000;
+
+async function fetchAgmarknet(url, retries = 2) {
+  const cacheKey = url.toString();
+  const cached = _agCache.get(cacheKey);
+  if (cached && Date.now() - cached.ts < AG_CACHE_TTL) return cached.data;
+
+  let lastErr;
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const resp = await fetch(url.toString(), {
+        headers: { accept: 'application/json' },
+        signal: AbortSignal.timeout(12000),
+      });
+      if (!resp.ok) return { error: `data.gov.in error: ${resp.status}`, status: resp.status };
+      const body = await resp.json();
+      _agCache.set(cacheKey, { ts: Date.now(), data: body });
+      return body;
+    } catch (err) {
+      lastErr = err;
+      if (i < retries) await new Promise(r => setTimeout(r, 800 * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 app.get('/api/market/prices', async (c) => {
   try {
     const state    = c.req.query('state')    || '';
@@ -868,9 +896,8 @@ app.get('/api/market/prices', async (c) => {
     if (date)      url.searchParams.set('filters[Arrival_Date]', date);
     url.searchParams.set('sort[Arrival_Date]', 'desc');
 
-    const resp = await fetch(url.toString(), { headers: { accept: 'application/json' } });
-    if (!resp.ok) return c.json({ error: `data.gov.in error: ${resp.status}` }, 502);
-    const body = await resp.json();
+    const body = await fetchAgmarknet(url);
+    if (body.error) return c.json({ error: body.error }, body.status ?? 502);
 
     // Enrich: attach MSP for each returned row where available
     const records = (body.records ?? []).map(r => {
@@ -909,11 +936,8 @@ app.get('/api/market/mandi', async (c) => {
     priceUrl.searchParams.set('filters[State]', 'Maharashtra');
     priceUrl.searchParams.set('filters[District]', nearest.district);
     priceUrl.searchParams.set('sort[Arrival_Date]', 'desc');
-    const pr = await fetch(priceUrl.toString(), { headers: { accept: 'application/json' } });
-    if (pr.ok) {
-      const pd = await pr.json();
-      todayPrices = pd.records ?? [];
-    }
+    const pd = await fetchAgmarknet(priceUrl).catch(() => ({}));
+    todayPrices = pd.records ?? [];
   } catch (_) {}
 
   return c.json({ nearest: { ...nearest, todayPrices }, all: withDist });
