@@ -937,15 +937,23 @@ let _bTokenExpiry = 0;
 
 async function getBhooinidhiToken() {
   if (_bToken && Date.now() < _bTokenExpiry) return _bToken;
-  const resp = await fetch(BHOONIDHI_API + '/auth/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: BHOONIDHI_USER, password: BHOONIDHI_PASS, grant_type: 'password' }),
-  });
-  if (!resp.ok) throw new Error('Bhoonidhi auth failed: ' + resp.status);
+  let resp;
+  try {
+    resp = await fetch(BHOONIDHI_API + '/auth/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: BHOONIDHI_USER, password: BHOONIDHI_PASS, grant_type: 'password' }),
+      signal: AbortSignal.timeout(15000),
+    });
+  } catch (fetchErr) {
+    throw new Error('Bhoonidhi network error: ' + fetchErr.message + ' | target: ' + BHOONIDHI_API);
+  }
+  if (!resp.ok) {
+    const body = await resp.text().catch(() => '');
+    throw new Error('Bhoonidhi auth failed: HTTP ' + resp.status + ' | ' + body.slice(0, 120));
+  }
   const d = await resp.json();
   _bToken = d.accessToken ?? d.access_token ?? d.token;
-  // Refresh 5 min before expiry; default 1 hour if not specified
   const expiresIn = d.expiresIn ?? d.expires_in ?? 3600;
   _bTokenExpiry = Date.now() + (expiresIn - 300) * 1000;
   return _bToken;
