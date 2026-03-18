@@ -864,6 +864,8 @@ app.get('/api/market/prices', async (c) => {
     if (variety)   url.searchParams.set('filters[Variety]',            variety);
     if (grade)     url.searchParams.set('filters[Grade]',              grade);
     if (date)      url.searchParams.set('filters[Arrival_Date]',       date);
+    // Sort by most recent arrival date first
+    url.searchParams.set('sort[Arrival_Date]', 'desc');
 
     const resp = await fetch(url.toString(), { headers: { accept: 'application/json' } });
     if (!resp.ok) return c.json({ error: `data.gov.in error: ${resp.status}` }, 502);
@@ -872,7 +874,7 @@ app.get('/api/market/prices', async (c) => {
     // Enrich: attach MSP for each returned row where available
     const records = (body.records ?? []).map(r => {
       const mspEntry = MSP_DATA.find(m =>
-        r.commodity && m.crop.toLowerCase().includes(r.commodity.toLowerCase().split('(')[0].trim())
+        r.Commodity && m.crop.toLowerCase().includes(r.Commodity.toLowerCase().split('(')[0].trim())
       );
       return { ...r, msp: mspEntry?.msp ?? null };
     });
@@ -926,7 +928,7 @@ app.get('/api/health', (c) => c.json({ status: 'ok', services: ['if-gatekeeper',
 // need to store the NRSC username/password.
 // ═══════════════════════════════════════════════════════════════════════════
 
-const BHOONIDHI_API  = process.env.BHOONIDHI_API  || 'https://bhoonidhi.nrsc.gov.in/bhoonidhi-api';
+const BHOONIDHI_API  = process.env.BHOONIDHI_API  || 'https://bhoonidhi-api.nrsc.gov.in';
 const BHOONIDHI_USER = process.env.BHOONIDHI_USER || 'ved4';
 const BHOONIDHI_PASS = process.env.BHOONIDHI_PASS || 'VedBapardekar@1';
 
@@ -938,7 +940,7 @@ async function getBhooinidhiToken() {
   const resp = await fetch(BHOONIDHI_API + '/auth/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: BHOONIDHI_USER, password: BHOONIDHI_PASS }),
+    body: JSON.stringify({ userId: BHOONIDHI_USER, password: BHOONIDHI_PASS, grant_type: 'password' }),
   });
   if (!resp.ok) throw new Error('Bhoonidhi auth failed: ' + resp.status);
   const d = await resp.json();
@@ -988,14 +990,32 @@ app.post('/api/bhoonidhi/search', async (c) => {
 // redirect URL so clients can download GeoTIFFs without storing credentials.
 // We proxy the redirect rather than streaming the full file (avoids Vercel limits).
 app.get('/api/bhoonidhi/download-url', async (c) => {
-  const assetUrl = c.req.query('assetUrl');
-  if (!assetUrl) return c.json({ error: 'assetUrl query param required' }, 400);
+  // ?id=<item_id>&collection=<collection_id>  OR  ?assetUrl=<full_asset_url>
+  // Bhoonidhi download endpoint: GET /download?id=<id>  (Bearer token in header)
+  const itemId    = c.req.query('id');
+  const assetUrl  = c.req.query('assetUrl');
+  if (!itemId && !assetUrl) return c.json({ error: 'id or assetUrl query param required' }, 400);
   try {
     const token = await getBhooinidhiToken();
-    // Return signed URL (client fetches the file directly from NRSC CDN)
+    if (itemId) {
+      // Proxy the actual download through Bhoonidhi /download?id=
+      const dlUrl = BHOONIDHI_API + '/download?id=' + encodeURIComponent(itemId);
+      const resp = await fetch(dlUrl, { headers: { 'Authorization': 'Bearer ' + token } });
+      if (!resp.ok) return c.json({ error: 'Bhoonidhi download failed', status: resp.status }, 502);
+      // Return the redirect/presigned URL if server redirects, else stream
+      if (resp.redirected) return c.json({ url: resp.url });
+      const buf = await resp.arrayBuffer();
+      return new Response(buf, {
+        headers: {
+          'Content-Type': resp.headers.get('Content-Type') || 'application/octet-stream',
+          'Content-Disposition': resp.headers.get('Content-Disposition') || `attachment; filename="${itemId}.tif"`,
+        },
+      });
+    }
+    // Legacy: assetUrl with Bearer token embedded as query param
     const separator = assetUrl.includes('?') ? '&' : '?';
     const signedUrl = assetUrl + separator + 'token=' + encodeURIComponent(token);
-    return c.json({ url: signedUrl, token });
+    return c.json({ url: signedUrl });
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
@@ -1005,7 +1025,7 @@ app.get('/api/bhoonidhi/download-url', async (c) => {
 app.get('/api/bhoonidhi/collections', async (c) => {
   try {
     const token = await getBhooinidhiToken();
-    const resp  = await fetch(BHOONIDHI_API + '/collections', {
+    const resp  = await fetch(BHOONIDHI_API + '/data/collections', {
       headers: { 'Authorization': 'Bearer ' + token },
     });
     return c.json(await resp.json());
