@@ -770,49 +770,114 @@ app.get('/api/fields', async (c) => {
   }
 });
 
-// ── GET /api/market/msp  (government announced MSP 2023-24) ─────────────────
-app.get('/api/market/msp', (c) => c.json({
-  year: 2023,
-  data: [
-    { crop: 'Rice',        variety: 'Common',   price: 2183, unit: '/qtl' },
-    { crop: 'Wheat',       variety: 'All',       price: 2275, unit: '/qtl' },
-    { crop: 'Soybean',     variety: 'Yellow',   price: 4600, unit: '/qtl' },
-    { crop: 'Sugarcane',   variety: 'FRP',       price: 315,  unit: '/qtl' },
-    { crop: 'Maize',       variety: 'All',       price: 2090, unit: '/qtl' },
-    { crop: 'Cotton',      variety: 'Medium',   price: 6620, unit: '/qtl' },
-    { crop: 'Groundnut',   variety: 'In shell', price: 6377, unit: '/qtl' },
-    { crop: 'Tur (Arhar)', variety: 'All',      price: 7000, unit: '/qtl' },
-  ],
-}));
+// ── GET /api/market/msp ─────────────────────────────────────────────────────
+// Government MSP 2026-27. Query params: ?group=Cereals  ?crop=Wheat
+// Groups: Cereals | Fibre Crops | Oil Seeds | Pulses | Vegetables
+const MSP_DATA = [
+  // Cereals
+  { group: 'Cereals',      crop: 'Bajra (Pearl Millet)',          msp: 2775 },
+  { group: 'Cereals',      crop: 'Jowar (Sorghum)',               msp: 3699 },
+  { group: 'Cereals',      crop: 'Maize',                         msp: 2400 },
+  { group: 'Cereals',      crop: 'Paddy (Common)',                msp: 2369 },
+  { group: 'Cereals',      crop: 'Ragi (Finger Millet)',          msp: 4886 },
+  { group: 'Cereals',      crop: 'Wheat',                         msp: 2585 },
+  // Fibre Crops
+  { group: 'Fibre Crops',  crop: 'Cotton',                        msp: 7710 },
+  // Oil Seeds
+  { group: 'Oil Seeds',    crop: 'Groundnut',                     msp: 7263 },
+  { group: 'Oil Seeds',    crop: 'Mustard',                       msp: 6200 },
+  { group: 'Oil Seeds',    crop: 'Safflower',                     msp: 6540 },
+  { group: 'Oil Seeds',    crop: 'Sesamum (Gingelly / Til)',      msp: 9846 },
+  { group: 'Oil Seeds',    crop: 'Soyabean',                      msp: 5328 },
+  { group: 'Oil Seeds',    crop: 'Sunflower',                     msp: 7721 },
+  // Pulses
+  { group: 'Pulses',       crop: 'Arhar / Tur (Red Gram)',        msp: 8000 },
+  { group: 'Pulses',       crop: 'Bengal Gram (Chana)',           msp: 5875 },
+  { group: 'Pulses',       crop: 'Black Gram (Urd)',              msp: 7800 },
+  { group: 'Pulses',       crop: 'Green Gram (Moong)',            msp: 8768 },
+  { group: 'Pulses',       crop: 'Lentil (Masur)',                msp: 7000 },
+  // Vegetables — MSP not fixed; included for completeness
+  { group: 'Vegetables',   crop: 'Onion',                         msp: null },
+  { group: 'Vegetables',   crop: 'Potato',                        msp: null },
+  { group: 'Vegetables',   crop: 'Tomato',                        msp: null },
+];
 
-// ── GET /api/market/prices  (live AGMARKNET data via data.gov.in) ─────────────
-// Query params: state, district, commodity, date (DD/MM/YYYY), limit, offset
+// Canonical group aliases so ?group=cereal also works
+const GROUP_ALIASES = {
+  'cereal': 'Cereals', 'cereals': 'Cereals',
+  'fibre': 'Fibre Crops', 'fibrecrop': 'Fibre Crops', 'fibrecrops': 'Fibre Crops',
+  'oilseed': 'Oil Seeds', 'oilseeds': 'Oil Seeds',
+  'pulse': 'Pulses', 'pulses': 'Pulses',
+  'vegetable': 'Vegetables', 'vegetables': 'Vegetables', 'veg': 'Vegetables',
+};
+
+app.get('/api/market/msp', (c) => {
+  const groupRaw = (c.req.query('group') || '').trim().toLowerCase().replace(/\s+/g, '');
+  const cropRaw  = (c.req.query('crop')  || '').trim().toLowerCase();
+
+  let data = MSP_DATA;
+
+  if (groupRaw) {
+    const canonical = GROUP_ALIASES[groupRaw] || null;
+    data = canonical
+      ? data.filter(r => r.group === canonical)
+      : data.filter(r => r.group.toLowerCase().replace(/\s+/g, '').includes(groupRaw));
+  }
+  if (cropRaw) {
+    data = data.filter(r => r.crop.toLowerCase().includes(cropRaw));
+  }
+
+  const groups = [...new Set(MSP_DATA.map(r => r.group))];
+  return c.json({ year: '2026-27', unit: 'Rs./Quintal', groups, data });
+});
+
+// ── GET /api/market/prices  (live AGMARKNET via data.gov.in) ─────────────────
+// All params optional — mirrors the AGMARKNET web UI filters:
+//   state, district, market, commodity_group, commodity, variety, grade
+//   date (DD/MM/YYYY), limit (default 20), offset (default 0)
 const DATA_GOV_KEY = process.env.DATA_GOV_KEY || '579b464db66ec23bdd0000019c2c6fd04bc94be57c33063c3c1baf4a';
 const DATA_GOV_RES = '35985678-0d79-46b4-9ed6-6f13308a1d24';
 
 app.get('/api/market/prices', async (c) => {
   try {
-    const state     = c.req.query('state')     || 'Maharashtra';
-    const district  = c.req.query('district')  || '';
-    const commodity = c.req.query('commodity') || '';
-    const date      = c.req.query('date')      || '';
-    const limit     = c.req.query('limit')     || '20';
-    const offset    = c.req.query('offset')    || '0';
+    const state    = c.req.query('state')           || '';
+    const district = c.req.query('district')        || '';
+    const market   = c.req.query('market')          || '';
+    const group    = c.req.query('commodity_group') || '';
+    const commodity= c.req.query('commodity')       || '';
+    const variety  = c.req.query('variety')         || '';
+    const grade    = c.req.query('grade')           || '';
+    const date     = c.req.query('date')            || '';
+    const limit    = c.req.query('limit')           || '20';
+    const offset   = c.req.query('offset')          || '0';
 
     const url = new URL('https://api.data.gov.in/resource/' + DATA_GOV_RES);
     url.searchParams.set('api-key', DATA_GOV_KEY);
     url.searchParams.set('format',  'json');
     url.searchParams.set('limit',   limit);
     url.searchParams.set('offset',  offset);
-    if (state)     url.searchParams.set('filters[State]',        state);
-    if (district)  url.searchParams.set('filters[District]',     district);
-    if (commodity) url.searchParams.set('filters[Commodity]',    commodity);
-    if (date)      url.searchParams.set('filters[Arrival_Date]', date);
+    if (state)     url.searchParams.set('filters[State]',              state);
+    if (district)  url.searchParams.set('filters[District]',           district);
+    if (market)    url.searchParams.set('filters[Market]',             market);
+    if (group)     url.searchParams.set('filters[Commodity Group]',    group);
+    if (commodity) url.searchParams.set('filters[Commodity]',          commodity);
+    if (variety)   url.searchParams.set('filters[Variety]',            variety);
+    if (grade)     url.searchParams.set('filters[Grade]',              grade);
+    if (date)      url.searchParams.set('filters[Arrival_Date]',       date);
 
     const resp = await fetch(url.toString(), { headers: { accept: 'application/json' } });
     if (!resp.ok) return c.json({ error: `data.gov.in error: ${resp.status}` }, 502);
     const body = await resp.json();
-    return c.json(body);
+
+    // Enrich: attach MSP for each returned row where available
+    const records = (body.records ?? []).map(r => {
+      const mspEntry = MSP_DATA.find(m =>
+        r.commodity && m.crop.toLowerCase().includes(r.commodity.toLowerCase().split('(')[0].trim())
+      );
+      return { ...r, msp: mspEntry?.msp ?? null };
+    });
+
+    return c.json({ ...body, records });
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
