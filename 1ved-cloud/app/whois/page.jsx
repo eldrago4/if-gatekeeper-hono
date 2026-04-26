@@ -362,6 +362,16 @@ export default function Portfolio() {
           transition: border-color 0.75s cubic-bezier(0.16,1,0.3,1),
                       opacity      0.6s  cubic-bezier(0.16,1,0.3,1);
         }
+
+        /* Project section: natural height on mobile, tall for sticky on desktop */
+        .project-section { height: auto; }
+        @media (min-width: 768px) {
+          .project-section { height: var(--sh); }
+        }
+
+        /* Mobile screenshot strip */
+        .mobile-gallery { scrollbar-width: none; }
+        .mobile-gallery::-webkit-scrollbar { display: none; }
       `}</style>
 
       <div className="grain-overlay" />
@@ -481,14 +491,14 @@ export default function Portfolio() {
           <div
             key={p.n}
             ref={(el) => { sectionRefs.current[i] = el; }}
-            style={{ height: `${p.screens.length * 100}vh` }}
-            className="relative border-t rule"
+            className="project-section relative border-t rule"
+            style={{ '--sh': `${p.screens.length * 100}vh` }}
           >
-            <div className="sticky top-0 h-screen flex items-center px-6 md:px-12">
+            <div className="md:sticky md:top-0 md:h-screen flex items-start md:items-center px-6 md:px-12 py-12 md:py-0">
               <div className="max-w-[1600px] mx-auto w-full grid md:grid-cols-12 gap-6 md:gap-10">
 
-                {/* LEFT — project info (static, never re-renders) */}
-                <div className="md:col-span-5 flex flex-col justify-center py-12">
+                {/* LEFT — project info */}
+                <div className="md:col-span-5 flex flex-col justify-center">
                   <div className="font-display text-6xl md:text-8xl font-light leading-none" style={{ color: "var(--bone-dim)" }}>{p.n}</div>
                   <div className="mt-3 text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "var(--signal)" }}>{p.tag}</div>
                   <h3 className="font-display text-3xl md:text-5xl font-medium tracking-[-0.02em] leading-[0.95] mt-5 mb-2">{p.title}</h3>
@@ -567,6 +577,39 @@ export default function Portfolio() {
                           transition: "height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, background 0.5s ease",
                         }}
                       />
+                    ))}
+                  </div>
+                </div>
+
+                {/* MOBILE — horizontal snap gallery */}
+                <div className="md:hidden col-span-full -mx-6 mt-2">
+                  <div className="mobile-gallery flex overflow-x-auto snap-x snap-mandatory gap-3 px-6 pb-5">
+                    {p.screens.map((screen, si) => (
+                      <div
+                        key={si}
+                        className="snap-start shrink-0 relative overflow-hidden rounded-sm"
+                        style={{ width: "78vw", aspectRatio: "16/9", border: "1px solid var(--rule)" }}
+                      >
+                        {screen.src
+                          ? <img src={screen.src} alt={screen.desc} className="w-full h-full object-contain" style={{ background: "#0d0d0b" }} />
+                          : <ScreenPlaceholder projectN={p.n} screenIndex={si} />
+                        }
+                        <div
+                          className="absolute bottom-0 left-0 right-0 px-3 py-3"
+                          style={{ background: "linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 100%)" }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--signal)" }}>{String(si + 1).padStart(2, "0")}</span>
+                            <span className="font-mono text-[9px] uppercase tracking-[0.1em] leading-tight" style={{ color: "var(--bone-dim)" }}>{screen.desc}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {/* dot indicators */}
+                  <div className="flex justify-center gap-2 mt-1 pb-2">
+                    {p.screens.map((_, si) => (
+                      <div key={si} className="rounded-full" style={{ width: "4px", height: "4px", background: "var(--bone-dim)", opacity: 0.3 }} />
                     ))}
                   </div>
                 </div>

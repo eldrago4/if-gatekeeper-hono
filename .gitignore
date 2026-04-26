@@ -11,7 +11,7 @@
 
 # deps
 node_modules/
-vercel.json
+/vercel.json
 packages.json
 tabnine.json
 
