@@ -1,14 +1,14 @@
-import Head from 'next/head';
+import type { Metadata } from 'next';
 import styles from '/app/styles/Home.module.css';
+
+export const metadata: Metadata = {
+  title: '1ved Cloud API',
+  description: '1ved Cloud API - Airport Gate Information',
+};
 
 const Home = () => {
   return (
     <div className={styles.container}>
-      <Head>
-        <title>1ved Cloud API</title>
-        <meta name="description" content="1ved Cloud API - Airport Gate Information" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
       <header className={styles.header}>
         <h1>1ved Cloud API</h1>
@@ -34,9 +34,6 @@ const Home = () => {
       </main>
 
       <footer className={styles.footer}>
-        <p>Neon API Key: wqzxl5em6ow7ize9ffin9y9q3p5yytrr45yy4ul2uhh8at07n8gsjf7e2lzm8kr9</p>
-        <p>Neon Project ID: floral-water-34306284</p>
-        <p>Vercel API Token: 4Xwsa7w37dUuLIzUjP5MIBvD</p>
         <p>GitHub Repo: <a href="https://github.com/eldrago4/if-gatekeeper-hono">if-gatekeeper-hono</a></p>
       </footer>
     </div>
