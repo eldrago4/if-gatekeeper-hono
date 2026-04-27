@@ -406,8 +406,7 @@ export default function Portfolio() {
               href="https://drive.google.com/file/d/1wSINipxQ2RHgfsksb506bTNx6Wf0Wdgd/view?usp=sharing"
               target="_blank"
               rel="noreferrer"
-              className="border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] transition hover:bg-[var(--signal)] hover:border-[var(--signal)] hover:text-[var(--ink)]"
-              style={{ borderColor: "var(--signal)", color: "var(--signal)" }}
+              className="border border-[#ff6b35] text-[#ff6b35] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] transition hover:bg-[#ff6b35] hover:text-[#0a0a0a]"
             >
               Resume ↗
             </a>
@@ -448,8 +447,7 @@ export default function Portfolio() {
                   href="https://drive.google.com/file/d/1wSINipxQ2RHgfsksb506bTNx6Wf0Wdgd/view?usp=sharing"
                   target="_blank"
                   rel="noreferrer"
-                  className="border px-3 py-1.5 transition hover:bg-[var(--signal)] hover:border-[var(--signal)] hover:text-[var(--ink)]"
-                  style={{ borderColor: "var(--signal)", color: "var(--signal)" }}
+                  className="border border-[#ff6b35] text-[#ff6b35] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] transition hover:bg-[#ff6b35] hover:text-[#0a0a0a]"
                 >
                   Resume ↗
                 </a>
