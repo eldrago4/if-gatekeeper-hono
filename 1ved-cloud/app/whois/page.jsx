@@ -248,7 +248,7 @@ export default function Portfolio() {
   }, []);
 
   return (
-    <div className="bg-[#0a0a0a] text-[#e8e4dc] min-h-screen relative" style={{ overflowX: "clip" }}>
+    <div className="bg-[#0a0a0a] text-[#e8e4dc] min-h-screen relative">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
@@ -263,7 +263,7 @@ export default function Portfolio() {
         * { -webkit-font-smoothing: antialiased; }
         body { overflow-x: hidden; }
 
-        .font-display { font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 144, 'SOFT' 0; }
+        .font-display { font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 144, 'SOFT' 0; overflow-wrap: break-word; }
         .font-italic  { font-family: 'Instrument Serif', serif; font-style: italic; }
         .font-mono    { font-family: 'JetBrains Mono', monospace; }
 
@@ -373,7 +373,6 @@ export default function Portfolio() {
         .mobile-gallery {
           scrollbar-width: none;
           -webkit-overflow-scrolling: touch;
-          touch-action: pan-x pinch-zoom;
         }
         .mobile-gallery::-webkit-scrollbar { display: none; }
       `}</style>
@@ -496,7 +495,7 @@ export default function Portfolio() {
       </section>
 
       {/* WORK — sticky scroll, gallery driven by direct DOM (no React state) */}
-      <section id="work" className="relative" style={{ overflowX: "clip" }}>
+      <section id="work" className="relative">
         <div className="px-6 md:px-12 pt-16 md:pt-32 pb-10 md:pb-20 max-w-[1600px] mx-auto">
           <div className="flex items-baseline justify-between">
             <div>
@@ -609,7 +608,7 @@ export default function Portfolio() {
 
                 {/* MOBILE — horizontal snap gallery */}
                 <div className="md:hidden col-span-full -mx-6 mt-4">
-                  <div className="mobile-gallery flex overflow-x-scroll snap-x snap-mandatory gap-3 px-6 pb-4" style={{ WebkitOverflowScrolling: "touch" }}>
+                  <div className="mobile-gallery flex overflow-x-scroll snap-x snap-mandatory gap-3 px-6 pb-4">
                     {p.screens.map((screen, si) => (
                       <div
                         key={si}
