@@ -370,7 +370,11 @@ export default function Portfolio() {
         }
 
         /* Mobile screenshot strip */
-        .mobile-gallery { scrollbar-width: none; }
+        .mobile-gallery {
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-x pinch-zoom;
+        }
         .mobile-gallery::-webkit-scrollbar { display: none; }
       `}</style>
 
@@ -605,7 +609,7 @@ export default function Portfolio() {
 
                 {/* MOBILE — horizontal snap gallery */}
                 <div className="md:hidden col-span-full -mx-6 mt-4">
-                  <div className="mobile-gallery flex overflow-x-auto snap-x snap-mandatory gap-3 px-6 pb-4">
+                  <div className="mobile-gallery flex overflow-x-scroll snap-x snap-mandatory gap-3 px-6 pb-4" style={{ WebkitOverflowScrolling: "touch" }}>
                     {p.screens.map((screen, si) => (
                       <div
                         key={si}
