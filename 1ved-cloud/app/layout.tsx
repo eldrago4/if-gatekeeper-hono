@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   },
   description: "1ved Cloud — API and portfolio by Ved Bapardekar, Software Development Engineer.",
   metadataBase: new URL("https://1ved.cloud"),
+  icons: {
+    icon: "/signature.jpg",
+    shortcut: "/signature.jpg",
+    apple: "/signature.jpg",
+  },
 };
 
 export default function RootLayout({

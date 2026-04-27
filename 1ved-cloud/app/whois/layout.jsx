@@ -33,6 +33,14 @@ export const metadata = {
     firstName: "Ved",
     lastName: "Bapardekar",
     username: "eldrago4",
+    images: [
+      {
+        url: "/signature.jpg",
+        width: 2200,
+        height: 913,
+        alt: "Ved Bapardekar — Software Development Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -40,6 +48,7 @@ export const metadata = {
     description:
       "Full-stack engineer. RAG for Meghalaya Police, AKS deployments, real-time backends. Production over demos.",
     creator: "@eldrago4",
+    images: ["/signature.jpg"],
   },
   robots: {
     index: true,

@@ -402,6 +402,15 @@ export default function Portfolio() {
               <a href="#contact" className="hover:text-[var(--bone)] transition">Contact</a>
             </div>
             <span className="pulse-dot hidden md:inline">IST {time}</span>
+            <a
+              href="https://drive.google.com/file/d/1wSINipxQ2RHgfsksb506bTNx6Wf0Wdgd/view?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] transition hover:bg-[var(--signal)] hover:border-[var(--signal)] hover:text-[var(--ink)]"
+              style={{ borderColor: "var(--signal)", color: "var(--signal)" }}
+            >
+              Resume ↗
+            </a>
           </div>
         </div>
       </nav>
@@ -433,8 +442,17 @@ export default function Portfolio() {
                 Software Development Engineer working across the full stack — backend systems, cloud infrastructure, and applied AI. From microservices serving real users, to CI/CD pipelines deploying to Kubernetes, to RAG systems running inside a police station.{" "}
                 <span className="font-italic">Production over demos. Evidence over vibes.</span>
               </p>
-              <div className="mt-8 flex items-center gap-6 text-xs font-mono uppercase tracking-[0.15em] text-[var(--bone-dim)]">
-                <span className="pulse-dot">2026 passout</span>
+              <div className="mt-8 flex flex-wrap items-center gap-4 text-xs font-mono uppercase tracking-[0.15em] text-[var(--bone-dim)]">
+                <span className="pulse-dot">Graduating June 2026</span>
+                <a
+                  href="https://drive.google.com/file/d/1wSINipxQ2RHgfsksb506bTNx6Wf0Wdgd/view?usp=sharing"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="border px-3 py-1.5 transition hover:bg-[var(--signal)] hover:border-[var(--signal)] hover:text-[var(--ink)]"
+                  style={{ borderColor: "var(--signal)", color: "var(--signal)" }}
+                >
+                  Resume ↗
+                </a>
               </div>
             </div>
           </div>
