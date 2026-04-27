@@ -396,8 +396,12 @@ export default function Portfolio() {
             <a href="#thinking" className="hover:text-[var(--bone)] transition">Thinking</a>
             <a href="#contact" className="hover:text-[var(--bone)] transition">Contact</a>
           </div>
-          <div className="flex items-center gap-2 text-[var(--bone-dim)]">
-            <span className="pulse-dot">IST {time}</span>
+          <div className="flex items-center gap-4 text-[var(--bone-dim)]">
+            <div className="flex md:hidden items-center gap-5 text-[var(--bone-dim)]">
+              <a href="#work" className="hover:text-[var(--bone)] transition">Work</a>
+              <a href="#contact" className="hover:text-[var(--bone)] transition">Contact</a>
+            </div>
+            <span className="pulse-dot hidden md:inline">IST {time}</span>
           </div>
         </div>
       </nav>
@@ -409,7 +413,8 @@ export default function Portfolio() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto w-full">
           <div className="flex items-center justify-between text-xs font-mono uppercase tracking-[0.2em] text-[var(--bone-dim)] mb-12 fade">
-            <span>Issue 01 — Software Development Engineer</span>
+            <span className="hidden sm:inline">Issue 01 — Software Development Engineer</span>
+            <span className="sm:hidden">Issue 01</span>
             <span className="hidden md:inline">Full-Stack ✦ Cloud ✦ Applied AI</span>
             <span>Filed 2026</span>
           </div>
@@ -453,7 +458,7 @@ export default function Portfolio() {
       </section>
 
       {/* MANIFESTO */}
-      <section className="relative py-32 md:py-48 px-6 md:px-12 border-b rule">
+      <section className="relative py-20 md:py-48 px-6 md:px-12 border-b rule">
         <div className="max-w-[1400px] mx-auto grid md:grid-cols-12 gap-8">
           <div className="md:col-span-3">
             <div className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--signal)] mb-4">✦ Manifesto</div>
@@ -472,7 +477,7 @@ export default function Portfolio() {
 
       {/* WORK — sticky scroll, gallery driven by direct DOM (no React state) */}
       <section id="work" className="relative">
-        <div className="px-6 md:px-12 pt-24 md:pt-32 pb-16 md:pb-20 max-w-[1600px] mx-auto">
+        <div className="px-6 md:px-12 pt-16 md:pt-32 pb-10 md:pb-20 max-w-[1600px] mx-auto">
           <div className="flex items-baseline justify-between">
             <div>
               <div className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--signal)] mb-3">✦ Selected Work</div>
@@ -480,9 +485,10 @@ export default function Portfolio() {
                 Proof, <span className="font-italic">not promises.</span>
               </h2>
             </div>
-            <div className="hidden md:flex flex-col items-end gap-1 font-mono text-xs text-[var(--bone-dim)] uppercase tracking-wider">
+            <div className="flex flex-col items-end gap-1 font-mono text-xs text-[var(--bone-dim)] uppercase tracking-wider">
               <span>{projects.length} entries</span>
-              <span className="opacity-50">↓ scroll each</span>
+              <span className="opacity-50 hidden md:inline">↓ scroll each</span>
+              <span className="opacity-50 md:hidden">swipe shots →</span>
             </div>
           </div>
         </div>
@@ -494,16 +500,16 @@ export default function Portfolio() {
             className="project-section relative border-t rule"
             style={{ '--sh': `${p.screens.length * 100}vh` }}
           >
-            <div className="md:sticky md:top-0 md:h-screen flex items-start md:items-center px-6 md:px-12 py-12 md:py-0">
+            <div className="md:sticky md:top-0 md:h-screen flex items-start md:items-center px-6 md:px-12 py-8 md:py-0">
               <div className="max-w-[1600px] mx-auto w-full grid md:grid-cols-12 gap-6 md:gap-10">
 
                 {/* LEFT — project info */}
                 <div className="md:col-span-5 flex flex-col justify-center">
-                  <div className="font-display text-6xl md:text-8xl font-light leading-none" style={{ color: "var(--bone-dim)" }}>{p.n}</div>
+                  <div className="font-display text-4xl md:text-8xl font-light leading-none" style={{ color: "var(--bone-dim)" }}>{p.n}</div>
                   <div className="mt-3 text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "var(--signal)" }}>{p.tag}</div>
                   <h3 className="font-display text-3xl md:text-5xl font-medium tracking-[-0.02em] leading-[0.95] mt-5 mb-2">{p.title}</h3>
                   <p className="font-italic text-lg md:text-xl mb-5" style={{ color: "var(--bone-dim)" }}>{p.sub}</p>
-                  <p className="text-sm md:text-base leading-relaxed font-light max-w-md" style={{ color: "var(--bone)" }}>{p.body}</p>
+                  <p className="text-sm md:text-base leading-relaxed font-light md:max-w-md" style={{ color: "var(--bone)" }}>{p.body}</p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {p.stack.map((s) => (
                       <span
@@ -582,35 +588,39 @@ export default function Portfolio() {
                 </div>
 
                 {/* MOBILE — horizontal snap gallery */}
-                <div className="md:hidden col-span-full -mx-6 mt-2">
-                  <div className="mobile-gallery flex overflow-x-auto snap-x snap-mandatory gap-3 px-6 pb-5">
+                <div className="md:hidden col-span-full -mx-6 mt-4">
+                  <div className="mobile-gallery flex overflow-x-auto snap-x snap-mandatory gap-3 px-6 pb-4">
                     {p.screens.map((screen, si) => (
                       <div
                         key={si}
                         className="snap-start shrink-0 relative overflow-hidden rounded-sm"
-                        style={{ width: "78vw", aspectRatio: "16/9", border: "1px solid var(--rule)" }}
+                        style={{ width: "82vw", aspectRatio: "4/3", border: "1px solid var(--rule)" }}
                       >
                         {screen.src
                           ? <img src={screen.src} alt={screen.desc} className="w-full h-full object-contain" style={{ background: "#0d0d0b" }} />
                           : <ScreenPlaceholder projectN={p.n} screenIndex={si} />
                         }
                         <div
-                          className="absolute bottom-0 left-0 right-0 px-3 py-3"
-                          style={{ background: "linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 100%)" }}
+                          className="absolute bottom-0 left-0 right-0 px-3 py-2.5"
+                          style={{ background: "linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.6) 60%, transparent 100%)" }}
                         >
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--signal)" }}>{String(si + 1).padStart(2, "0")}</span>
-                            <span className="font-mono text-[9px] uppercase tracking-[0.1em] leading-tight" style={{ color: "var(--bone-dim)" }}>{screen.desc}</span>
+                          <div className="flex items-start gap-2">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.2em] shrink-0 mt-0.5" style={{ color: "var(--signal)" }}>{String(si + 1).padStart(2, "0")}</span>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.08em] leading-snug line-clamp-2" style={{ color: "var(--bone-dim)" }}>{screen.desc}</span>
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  {/* dot indicators */}
-                  <div className="flex justify-center gap-2 mt-1 pb-2">
-                    {p.screens.map((_, si) => (
-                      <div key={si} className="rounded-full" style={{ width: "4px", height: "4px", background: "var(--bone-dim)", opacity: 0.3 }} />
-                    ))}
+                  {/* swipe hint + dot indicators */}
+                  <div className="flex items-center justify-between px-6 mt-2 pb-1">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--bone-dim)", opacity: 0.4 }}>swipe</span>
+                    <div className="flex gap-2">
+                      {p.screens.map((_, si) => (
+                        <div key={si} className="rounded-full" style={{ width: "4px", height: "4px", background: "var(--bone-dim)", opacity: 0.3 }} />
+                      ))}
+                    </div>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--bone-dim)", opacity: 0.4 }}>{p.screens.length} shots</span>
                   </div>
                 </div>
 
@@ -621,9 +631,9 @@ export default function Portfolio() {
       </section>
 
       {/* CAPABILITIES */}
-      <section id="capabilities" className="relative py-24 md:py-32 px-6 md:px-12 border-y rule">
+      <section id="capabilities" className="relative py-16 md:py-32 px-6 md:px-12 border-y rule">
         <div className="max-w-[1600px] mx-auto">
-          <div className="mb-16 md:mb-20 max-w-3xl">
+          <div className="mb-10 md:mb-20 max-w-3xl">
             <div className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--signal)] mb-3">✦ Capabilities</div>
             <h2 className="font-display text-5xl md:text-7xl font-light tracking-[-0.03em]">
               Built across the <span className="font-italic">stack,</span> sharp on the{" "}
@@ -632,12 +642,12 @@ export default function Portfolio() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--rule)] border rule">
             {capabilities.map((c, i) => (
-              <div key={c.h} className="bg-[#0a0a0a] p-8 md:p-10 hover:bg-[#0d0d0d] transition">
+              <div key={c.h} className="bg-[#0a0a0a] p-6 md:p-10 hover:bg-[#0d0d0d] transition">
                 <div className="font-mono text-xs text-[var(--bone-dim)] uppercase tracking-[0.2em] mb-2">0{i + 1}</div>
-                <h3 className="font-display text-2xl md:text-3xl font-medium mb-8 tracking-[-0.01em]">{c.h}</h3>
+                <h3 className="font-display text-xl md:text-3xl font-medium mb-4 md:mb-8 tracking-[-0.01em]">{c.h}</h3>
                 <ul className="space-y-3">
                   {c.items.map((it) => (
-                    <li key={it} className="flex items-start gap-3 text-sm font-light leading-relaxed">
+                    <li key={it} className="flex items-start gap-3 text-xs md:text-sm font-light leading-relaxed">
                       <span className="text-[var(--signal)] mt-1.5 text-xs">●</span>
                       <span className="text-[var(--bone)]">{it}</span>
                     </li>
@@ -676,9 +686,9 @@ export default function Portfolio() {
       </section>
 
       {/* THINKING */}
-      <section id="thinking" className="relative py-32 md:py-48 px-6 md:px-12">
+      <section id="thinking" className="relative py-20 md:py-48 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid md:grid-cols-12 gap-8 mb-20">
+          <div className="grid md:grid-cols-12 gap-8 mb-8 md:mb-20">
             <div className="md:col-span-3">
               <div className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--signal)] mb-3">✦ Thinking</div>
             </div>
@@ -706,7 +716,7 @@ export default function Portfolio() {
 
       {/* RECRUITER QUICK-FACTS */}
       <section className="relative py-20 px-6 md:px-12 border-y rule bg-[#0c0c0c]">
-        <div className="max-w-[1600px] mx-auto grid md:grid-cols-4 gap-8">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { k: "Status",   v: "Open to roles" },
             { k: "Open to",  v: "SDE / Backend / Full-Stack / ML" },
@@ -715,23 +725,23 @@ export default function Portfolio() {
           ].map((f) => (
             <div key={f.k}>
               <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[var(--signal)] mb-2">{f.k}</div>
-              <div className="font-display text-xl md:text-2xl font-light">{f.v}</div>
+              <div className="font-display text-base md:text-2xl font-light leading-snug">{f.v}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="relative py-32 md:py-48 px-6 md:px-12">
+      <section id="contact" className="relative py-20 md:py-48 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto text-center">
           <div className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--signal)] mb-6">✦ End matter</div>
-          <h2 className="font-display text-6xl md:text-9xl font-light tracking-[-0.04em] leading-[0.9] mb-12">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-9xl font-light tracking-[-0.04em] leading-[0.9] mb-12">
             Have something <br /><span className="font-italic">worth building?</span>
           </h2>
           <a href="mailto:tred38434@gmail.com" className="inline-block font-display text-3xl md:text-5xl font-light underline-grow" style={{ color: "var(--bone)" }}>
             dev@1ved.cloud
           </a>
-          <div className="mt-20 flex flex-wrap justify-center gap-6 md:gap-10 text-xs font-mono uppercase tracking-[0.2em] text-[var(--bone-dim)]">
+          <div className="mt-10 md:mt-20 flex flex-wrap justify-center gap-5 md:gap-10 text-xs font-mono uppercase tracking-[0.2em] text-[var(--bone-dim)]">
             <a href="https://linkedin.com/in/engineeringbyved/" target="_blank" rel="noreferrer" className="hover:text-[var(--signal)] transition">LinkedIn ↗</a>
             <a href="https://github.com/eldrago4" target="_blank" rel="noreferrer" className="hover:text-[var(--signal)] transition">GitHub ↗</a>
             <a href="https://codeforces.com/profile/eldrago4" target="_blank" rel="noreferrer" className="hover:text-[var(--signal)] transition">Codeforces ↗</a>
