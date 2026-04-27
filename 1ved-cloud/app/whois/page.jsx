@@ -492,12 +492,12 @@ export default function Portfolio() {
       </section>
 
       {/* WORK — sticky scroll, gallery driven by direct DOM (no React state) */}
-      <section id="work" className="relative">
+      <section id="work" className="relative overflow-x-hidden">
         <div className="px-6 md:px-12 pt-16 md:pt-32 pb-10 md:pb-20 max-w-[1600px] mx-auto">
           <div className="flex items-baseline justify-between">
             <div>
               <div className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--signal)] mb-3">✦ Selected Work</div>
-              <h2 className="font-display text-5xl md:text-7xl font-light tracking-[-0.03em]">
+              <h2 className="font-display text-4xl md:text-7xl font-light tracking-[-0.03em]">
                 Proof, <span className="font-italic">not promises.</span>
               </h2>
             </div>
@@ -523,8 +523,8 @@ export default function Portfolio() {
                 <div className="md:col-span-5 flex flex-col justify-center">
                   <div className="font-display text-4xl md:text-8xl font-light leading-none" style={{ color: "var(--bone-dim)" }}>{p.n}</div>
                   <div className="mt-3 text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "var(--signal)" }}>{p.tag}</div>
-                  <h3 className="font-display text-3xl md:text-5xl font-medium tracking-[-0.02em] leading-[0.95] mt-5 mb-2">{p.title}</h3>
-                  <p className="font-italic text-lg md:text-xl mb-5" style={{ color: "var(--bone-dim)" }}>{p.sub}</p>
+                  <h3 className="font-display text-2xl md:text-5xl font-medium tracking-[-0.02em] leading-[0.95] mt-5 mb-2">{p.title}</h3>
+                  <p className="font-italic text-base md:text-xl mb-5" style={{ color: "var(--bone-dim)" }}>{p.sub}</p>
                   <p className="text-sm md:text-base leading-relaxed font-light md:max-w-md" style={{ color: "var(--bone)" }}>{p.body}</p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {p.stack.map((s) => (
@@ -541,7 +541,7 @@ export default function Portfolio() {
                     {p.metrics.map((m) => (
                       <div key={m.k} className="border-l-2 pl-4" style={{ borderColor: "var(--signal)" }}>
                         <div className="text-[10px] font-mono uppercase tracking-[0.2em] mb-1" style={{ color: "var(--bone-dim)" }}>{m.k}</div>
-                        <div className="font-display text-base font-medium leading-snug">{m.v}</div>
+                        <div className="font-display text-sm md:text-base font-medium leading-snug">{m.v}</div>
                       </div>
                     ))}
                   </div>
