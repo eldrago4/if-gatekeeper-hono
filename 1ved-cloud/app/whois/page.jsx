@@ -492,7 +492,7 @@ export default function Portfolio() {
       </section>
 
       {/* WORK — sticky scroll, gallery driven by direct DOM (no React state) */}
-      <section id="work" className="relative overflow-x-hidden">
+      <section id="work" className="relative">
         <div className="px-6 md:px-12 pt-16 md:pt-32 pb-10 md:pb-20 max-w-[1600px] mx-auto">
           <div className="flex items-baseline justify-between">
             <div>
@@ -520,7 +520,7 @@ export default function Portfolio() {
               <div className="max-w-[1600px] mx-auto w-full grid md:grid-cols-12 gap-6 md:gap-10">
 
                 {/* LEFT — project info */}
-                <div className="md:col-span-5 flex flex-col justify-center">
+                <div className="md:col-span-5 flex flex-col justify-center min-w-0">
                   <div className="font-display text-4xl md:text-8xl font-light leading-none" style={{ color: "var(--bone-dim)" }}>{p.n}</div>
                   <div className="mt-3 text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "var(--signal)" }}>{p.tag}</div>
                   <h3 className="font-display text-2xl md:text-5xl font-medium tracking-[-0.02em] leading-[0.95] mt-5 mb-2">{p.title}</h3>
@@ -541,7 +541,7 @@ export default function Portfolio() {
                     {p.metrics.map((m) => (
                       <div key={m.k} className="border-l-2 pl-4" style={{ borderColor: "var(--signal)" }}>
                         <div className="text-[10px] font-mono uppercase tracking-[0.2em] mb-1" style={{ color: "var(--bone-dim)" }}>{m.k}</div>
-                        <div className="font-display text-sm md:text-base font-medium leading-snug">{m.v}</div>
+                        <div className="font-display text-sm md:text-base font-medium leading-snug break-words">{m.v}</div>
                       </div>
                     ))}
                   </div>
@@ -610,10 +610,10 @@ export default function Portfolio() {
                       <div
                         key={si}
                         className="snap-start shrink-0 relative overflow-hidden rounded-sm"
-                        style={{ width: "82vw", aspectRatio: "4/3", border: "1px solid var(--rule)" }}
+                        style={{ width: "82vw", aspectRatio: "16/9", border: "1px solid var(--rule)" }}
                       >
                         {screen.src
-                          ? <img src={screen.src} alt={screen.desc} className="w-full h-full object-contain" style={{ background: "#0d0d0b" }} />
+                          ? <img src={screen.src} alt={screen.desc} className="w-full h-full object-cover" style={{ background: "#0d0d0b" }} />
                           : <ScreenPlaceholder projectN={p.n} screenIndex={si} />
                         }
                         <div
